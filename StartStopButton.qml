@@ -1,10 +1,12 @@
 import QtQuick 2.6
 
 Item {
+    id: root
     height: 80
     width: parent.width
 
     property bool playing: false
+    property int tickIndex
 
     signal clicked()
 
@@ -21,7 +23,7 @@ Item {
             color: "red"
             width: height
             height: 0.5 * parent.height
-            visible: root.active && root.tickIndex % 2 == 1
+            visible: root.playing && root.tickIndex % 2 == 1
             anchors.right: parent.right
             anchors.rightMargin: 0.5 * height
             anchors.verticalCenter: parent.verticalCenter

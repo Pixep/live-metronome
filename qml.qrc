@@ -8,5 +8,6 @@
         <file>StartStopButton.qml</file>
         <file>PreviousNextControls.qml</file>
         <file>SongListView.qml</file>
+        <file>ClickSound.qml</file>
     </qresource>
 </RCC>

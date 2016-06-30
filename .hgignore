@@ -1,0 +1,4 @@
+syntax: glob
+.qmake.winrt_uuid_Metronome
+debug/
+release/

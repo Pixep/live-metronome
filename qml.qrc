@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>sounds/click_analog_high.wav</file>
+        <file>sounds/click_analog_low.wav</file>
+        <file>Button.qml</file>
+        <file>TempoControls.qml</file>
+        <file>StartStopButton.qml</file>
+        <file>PreviousNextControls.qml</file>
+        <file>SongListView.qml</file>
+    </qresource>
+</RCC>

@@ -6,6 +6,7 @@ Window {
     visible: true
     width: 480
     height: 800
+    color: "#333"
 
     property bool playing: false
     property int tempo: 80
@@ -40,8 +41,20 @@ Window {
             songIndex = songIndex - 1
     }
 
+    QtObject {
+        id: style
+        property string textColor: "#f0f0f0"
+        property string backgroundColor: "#333"
+        property int baseFontSize: 24
+    }
+
+    ApplicationHeader {
+        id: appHeader
+    }
+
     TempoControls {
         id: tempoControls
+        anchors.top: appHeader.bottom
 
         onTempoChanged: {
            root.tempo = tempo

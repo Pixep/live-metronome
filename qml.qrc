@@ -9,5 +9,8 @@
         <file>PreviousNextControls.qml</file>
         <file>SongListView.qml</file>
         <file>ClickSound.qml</file>
+        <file>ApplicationHeader.qml</file>
+        <file>ActionDialogItem.qml</file>
+        <file>SongActionDialog.qml</file>
     </qresource>
 </RCC>

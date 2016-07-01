@@ -34,21 +34,21 @@ Item {
                 Text {
                     width: 0.2 * parent.width
                     height: parent.height
-                    font.pixelSize: 24
+                    font.pixelSize: style.baseFontSize
                     verticalAlignment: Text.AlignVCenter
                     text: index + "."
                 }
                 Text {
                     width: 0.6 * parent.width
                     height: parent.height
-                    font.pixelSize: 24
+                    font.pixelSize: style.baseFontSize
                     verticalAlignment: Text.AlignVCenter
                     text: modelData.title
                 }
                 Text {
                     width: 0.2 * parent.width
                     height: parent.height
-                    font.pixelSize: 24
+                    font.pixelSize: style.baseFontSize
                     verticalAlignment: Text.AlignVCenter
                     text: modelData.tempo + ""
                 }
@@ -60,6 +60,7 @@ Item {
                 }
                 onPressAndHold: {
                     userSettings.songList[index].tempo = root.tempo
+                    actionDialog.show()
                 }
             }
         }
@@ -81,5 +82,9 @@ Item {
             height: parent.height * songListView.height / (songCount * 80)
             y: (songListView.contentY / (songCount * 80 - songListView.height)) * (parent.height - height)
         }
+    }
+
+    SongActionDialog {
+        id: actionDialog
     }
 }

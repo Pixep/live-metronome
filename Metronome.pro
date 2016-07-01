@@ -25,3 +25,7 @@ HEADERS += \
     usersettings.h \
     song.h \
     platform.h
+
+DISTFILES += \
+    ApplicationHeader.qml \
+    SongActionDialog.qml

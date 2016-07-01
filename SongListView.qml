@@ -1,4 +1,4 @@
-import QtQuick 2.6
+import QtQuick 2.5
 
 Item {
     width: parent.width
@@ -31,25 +31,46 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 10
 
-                Text {
+                Item {
+                    width: 0.15 * parent.width
+                    height: parent.height
+
+                    BaseText {
+                        x: 0.3 * parent.width
+                        height: parent.height
+                        verticalAlignment: Text.AlignVCenter
+                        text: (index+1) + "."
+                    }
+                }
+                Item {
+                    width: 0.65 * parent.width
+                    height: parent.height
+
+                    BaseText {
+                        width: parent.width
+                        height: parent.height
+                        verticalAlignment: artistText.visible ? Text.AlignTop : Text.AlignVCenter
+                        text: modelData.title
+                        elide: Text.ElideRight
+                    }
+
+                    BaseText {
+                        id: artistText
+                        width: parent.width
+                        height: parent.height
+                        verticalAlignment: Text.AlignBottom
+                        color: appStyle.textColor2
+                        font.pixelSize: appStyle.smallFontSize
+                        text: modelData.artist
+                        elide: Text.ElideRight
+                        visible: true
+                    }
+                }
+                BaseText {
                     width: 0.2 * parent.width
                     height: parent.height
-                    font.pixelSize: style.baseFontSize
                     verticalAlignment: Text.AlignVCenter
-                    text: index + "."
-                }
-                Text {
-                    width: 0.6 * parent.width
-                    height: parent.height
-                    font.pixelSize: style.baseFontSize
-                    verticalAlignment: Text.AlignVCenter
-                    text: modelData.title
-                }
-                Text {
-                    width: 0.2 * parent.width
-                    height: parent.height
-                    font.pixelSize: style.baseFontSize
-                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
                     text: modelData.tempo + ""
                 }
             }

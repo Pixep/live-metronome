@@ -1,8 +1,9 @@
-import QtQuick 2.6
+import QtQuick 2.5
 
 Item {
     height: 80
-    width: parent.width
+    x: appStyle.sidesMargin
+    width: parent.width - appStyle.sidesMargin * 2
 
     signal previous()
     signal next()
@@ -10,7 +11,7 @@ Item {
     Button {
         height: parent.height
         width: parent.width / 2 - 5
-        text: "<|"
+        imageSource: "qrc:/images/icon_previous.png"
 
         onClicked: {
             parent.previous()
@@ -21,7 +22,7 @@ Item {
         height: parent.height
         width: parent.width / 2 - 5
         anchors.right: parent.right
-        text: "|>"
+        imageSource: "qrc:/images/icon_next.png"
 
         onClicked: {
             parent.next()

@@ -1,4 +1,4 @@
-import QtQuick 2.6
+import QtQuick 2.5
 import QtQuick.Window 2.2
 
 Window {
@@ -12,6 +12,7 @@ Window {
     property int tempo: 80
     property int songIndex: 0
     property int songCount: userSettings.songList.length
+    property alias appStyle: styleObject
 
     onSongIndexChanged: {
         if (songIndex >= 0 && songIndex < songCount)
@@ -42,19 +43,23 @@ Window {
     }
 
     QtObject {
-        id: style
+        id: styleObject
+        property int borderRadius: 5
+        property int sidesMargin: 10
         property string textColor: "#f0f0f0"
+        property string textColor2: "#c0c0c0"
         property string backgroundColor: "#333"
-        property int baseFontSize: 24
+        property int baseFontSize: 30
+        property int smallFontSize: 20
     }
 
-    ApplicationHeader {
+    /*ApplicationHeader {
         id: appHeader
-    }
+    }*/
 
     TempoControls {
         id: tempoControls
-        anchors.top: appHeader.bottom
+        //anchors.top: appHeader.bottom
 
         onTempoChanged: {
            root.tempo = tempo
@@ -64,7 +69,9 @@ Window {
     SongListView {
         id: songListView
         anchors.top: tempoControls.bottom
+        anchors.topMargin: appStyle.sidesMargin
         anchors.bottom: previousNextRow.top
+        anchors.bottomMargin: appStyle.sidesMargin
     }
 
     PreviousNextControls {
@@ -83,6 +90,7 @@ Window {
     StartStopButton {
         id: startStopButton
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: appStyle.sidesMargin
         playing: root.playing
         tickIndex: clickSound.tickIndex
 

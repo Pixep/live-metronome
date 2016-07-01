@@ -1,18 +1,27 @@
-import QtQuick 2.6
+import QtQuick 2.5
 
 Rectangle {
     id: root
     color: "gray"
     opacity: mouseArea.pressed ? 0.6 : 1
+    radius: appStyle.borderRadius
 
     property alias text: textItem.text
+    property alias imageSource: imageItem.source
 
     signal clicked()
 
-    Text {
+    BaseText {
         id: textItem
         anchors.centerIn: parent
-        font.pixelSize: 25
+    }
+
+    Image {
+        id: imageItem
+        anchors.centerIn: parent
+        height: 0.6 * parent.height
+        width: 0.6 * parent.width
+        fillMode: Image.PreserveAspectFit
     }
 
     MouseArea {

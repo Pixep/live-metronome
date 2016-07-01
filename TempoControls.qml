@@ -1,10 +1,12 @@
-import QtQuick 2.6
+import QtQuick 2.5
 import QtQuick.Layouts 1.1
 
 RowLayout {
     id: root
+    y: appStyle.sidesMargin
+    x: appStyle.sidesMargin
     height: 80
-    width: parent.width
+    width: parent.width - 2*appStyle.sidesMargin
 
     readonly property int tempo: parseInt(tempoTextItem.text, 10)
 
@@ -27,17 +29,17 @@ RowLayout {
         tempoTextItem.text = newTempo.toString()
     }
 
-    Button {
+    /*Button {
         height: parent.height
         Layout.fillWidth: true
         text: "<<"
         onClicked: parent.decreaseTempoLarge()
-    }
+    }*/
 
     Button {
         height: parent.height
         Layout.fillWidth: true
-        text: "<"
+        imageSource: "qrc:/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
     }
 
@@ -48,7 +50,8 @@ RowLayout {
         TextInput {
             id: tempoTextItem
             text: "120"
-            font.pixelSize: parent.width / 4
+            font.pixelSize: appStyle.baseFontSize
+            color: appStyle.textColor
             anchors.centerIn: parent
             inputMethodHints: Qt.ImhDigitsOnly
         }
@@ -56,15 +59,15 @@ RowLayout {
 
     Button {
         height: parent.height
-        text: ">"
         Layout.fillWidth: true
+        imageSource: "qrc:/images/icon_plus.png"
         onClicked: parent.increaseTempo()
     }
 
-    Button {
+    /*Button {
         height: parent.height
         text: ">>"
         Layout.fillWidth: true
         onClicked: parent.increaseTempoLarge()
-    }
+    }*/
 }

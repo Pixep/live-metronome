@@ -3,7 +3,7 @@
 UserSettings::UserSettings(QObject *parent) : QObject(parent)
 {
     m_songs.append(new Song("Tower Of Power", "What is hip", 124));
-    m_songs.append(new Song("Tower Of Power", "Soul with a capital S", 118));
+    m_songs.append(new Song("Tower Of Power", "Soul with a capital Suuup", 118));
 }
 
 Song * songList_at(QQmlListProperty<Song> *property, int index) {

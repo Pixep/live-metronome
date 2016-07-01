@@ -14,9 +14,8 @@ Item {
         opacity: 0.3
     }
 
-    Text {
+    BaseText {
         id: textItem
-        font.pixelSize: style.baseFontSize
         anchors.centerIn: parent
     }
 

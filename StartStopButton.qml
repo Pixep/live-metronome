@@ -1,9 +1,10 @@
-import QtQuick 2.6
+import QtQuick 2.5
 
 Item {
     id: root
     height: 80
-    width: parent.width
+    x: appStyle.sidesMargin
+    width: parent.width - 2 * appStyle.sidesMargin
 
     property bool playing: false
     property int tickIndex

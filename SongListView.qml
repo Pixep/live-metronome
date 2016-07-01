@@ -20,6 +20,15 @@ Item {
             width: parent.width
             height: 80
             color: "gray"
+
+            Image {
+                y: 0.15 * parent.height
+                height: 0.7 * parent.height
+                width: parent.width
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/images/track_indicator.png"
+                horizontalAlignment: Image.AlignLeft
+            }
         }
         highlightMoveDuration: 300
 
@@ -29,19 +38,21 @@ Item {
 
             Row {
                 anchors.fill: parent
-                anchors.margins: 10
+                anchors.margins: appStyle.sidesMargin
+                anchors.leftMargin: 2 * appStyle.sidesMargin
+
+                BaseText {
+                    x: 0.15 * parent.width
+                    height: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                    text: (index+1) + "."
+                }
 
                 Item {
-                    width: 0.15 * parent.width
+                    width: 0.05 * parent.width
                     height: parent.height
-
-                    BaseText {
-                        x: 0.3 * parent.width
-                        height: parent.height
-                        verticalAlignment: Text.AlignVCenter
-                        text: (index+1) + "."
-                    }
                 }
+
                 Item {
                     width: 0.65 * parent.width
                     height: parent.height
@@ -66,8 +77,9 @@ Item {
                         visible: true
                     }
                 }
+
                 BaseText {
-                    width: 0.2 * parent.width
+                    width: 0.15 * parent.width
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter

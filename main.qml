@@ -48,7 +48,8 @@ Window {
         property int sidesMargin: 10
         property string textColor: "#f0f0f0"
         property string textColor2: "#c0c0c0"
-        property string backgroundColor: "#333"
+        property string backgroundColor: "#303030"
+        property string backgroundColor2: "#a0a0a0"
         property int baseFontSize: 30
         property int smallFontSize: 20
     }

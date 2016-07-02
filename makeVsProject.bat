@@ -1,0 +1,1 @@
+E:\Dev\Qt\5.7\winrt_armv7_msvc2015\bin\qmake -tp vc Metronome.pro

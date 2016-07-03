@@ -28,4 +28,5 @@ HEADERS += \
 
 DISTFILES += \
     ApplicationHeader.qml \
-    SongActionDialog.qml
+    SongActionDialog.qml \
+    UserSettings.qml

@@ -49,13 +49,15 @@ Item {
         running: root.playing
         triggeredOnStart: true
         onTriggered: {
+            if (root.tickCount !== 0)
+                root.tickIndex = (root.tickIndex + 1) % 4
+
             if (root.tickIndex == 0)
                 tickHigh.play()
             else
                 tickLowAudio.play()
 
             root.tickCount++
-            root.tickIndex = (root.tickIndex + 1) % 4
         }
     }
 }

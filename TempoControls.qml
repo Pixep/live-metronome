@@ -50,7 +50,7 @@ RowLayout {
         TextInput {
             id: tempoTextItem
             text: "120"
-            font.pixelSize: appStyle.baseFontSize
+            font.pixelSize: appStyle.titleFontSize
             color: appStyle.textColor
             anchors.centerIn: parent
             inputMethodHints: Qt.ImhDigitsOnly

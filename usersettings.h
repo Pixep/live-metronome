@@ -15,16 +15,17 @@ signals:
     void songListChanged();
 
 public:
-    explicit UserSettings(QObject *parent = 0);
+    explicit UserSettings(const QString& settings, QObject *parent = 0);
 
     QQmlListProperty<Song> songList();
 
-signals:
-
 public slots:
+    bool load();
+    bool setJsonSettings(const QString& json);
 
 private:
     QList<Song*> m_songs;
+    QString m_storagePath;
 };
 
 #endif // USERSETTINGS_H

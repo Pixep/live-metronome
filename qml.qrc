@@ -19,5 +19,7 @@
         <file>images/icon_previous.png</file>
         <file>images/track_indicator.png</file>
         <file>BaseText.qml</file>
+        <file>ApplicationHeader.qml</file>
+        <file>UserSettings.qml</file>
     </qresource>
 </RCC>

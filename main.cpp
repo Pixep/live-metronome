@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Song>("Metronome", 1, 0, "Song");
 
     Platform platform;
-    UserSettings userSettings;
+    UserSettings userSettings(engine.offlineStoragePath());
     engine.rootContext()->setContextProperty("platform", &platform);
     engine.rootContext()->setContextProperty("userSettings", &userSettings);
 

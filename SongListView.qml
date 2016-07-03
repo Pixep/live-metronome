@@ -19,7 +19,7 @@ Item {
         highlight: Rectangle {
             width: parent.width
             height: 80
-            color: "gray"
+            color: appStyle.backgroundColor2
 
             Image {
                 y: 0.15 * parent.height
@@ -74,7 +74,7 @@ Item {
                         font.pixelSize: appStyle.smallFontSize
                         text: modelData.artist
                         elide: Text.ElideRight
-                        visible: true
+                        visible: modelData.artist !== ""
                     }
                 }
 
@@ -89,11 +89,10 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    root.songIndex = index
+                    metronome.songIndex = index
                 }
                 onPressAndHold: {
-                    userSettings.songList[index].tempo = root.tempo
-                    actionDialog.show()
+                    actionDialog.show(index)
                 }
             }
         }
@@ -112,12 +111,21 @@ Item {
             id: scroll
             width: parent.width
             color: "gray"
-            height: parent.height * songListView.height / (songCount * 80)
-            y: (songListView.contentY / (songCount * 80 - songListView.height)) * (parent.height - height)
+            height: parent.height * songListView.height / (metronome.songCount * 80)
+            y: (songListView.contentY / (metronome.songCount * 80 - songListView.height)) * (parent.height - height)
         }
     }
 
     SongActionDialog {
         id: actionDialog
+        onUpdateSongTempo: {
+            userSettings.songList[actionSongIndex].tempo = root.tempo
+        }
+        onEditSong: {
+
+        }
+        onRemoveSong: {
+            userSettings.removeSong(actionSongIndex)
+        }
     }
 }

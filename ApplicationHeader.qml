@@ -7,20 +7,26 @@ Item {
     signal back()
     signal showMenu()
 
+    Rectangle {
+        anchors.fill: parent
+        color: appStyle.headerColor
+    }
+
     Button {
         id: backButton
         height: parent.height
         width: height
-        text: "<"
+        imageSource: "qrc:/images/icon_back.png"
+        radius: 0
+        color: "transparent"
         onClicked: parent.back()
     }
 
-    Text {
+    BaseText {
         anchors.left: backButton.right
         anchors.right: menuButton.left
         height: parent.height
-
-        font.pixelSize: 25
+        font.pixelSize: appStyle.titleFontSize
         text: "Live Metronome"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
@@ -30,8 +36,10 @@ Item {
         id: menuButton
         height: parent.height
         width: height
+        imageSource: "qrc:/images/icon_menu.png"
         anchors.right: parent.right
-        text: "="
+        radius: 0
+        color: "transparent"
         onClicked: parent.showMenu()
     }
 }

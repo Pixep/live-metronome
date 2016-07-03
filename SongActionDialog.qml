@@ -7,8 +7,15 @@ Item {
     visible: false
     z: 100
 
-    function show()
+    property int actionSongIndex
+
+    signal updateSongTempo()
+    signal editSong()
+    signal removeSong()
+
+    function show(songIndex)
     {
+        actionSongIndex = songIndex
         visible = true
     }
 
@@ -29,28 +36,40 @@ Item {
     }
 
     Rectangle {
-        radius: 10
+        radius: appStyle.borderRadius
         anchors.centerIn: parent
         width: 0.8 * parent.width
-        height: 0.8 * parent.height
+        height: childrenRect.height + radius * 2
         color: "#333"
 
         Column {
-            anchors.fill: parent
+            y: appStyle.borderRadius
+            width: parent.width
+            height: childrenRect.height
             ActionDialogItem {
                 text: "Update tempo"
                 onClicked: {
                     dialog.hide()
+                    dialog.updateSongTempo()
                 }
             }
             ActionDialogItem {
                 text: "Edit"
                 onClicked: {
                     dialog.hide()
+                    dialog.editSong()
                 }
             }
             ActionDialogItem {
                 text: "Delete"
+                onClicked: {
+                    dialog.hide()
+                    dialog.removeSong()
+                }
+            }
+            ActionDialogItem {
+                text: "Cancel"
+                showSeparator: false
                 onClicked: {
                     dialog.hide()
                 }

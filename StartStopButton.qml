@@ -9,6 +9,7 @@ Item {
 
     property bool playing: false
     property int tickIndex
+    property int tickCount
 
     signal clicked()
 
@@ -21,15 +22,6 @@ Item {
             root.clicked()
         }
 
-        /*Rectangle {
-            color: "red"
-            width: height
-            height: 0.5 * parent.height
-            visible: root.playing && root.tickIndex % 2 == 1
-            anchors.right: parent.right
-            anchors.rightMargin: 0.5 * height
-            anchors.verticalCenter: parent.verticalCenter
-        }*/
         Item {
             width: parent.width
             height: parent.height
@@ -65,15 +57,29 @@ Item {
                         radius: 0.5 * width
                         Connections {
                             target: root
-                            onTickIndexChanged: {
-                                if (root.tickIndex == index)
+                            onPlayingChanged: {
+                                if (playing && index == 0)
                                 {
-                                    circle.scale = 1/0.4
-                                    circle.color = appStyle.textColor
-                                    scaleAnimation.start()
-                                    colorAnimation.start()
+                                    circle.animate()
                                 }
                             }
+                        }
+                        Connections {
+                            target: root
+                            onTickCountChanged: {
+                                if (root.playing && (root.tickIndex % 4) == index)
+                                {
+                                    circle.animate()
+                                }
+                            }
+                        }
+
+                        function animate()
+                        {
+                            scale = 1/0.4
+                            color = appStyle.textColor
+                            scaleAnimation.start()
+                            colorAnimation.start()
                         }
 
                         NumberAnimation on scale {

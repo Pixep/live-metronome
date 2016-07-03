@@ -2,8 +2,8 @@ import QtQuick 2.5
 
 Rectangle {
     id: root
-    color: "gray"
-    opacity: mouseArea.pressed ? 0.6 : 1
+    color: appStyle.backgroundColor2
+    opacity: mouseArea.pressed ? 0.5 : 1
     radius: appStyle.borderRadius
 
     property alias text: textItem.text

@@ -1,9 +1,14 @@
 #include "usersettings.h"
 
-UserSettings::UserSettings(QObject *parent) : QObject(parent)
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QDebug>
+#include <QQmlEngine>
+
+UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent)
 {
-    m_songs.append(new Song("Tower Of Power", "What is hip", 124));
-    m_songs.append(new Song("Tower Of Power", "Soul with a capital Suuup", 118));
+    m_storagePath = path;
 }
 
 Song * songList_at(QQmlListProperty<Song> *property, int index) {
@@ -25,4 +30,24 @@ int songList_count(QQmlListProperty<Song> *property) {
 QQmlListProperty<Song> UserSettings::songList()
 {
     return QQmlListProperty<Song>(this, &m_songs, &songList_append, &songList_count, &songList_at, &songList_clear);
+}
+
+bool UserSettings::load()
+{
+    //qDebug() << m_storagePath;
+    return true;
+}
+
+bool UserSettings::setJsonSettings(const QString &json)
+{
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
+    QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
+    for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
+        QJsonObject songObject = userSongs.at(songIndex).toObject();
+        m_songs.append(new Song(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80)));
+    }
+
+    emit songListChanged();
+
+    return true;
 }

@@ -5,6 +5,7 @@ Item {
     width: parent.width
 
     property alias text: textItem.text
+    property alias showSeparator: separator.visible
 
     signal clicked
 
@@ -28,6 +29,7 @@ Item {
     }
 
     Rectangle {
+        id: separator
         width: parent.width
         height: 1
         anchors.bottom: parent.bottom

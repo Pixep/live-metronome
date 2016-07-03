@@ -32,14 +32,17 @@ QQmlListProperty<Song> UserSettings::songList()
     return QQmlListProperty<Song>(this, &m_songs, &songList_append, &songList_count, &songList_at, &songList_clear);
 }
 
-bool UserSettings::load()
+void UserSettings::resetToDefault()
 {
-    //qDebug() << m_storagePath;
-    return true;
+    m_songs.clear();
+    m_songs.append(new Song("AC/DC", "Highway to Hell", 116));
+    m_songs.append(new Song("Miles Davis", "So What", 136));
 }
 
 bool UserSettings::setJsonSettings(const QString &json)
 {
+    m_songs.clear();
+
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
     for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
@@ -50,4 +53,25 @@ bool UserSettings::setJsonSettings(const QString &json)
     emit songListChanged();
 
     return true;
+}
+
+QString UserSettings::jsonSettings() const
+{
+    QJsonDocument jsonDoc;
+    QJsonObject jsonDocObject;
+
+    QJsonArray jsonArraySongs;
+    foreach(const Song* song, m_songs)
+    {
+        QJsonObject songObject;
+        songObject["title"] = song->title();
+        songObject["artist"] = song->artist();
+        songObject["tempo"] = song->tempo();
+        jsonArraySongs.append(songObject);
+    }
+
+    jsonDocObject["songs"] = jsonArraySongs;
+    jsonDoc.setObject(jsonDocObject);
+
+    return jsonDoc.toJson(QJsonDocument::Compact);
 }

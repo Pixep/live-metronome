@@ -119,7 +119,8 @@ Item {
     SongActionDialog {
         id: actionDialog
         onUpdateSongTempo: {
-            userSettings.songList[actionSongIndex].tempo = root.tempo
+            userSettings.songList[actionSongIndex].tempo = metronome.tempo
+            userSettingsDb.save()
         }
         onEditSong: {
 

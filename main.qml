@@ -18,6 +18,11 @@ Window {
         property int songCount: userSettings.songList.length
 
         onSongIndexChanged: {
+            updateTempoFromSong()
+        }
+
+        function updateTempoFromSong()
+        {
             if (songIndex >= 0 && songIndex < songCount)
             {
                 setTempo(userSettings.songList[songIndex].tempo)
@@ -61,8 +66,14 @@ Window {
     }
 
     UserSettings {
+        id: userSettingsDb
         Component.onCompleted: {
             load()
+        }
+
+        onLoaded: {
+            metronome.songIndex = 0
+            metronome.updateTempoFromSong()
         }
     }
 

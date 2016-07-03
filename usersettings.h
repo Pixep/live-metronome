@@ -20,8 +20,9 @@ public:
     QQmlListProperty<Song> songList();
 
 public slots:
-    bool load();
+    void resetToDefault();
     bool setJsonSettings(const QString& json);
+    QString jsonSettings() const;
 
 private:
     QList<Song*> m_songs;

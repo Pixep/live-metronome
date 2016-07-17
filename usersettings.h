@@ -28,6 +28,7 @@ public slots:
     bool setSong(int index, const QString& title, const QString& artist, int tempo);
     bool addSong(const QString& title, const QString& artist, int tempo);
     bool removeSong(int index);
+    bool removeAllSongs();
 
 private:
     QList<Song*> m_songs;

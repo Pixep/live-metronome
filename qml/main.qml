@@ -88,6 +88,10 @@ Window {
 
     ApplicationHeader {
         id: appHeader
+
+        onShowMenu: {
+            actionDialog.show()
+        }
     }
 
     Item {
@@ -123,8 +127,8 @@ Window {
 
                 onEditSong: {
                     addEditPage.songIndex = songIndex;
-                    addEditPage.show()
                     addEditPage.prefill()
+                    addEditPage.show()
                 }
             }
 
@@ -165,7 +169,51 @@ Window {
         }
     }
 
-    ConfirmDialog {
-        id: confirmDialog
+    Item {
+        id: dialogContainer
+        anchors.fill: parent
+        z: 100
+
+        ConfirmDialog {
+            id: confirmDialog
+        }
+
+        ActionDialog {
+            id: actionDialog
+
+            ActionDialogItem {
+                text: qsTr("Add new song")
+                onClicked: {
+                    actionDialog.hide()
+                    addEditPage.songIndex = -1;
+                    addEditPage.clear()
+                    addEditPage.show()
+                }
+            }
+
+            ActionDialogItem {
+                text: qsTr("Clear all")
+                onClicked: {
+                    userSettings.removeAllSongs();
+                    actionDialog.hide()
+                }
+            }
+
+            ActionDialogItem {
+                text: qsTr("Reset all")
+                onClicked: {
+                    userSettings.resetToDefault();
+                    actionDialog.hide()
+                }
+            }
+
+            ActionDialogItem {
+                text: qsTr("Cancel")
+                showSeparator: false
+                onClicked: {
+                    actionDialog.hide()
+                }
+            }
+        }
     }
 }

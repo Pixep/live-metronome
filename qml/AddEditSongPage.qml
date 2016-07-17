@@ -28,6 +28,14 @@ Page {
         tempoEdit.text = "" + song.tempo
     }
 
+    function clear()
+    {
+        var song = userSettings.songList[songIndex]
+        titleEdit.text = ""
+        artistEdit.text = ""
+        tempoEdit.text = ""
+    }
+
     Column {
         anchors.fill: parent
 
@@ -38,6 +46,7 @@ Page {
             id: titleEdit
             x: appStyle.width_col1
             width: appStyle.width_col5
+            KeyNavigation.tab: artistEdit
         }
         BaseText {
             text: "Artist"
@@ -46,6 +55,8 @@ Page {
             id: artistEdit
             x: appStyle.width_col1
             width: appStyle.width_col5
+            KeyNavigation.backtab: titleEdit
+            KeyNavigation.tab: tempoEdit
         }
         BaseText {
             text: "Tempo"
@@ -55,6 +66,7 @@ Page {
             x: appStyle.width_col1
             width: appStyle.width_col5
             isNumber: true
+            KeyNavigation.backtab: artistEdit
         }
     }
 }

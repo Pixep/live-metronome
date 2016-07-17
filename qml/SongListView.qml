@@ -121,6 +121,7 @@ Item {
 
     SongActionDialog {
         id: actionDialog
+        parent: dialogContainer
 
         onUpdateSongTempo: {
             userSettings.songList[contextValue].tempo = metronome.tempo

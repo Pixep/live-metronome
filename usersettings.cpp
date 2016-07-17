@@ -37,6 +37,9 @@ void UserSettings::resetToDefault()
     m_songs.clear();
     m_songs.append(new Song("AC/DC", "Highway to Hell", 116));
     m_songs.append(new Song("Miles Davis", "So What", 136));
+
+    emit songListChanged();
+    emit settingsModified();
 }
 
 bool UserSettings::setJsonSettings(const QString &json)
@@ -51,6 +54,7 @@ bool UserSettings::setJsonSettings(const QString &json)
     }
 
     emit songListChanged();
+    emit settingsModified();
 
     return true;
 }
@@ -92,6 +96,9 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
 
 bool UserSettings::addSong(const QString &title, const QString &artist, int tempo)
 {
+    Song* newSong = new Song(artist, title, tempo);
+    m_songs.append(newSong);
+
     emit songListChanged();
     emit settingsModified();
     return true;
@@ -104,6 +111,17 @@ bool UserSettings::removeSong(int index)
 
     Song* song = m_songs.takeAt(index);
     song->deleteLater();
+
+    emit songListChanged();
+    emit settingsModified();
+}
+
+bool UserSettings::removeAllSongs()
+{
+    foreach (Song* song, m_songs) {
+        song->deleteLater();
+    }
+    m_songs.clear();
 
     emit songListChanged();
     emit settingsModified();

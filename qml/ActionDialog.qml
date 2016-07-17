@@ -5,14 +5,13 @@ Item {
     width: parent.width
     height: parent.height
     visible: false
-    z: 100
 
     property int contextValue
     default property alias dialogActions: actionsColumn.children
 
     function show(value)
     {
-        contextValue = value
+        contextValue = value !== undefined ? value : -1
         visible = true
     }
 
@@ -26,6 +25,7 @@ Item {
         anchors.fill: parent
         color: "black"
         MouseArea {
+            anchors.fill: parent
             onClicked: {
                 //Catch signal
             }

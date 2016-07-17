@@ -4,7 +4,6 @@ Item {
     width: parent.width
     height: parent.height
     visible: false
-    z: 100
 
     property QtObject target
 

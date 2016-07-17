@@ -10,7 +10,7 @@ Window {
 
     property alias appStyle: styleObject
 
-    QtObject {
+    Item {
         id: metronome
         property bool playing: false
         property int tempo: 80
@@ -19,6 +19,25 @@ Window {
 
         onSongIndexChanged: {
             updateTempoFromSong()
+        }
+
+        Connections {
+            target: userSettings
+
+            onSongAdded: {
+                var temp = metronome.songIndex
+                metronome.songIndex = 0
+                metronome.songIndex = temp
+            }
+            onSongRemoved: {
+                if (removedIndex < metronome.songIndex)
+                    metronome.songIndex--
+                else if (removedIndex == metronome.songIndex)
+                    metronome.songIndex = 0
+            }
+            onAllSongsRemoved: {
+               metronome.songIndex = 0
+            }
         }
 
         function updateTempoFromSong()
@@ -61,6 +80,7 @@ Window {
         property string headerColor: "#354582"
         property string backgroundColor: "#202020"
         property string backgroundColor2: "#656565"
+        property string backgroundColor3: "#353535"
         property int baseFontSize: 30
         property int titleFontSize: 35
         property int smallFontSize: 20
@@ -88,7 +108,13 @@ Window {
 
     ApplicationHeader {
         id: appHeader
+        backVisible: addEditPage.visible
+        menuVisible: !addEditPage.visible
+        menuEnabled: !metronome.playing
 
+        onBack: {
+            addEditPage.hide()
+        }
         onShowMenu: {
             actionDialog.show()
         }

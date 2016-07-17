@@ -10,6 +10,7 @@ Item {
     Button {
         height: parent.height
         width: parent.width / 2 - 5
+        color: appStyle.headerColor
         imageSource: "qrc:/qml/images/icon_previous.png"
 
         onClicked: {
@@ -21,6 +22,7 @@ Item {
         height: parent.height
         width: parent.width / 2 - 5
         anchors.right: parent.right
+        color: appStyle.headerColor
         imageSource: "qrc:/qml/images/icon_next.png"
 
         onClicked: {

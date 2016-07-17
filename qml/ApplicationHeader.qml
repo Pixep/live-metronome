@@ -4,6 +4,10 @@ Item {
     width: parent.width
     height: appStyle.controlHeight
 
+    property alias backVisible: backButton.visible
+    property alias menuVisible: menuButton.visible
+    property alias menuEnabled: menuButton.enabled
+
     signal back()
     signal showMenu()
 
@@ -34,6 +38,7 @@ Item {
 
     Button {
         id: menuButton
+        opacity: enabled ? 1 : 0.3
         height: parent.height
         width: height
         imageSource: "qrc:/qml/images/icon_menu.png"

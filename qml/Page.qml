@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item {
     id: page
-    x: parent.width+1
+    x: window.width
     width: parent.width
     anchors.top: parent.top
     anchors.topMargin: 2 * appStyle.sidesMargin
@@ -20,7 +20,7 @@ Item {
 
     function show() {
         hideAnimation.stop()
-        x = parent.width + 1
+        x = window.width
         visible = true
         showAnimation.start()
     }
@@ -32,7 +32,7 @@ Item {
 
     Rectangle {
         x: -appStyle.sidesMargin
-        width: pageContainer.backgroundWidth
+        width: 1.5 * pageContainer.backgroundWidth // Larger than page for animation overshoot
         height: pageContainer.backgroundHeight
         color: appStyle.backgroundColor
     }
@@ -48,15 +48,25 @@ Item {
     NumberAnimation on x {
         id: showAnimation
         to: 0
-        duration: 300
-        easing.type: Easing.InOutQuad
+        duration: 400
+        easing.type: Easing.OutBack
     }
 
-    NumberAnimation on x {
+    SequentialAnimation {
         id: hideAnimation
-        to: parent.width+1
-        duration: 300
-        easing.type: Easing.InOutQuad
+
+        PropertyAnimation {
+            target: page
+            property: "x"
+            to: window.width
+            duration: 300
+            easing.type: Easing.InCubic
+        }
+        PropertyAction {
+            target: page
+            property: "visible"
+            value: false
+        }
     }
 
     Row {

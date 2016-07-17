@@ -100,6 +100,7 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
     m_songs.append(newSong);
 
     emit songListChanged();
+    emit songAdded();
     emit settingsModified();
     return true;
 }
@@ -113,7 +114,10 @@ bool UserSettings::removeSong(int index)
     song->deleteLater();
 
     emit songListChanged();
+    emit songRemoved(index);
     emit settingsModified();
+
+    return true;
 }
 
 bool UserSettings::removeAllSongs()
@@ -124,5 +128,8 @@ bool UserSettings::removeAllSongs()
     m_songs.clear();
 
     emit songListChanged();
+    emit allSongsRemoved();
     emit settingsModified();
+
+    return true;
 }

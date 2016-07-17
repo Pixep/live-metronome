@@ -34,7 +34,7 @@ Item {
 
     function save()
     {
-        console.log(userSettings.jsonSettings())
+        //console.log(userSettings.jsonSettings())
         db.transaction(
             function(tx) {
                 saveQuery(tx)

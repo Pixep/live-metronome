@@ -14,6 +14,9 @@ class UserSettings : public QObject
 signals:
     void songListChanged();
     void settingsModified();
+    void songAdded();
+    void songRemoved(int removedIndex);
+    void allSongsRemoved();
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);

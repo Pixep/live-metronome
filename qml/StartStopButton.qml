@@ -16,6 +16,7 @@ Item {
         id: playButton
         anchors.fill: parent
         text: root.playing ? "" : "Play"
+        color: appStyle.headerColor
 
         onClicked: {
             root.clicked()

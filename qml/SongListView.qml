@@ -39,10 +39,31 @@ Item {
             width: parent.width
             height: appStyle.controlHeight
 
+            Rectangle {
+                color: appStyle.headerColor
+                anchors.fill: parent
+                opacity: songMouseArea.pressed ? 0.6 : 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 800
+                        easing.type: Easing.OutQuad
+                    }
+                }
+            }
+
             Row {
                 anchors.fill: parent
                 anchors.margins: appStyle.sidesMargin
                 anchors.leftMargin: 2 * appStyle.sidesMargin
+                scale: songMouseArea.pressed ? 0.9 : 1
+
+                Behavior on scale {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutQuad
+                    }
+                }
 
                 BaseText {
                     x: 0.15 * parent.width
@@ -90,6 +111,7 @@ Item {
                 }
             }
             MouseArea {
+                id: songMouseArea
                 anchors.fill: parent
                 onClicked: {
                     metronome.songIndex = index

@@ -34,8 +34,12 @@ public slots:
     bool removeAllSongs();
 
 private:
+    bool addSong_internal(const QString& title, const QString& artist, int tempo);
+
+private:
     QList<Song*> m_songs;
     QString m_storagePath;
+    const int MaxSongs = 6;
 };
 
 #endif // USERSETTINGS_H

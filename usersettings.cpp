@@ -50,7 +50,7 @@ bool UserSettings::setJsonSettings(const QString &json)
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
     for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
         QJsonObject songObject = userSongs.at(songIndex).toObject();
-        m_songs.append(new Song(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80)));
+        addSong_internal(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80));
     }
 
     emit songListChanged();
@@ -94,10 +94,21 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
     return true;
 }
 
-bool UserSettings::addSong(const QString &title, const QString &artist, int tempo)
+bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo)
 {
+    if (m_songs.count() >= MaxSongs)
+        return false;
+
     Song* newSong = new Song(artist, title, tempo);
     m_songs.append(newSong);
+
+    return true;
+}
+
+bool UserSettings::addSong(const QString &title, const QString &artist, int tempo)
+{
+    if (!addSong_internal(title, artist, tempo))
+        return false;
 
     emit songListChanged();
     emit songAdded();

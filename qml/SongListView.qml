@@ -29,7 +29,7 @@ Item {
                 height: 0.7 * parent.height
                 width: parent.width
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/images/track_indicator.png"
+                source: "qrc:/qml/images/track_indicator.png"
                 horizontalAlignment: Image.AlignLeft
             }
         }

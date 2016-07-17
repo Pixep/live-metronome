@@ -37,7 +37,7 @@ RowLayout {
     Button {
         height: parent.height
         Layout.fillWidth: true
-        imageSource: "qrc:/images/icon_minus.png"
+        imageSource: "qrc:/qml/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
     }
 
@@ -58,7 +58,7 @@ RowLayout {
     Button {
         height: parent.height
         Layout.fillWidth: true
-        imageSource: "qrc:/images/icon_plus.png"
+        imageSource: "qrc:/qml/images/icon_plus.png"
         onClicked: parent.increaseTempo()
     }
 

@@ -19,13 +19,9 @@ include(deployment.pri)
 sounds.source = sounds
 DEPLOYMENTFOLDERS += sounds
 
-OTHER_FILES += *.qml
+OTHER_FILES += qml/*.qml
 
 HEADERS += \
     usersettings.h \
     song.h \
     platform.h
-
-DISTFILES += \
-    ConfirmDialog.qml \
-    ActionDialog.qml

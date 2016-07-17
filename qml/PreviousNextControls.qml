@@ -10,7 +10,7 @@ Item {
     Button {
         height: parent.height
         width: parent.width / 2 - 5
-        imageSource: "qrc:/images/icon_previous.png"
+        imageSource: "qrc:/qml/images/icon_previous.png"
 
         onClicked: {
             parent.previous()
@@ -21,7 +21,7 @@ Item {
         height: parent.height
         width: parent.width / 2 - 5
         anchors.right: parent.right
-        imageSource: "qrc:/images/icon_next.png"
+        imageSource: "qrc:/qml/images/icon_next.png"
 
         onClicked: {
             parent.next()

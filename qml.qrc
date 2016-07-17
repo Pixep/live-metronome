@@ -1,31 +1,31 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>sounds/click_analog_high.wav</file>
         <file>sounds/click_analog_low.wav</file>
-        <file>Button.qml</file>
-        <file>TempoControls.qml</file>
-        <file>StartStopButton.qml</file>
-        <file>PreviousNextControls.qml</file>
-        <file>SongListView.qml</file>
-        <file>ClickSound.qml</file>
-        <file>ActionDialogItem.qml</file>
-        <file>SongActionDialog.qml</file>
-        <file>images/icon_back.png</file>
-        <file>images/icon_menu.png</file>
-        <file>images/icon_minus.png</file>
-        <file>images/icon_next.png</file>
-        <file>images/icon_plus.png</file>
-        <file>images/icon_previous.png</file>
-        <file>images/track_indicator.png</file>
-        <file>BaseText.qml</file>
-        <file>ApplicationHeader.qml</file>
-        <file>UserSettings.qml</file>
-        <file>Page.qml</file>
-        <file>AddEditSongPage.qml</file>
-        <file>SettingRow.qml</file>
-        <file>BaseEdit.qml</file>
-        <file>ConfirmDialog.qml</file>
-        <file>ActionDialog.qml</file>
+        <file>qml/ActionDialog.qml</file>
+        <file>qml/ActionDialogItem.qml</file>
+        <file>qml/AddEditSongPage.qml</file>
+        <file>qml/ApplicationHeader.qml</file>
+        <file>qml/BaseEdit.qml</file>
+        <file>qml/BaseText.qml</file>
+        <file>qml/Button.qml</file>
+        <file>qml/ClickSound.qml</file>
+        <file>qml/ConfirmDialog.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/Page.qml</file>
+        <file>qml/PreviousNextControls.qml</file>
+        <file>qml/SettingRow.qml</file>
+        <file>qml/SongActionDialog.qml</file>
+        <file>qml/SongListView.qml</file>
+        <file>qml/StartStopButton.qml</file>
+        <file>qml/TempoControls.qml</file>
+        <file>qml/UserSettings.qml</file>
+        <file>qml/images/icon_back.png</file>
+        <file>qml/images/icon_menu.png</file>
+        <file>qml/images/icon_minus.png</file>
+        <file>qml/images/icon_next.png</file>
+        <file>qml/images/icon_plus.png</file>
+        <file>qml/images/icon_previous.png</file>
+        <file>qml/images/track_indicator.png</file>
     </qresource>
 </RCC>

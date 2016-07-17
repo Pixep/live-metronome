@@ -27,18 +27,23 @@ RowLayout {
         tempoTextItem.text = newTempo.toString()
     }
 
-    /*Button {
-        height: parent.height
-        Layout.fillWidth: true
-        text: "<<"
-        onClicked: parent.decreaseTempoLarge()
-    }*/
-
     Button {
         height: parent.height
         Layout.fillWidth: true
         imageSource: "qrc:/qml/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
+        onPressAndHold: decreaseButtonHoldTimer.start()
+        onReleased: decreaseButtonHoldTimer.stop()
+
+        Timer {
+            id: decreaseButtonHoldTimer
+            interval: 300
+            repeat: true
+            triggeredOnStart: true
+            onTriggered: {
+                root.decreaseTempoLarge()
+            }
+        }
     }
 
     Item {
@@ -59,13 +64,18 @@ RowLayout {
         height: parent.height
         Layout.fillWidth: true
         imageSource: "qrc:/qml/images/icon_plus.png"
-        onClicked: parent.increaseTempo()
-    }
+        onClicked: root.increaseTempo()
+        onPressAndHold: increaseButtonHoldTimer.start()
+        onReleased: increaseButtonHoldTimer.stop()
 
-    /*Button {
-        height: parent.height
-        text: ">>"
-        Layout.fillWidth: true
-        onClicked: parent.increaseTempoLarge()
-    }*/
+        Timer {
+            id: increaseButtonHoldTimer
+            interval: 300
+            repeat: true
+            triggeredOnStart: true
+            onTriggered: {
+                root.increaseTempoLarge()
+            }
+        }
+    }
 }

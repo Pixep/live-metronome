@@ -10,6 +10,8 @@ Rectangle {
     property alias imageSource: imageItem.source
 
     signal clicked()
+    signal pressAndHold()
+    signal released()
 
     BaseText {
         id: textItem
@@ -28,5 +30,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         onClicked: root.clicked()
+        onPressAndHold: root.pressAndHold()
+        onReleased: root.released()
     }
 }

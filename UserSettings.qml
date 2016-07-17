@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.LocalStorage 2.0
 
-QtObject {
+Item {
+    id: root
+
     property var db
 
     signal loaded()
@@ -45,6 +47,13 @@ QtObject {
         if (!res)
         {
             console.log("Failed to save settings");
+        }
+    }
+
+    Connections {
+        target: userSettings
+        onSettingsModified: {
+            root.save()
         }
     }
 }

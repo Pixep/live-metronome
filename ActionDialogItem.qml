@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    height: 80
+    height: appStyle.controlHeight
     width: parent.width
 
     property alias text: textItem.text

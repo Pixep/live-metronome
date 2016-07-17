@@ -75,3 +75,36 @@ QString UserSettings::jsonSettings() const
 
     return jsonDoc.toJson(QJsonDocument::Compact);
 }
+
+bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo)
+{
+    if (index < 0 || index >= m_songs.size())
+        return false;
+
+    Song* song = m_songs[index];
+    song->setTitle(title);
+    song->setArtist(artist);
+    song->setTempo(tempo);
+
+    emit settingsModified();
+    return true;
+}
+
+bool UserSettings::addSong(const QString &title, const QString &artist, int tempo)
+{
+    emit songListChanged();
+    emit settingsModified();
+    return true;
+}
+
+bool UserSettings::removeSong(int index)
+{
+    if (index < 0 || index >= m_songs.size())
+        return false;
+
+    Song* song = m_songs.takeAt(index);
+    song->deleteLater();
+
+    emit songListChanged();
+    emit settingsModified();
+}

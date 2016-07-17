@@ -2,7 +2,7 @@ import QtQuick 2.6
 
 Item {
     width: parent.width
-    height: 80
+    height: appStyle.controlHeight
 
     signal back()
     signal showMenu()

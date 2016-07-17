@@ -21,5 +21,11 @@
         <file>BaseText.qml</file>
         <file>ApplicationHeader.qml</file>
         <file>UserSettings.qml</file>
+        <file>Page.qml</file>
+        <file>AddEditSongPage.qml</file>
+        <file>SettingRow.qml</file>
+        <file>BaseEdit.qml</file>
+        <file>ConfirmDialog.qml</file>
+        <file>ActionDialog.qml</file>
     </qresource>
 </RCC>

@@ -27,6 +27,5 @@ HEADERS += \
     platform.h
 
 DISTFILES += \
-    ApplicationHeader.qml \
-    SongActionDialog.qml \
-    UserSettings.qml
+    ConfirmDialog.qml \
+    ActionDialog.qml

@@ -1,9 +1,8 @@
 import QtQuick 2.5
 
 Item {
-    height: 80
-    x: appStyle.sidesMargin
-    width: parent.width - appStyle.sidesMargin * 2
+    height: appStyle.controlHeight
+    width: parent.width
 
     signal previous()
     signal next()

@@ -1,10 +1,13 @@
 import QtQuick 2.5
 
 Item {
+    id: root
     width: parent.width
     height: 200
 
     property alias currentIndex: songListView.currentIndex
+
+    signal editSong(var songIndex)
 
     ListView {
         id: songListView
@@ -12,13 +15,13 @@ Item {
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
         model: userSettings.songList
-        preferredHighlightBegin: 80
-        preferredHighlightEnd: height - (2 * 80)
+        preferredHighlightBegin: appStyle.controlHeight
+        preferredHighlightEnd: height - (2 * appStyle.controlHeight)
         highlightRangeMode: ListView.ApplyRange
 
         highlight: Rectangle {
-            width: parent.width
-            height: 80
+            width: songListView.width
+            height: appStyle.controlHeight
             color: appStyle.backgroundColor2
 
             Image {
@@ -34,7 +37,7 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 80
+            height: appStyle.controlHeight
 
             Row {
                 anchors.fill: parent
@@ -111,22 +114,34 @@ Item {
             id: scroll
             width: parent.width
             color: "gray"
-            height: parent.height * songListView.height / (metronome.songCount * 80)
-            y: (songListView.contentY / (metronome.songCount * 80 - songListView.height)) * (parent.height - height)
+            height: parent.height * songListView.height / (metronome.songCount * appStyle.controlHeight)
+            y: (songListView.contentY / (metronome.songCount * appStyle.controlHeight - songListView.height)) * (parent.height - height)
         }
     }
 
     SongActionDialog {
         id: actionDialog
+
         onUpdateSongTempo: {
-            userSettings.songList[actionSongIndex].tempo = metronome.tempo
+            userSettings.songList[contextValue].tempo = metronome.tempo
             userSettingsDb.save()
         }
         onEditSong: {
-
+            root.editSong(contextValue)
         }
         onRemoveSong: {
-            userSettings.removeSong(actionSongIndex)
+            confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songList[contextValue].title),
+                               removeConfirmation)
+        }
+    }
+
+    QtObject {
+        id: removeConfirmation
+        function onAccepted() {
+            userSettings.removeSong(actionDialog.contextValue)
+        }
+        function onRefused() {
+            // Do nothing
         }
     }
 }

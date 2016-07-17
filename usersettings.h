@@ -13,6 +13,7 @@ class UserSettings : public QObject
 
 signals:
     void songListChanged();
+    void settingsModified();
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
@@ -23,6 +24,10 @@ public slots:
     void resetToDefault();
     bool setJsonSettings(const QString& json);
     QString jsonSettings() const;
+
+    bool setSong(int index, const QString& title, const QString& artist, int tempo);
+    bool addSong(const QString& title, const QString& artist, int tempo);
+    bool removeSong(int index);
 
 private:
     QList<Song*> m_songs;

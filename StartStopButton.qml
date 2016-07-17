@@ -3,9 +3,8 @@ import QtQuick.Layouts 1.1
 
 Item {
     id: root
-    height: 80
-    x: appStyle.sidesMargin
-    width: parent.width - 2 * appStyle.sidesMargin
+    height: appStyle.controlHeight
+    width: parent.width
 
     property bool playing: false
     property int tickIndex

@@ -3,10 +3,8 @@ import QtQuick.Layouts 1.1
 
 RowLayout {
     id: root
-    y: appStyle.sidesMargin
-    x: appStyle.sidesMargin
-    height: 80
-    width: parent.width - 2*appStyle.sidesMargin
+    height: appStyle.controlHeight
+    width: parent.width
 
     readonly property int tempo: parseInt(tempoTextItem.text, 10)
 

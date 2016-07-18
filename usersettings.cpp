@@ -6,6 +6,10 @@
 #include <QDebug>
 #include <QQmlEngine>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras/QAndroidJniObject>
+#endif
+
 UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent)
 {
     m_storagePath = path;
@@ -38,6 +42,11 @@ void UserSettings::resetToDefault()
     m_songs.append(new Song("AC/DC", "Highway to Hell", 116));
     m_songs.append(new Song("Miles Davis", "So What", 136));
 
+#ifdef Q_OS_ANDROID
+    QAndroidJniObject value = QAndroidJniObject::callStaticObjectMethod("MainThing",
+                                              "test", "()Ljava/lang/String;");
+    qWarning() << "TOto ?" << value.toString();
+#endif
     emit songListChanged();
     emit settingsModified();
 }

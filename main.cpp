@@ -5,6 +5,7 @@
 
 #include "platform.h"
 #include "usersettings.h"
+#include "metronome.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +13,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<Song>("Metronome", 1, 0, "Song");
+    qmlRegisterType<Song>("com.livemetronome", 1, 0, "Song");
+    qmlRegisterType<Metronome>("com.livemetronome", 1, 0, "Metronome");
 
     Platform platform;
     UserSettings userSettings(engine.offlineStoragePath());

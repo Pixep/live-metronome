@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
+import com.livemetronome 1.0
 
 Window {
     id: window
@@ -9,6 +10,10 @@ Window {
     color: appStyle.backgroundColor
 
     property alias appStyle: styleObject
+
+    Metronome {
+
+    }
 
     QtObject {
         id: metronome

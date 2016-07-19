@@ -6,7 +6,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     usersettings.cpp \
     song.cpp \
-    platform.cpp
+    platform.cpp \
+    metronome.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,4 +25,8 @@ OTHER_FILES += qml/*.qml
 HEADERS += \
     usersettings.h \
     song.h \
-    platform.h
+    platform.h \
+    metronome.h
+
+DISTFILES += \
+    TickPlayer.java

@@ -6,7 +6,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     usersettings.cpp \
     song.cpp \
-    platform.cpp
+    platform.cpp \
+    metronome.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,7 +25,8 @@ OTHER_FILES += qml/*.qml
 HEADERS += \
     usersettings.h \
     song.h \
-    platform.h
+    platform.h \
+    metronome.h
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -34,7 +36,8 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/src/MainThing.java
+    android/src/MainThing.java \
+    android/src/TickPlayer.java
 
 android {
     QT += androidextras

@@ -27,5 +27,8 @@
         <file>qml/images/icon_plus.png</file>
         <file>qml/images/icon_previous.png</file>
         <file>qml/images/track_indicator.png</file>
+        <file>sounds/click_analog_low2.wav</file>
+        <file>sounds/click_analog_low5.wav</file>
+        <file>sounds/click_analog_low6.wav</file>
     </qresource>
 </RCC>

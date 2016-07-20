@@ -5,6 +5,7 @@ import android.app.Activity;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.lang.Exception;
+import android.util.Log;
 
 public class TickPlayer implements SoundPool.OnLoadCompleteListener
 {
@@ -16,11 +17,10 @@ public class TickPlayer implements SoundPool.OnLoadCompleteListener
     private int soundClickHighId = -1;
 
     static public void instantiate() {
+        Log.d("LOL", "Toto5A");
         m_instance = new TickPlayer();
-    }
-
-    static public void loadSounds(){
-        m_instance.load();
+        m_instance.loadSounds();
+        Log.d("LOL", "TotoB");
     }
 
     public static Activity getActivity() {
@@ -51,20 +51,22 @@ public class TickPlayer implements SoundPool.OnLoadCompleteListener
         return null;
     }
 
-    static public void playTick(boolean highPitch) {
-        m_instance.play(highPitch);
+    static public void playTick() {
+        m_instance.play(true);
     }
 
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
     }
 
-    public void load() {
-        m_soundPool = new SoundPool(MAX_NUMBER_STREAMS,
-                                    AudioManager.STREAM_MUSIC,
-                                    0);
+    public void loadSounds() {
+        Activity currentActivity = getActivity();
+        if (currentActivity == null)
+            return;
+
+        m_soundPool = new SoundPool(MAX_NUMBER_STREAMS, AudioManager.STREAM_MUSIC, 0);
         m_soundPool.setOnLoadCompleteListener(this);
-        soundClickLowId = m_soundPool.load(getActivity(), R.raw.click_analog_low, 1);
-        soundClickHighId = m_soundPool.load(getActivity(), R.raw.click_analog_low5, 1);
+        soundClickLowId = m_soundPool.load(currentActivity, R.raw.click_analog_low, 1);
+        soundClickHighId = m_soundPool.load(currentActivity, R.raw.click_analog_low5, 1);
     }
 
     public void play(boolean highPitch) {

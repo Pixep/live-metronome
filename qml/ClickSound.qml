@@ -50,7 +50,7 @@ Item {
         }
     }*/
 
-    Timer {
+    /*Timer {
         id: metronomeTimer
         interval: 1000 * 60 / root.tempo
         repeat: true
@@ -67,5 +67,5 @@ Item {
 
             root.tickCount++
         }
-    }
+    }*/
 }

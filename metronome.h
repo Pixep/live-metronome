@@ -3,22 +3,27 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QElapsedTimer>
 
 class Metronome : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int bpm READ bpm WRITE setBpm NOTIFY bpmChanged)
+    Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
+    Q_PROPERTY(int tempo READ bpm WRITE setBpm NOTIFY bpmChanged)
     Q_PROPERTY(int beatsPerMeasure READ beatsPerMeasure WRITE setBeatsPerMeasure NOTIFY beatsPerMeasureChanged)
 
 public:
     Metronome();
 
+    bool playing() const { return m_timer.isActive(); }
+    void setPlaying(bool play);
     int bpm() const { return m_bpm; }
     void setBpm(int value);
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
     void setBeatsPerMeasure(int value);
 
 signals:
+    void playingChanged();
     void bpmChanged();
     void beatsPerMeasureChanged();
 
@@ -35,6 +40,7 @@ private:
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     QTimer m_timer;
+    QElapsedTimer m_elapsedTimer;
 };
 
 #endif // METRONOME_H

@@ -36,7 +36,6 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/src/MainThing.java \
     android/src/TickPlayer.java
 
 android {

@@ -42,11 +42,6 @@ void UserSettings::resetToDefault()
     m_songs.append(new Song("AC/DC", "Highway to Hell", 116));
     m_songs.append(new Song("Miles Davis", "So What", 136));
 
-#ifdef Q_OS_ANDROID
-    QAndroidJniObject value = QAndroidJniObject::callStaticObjectMethod("MainThing",
-                                              "test", "()Ljava/lang/String;");
-    qWarning() << "TOto ?" << value.toString();
-#endif
     emit songListChanged();
     emit settingsModified();
 }

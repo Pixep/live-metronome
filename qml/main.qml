@@ -12,37 +12,13 @@ Window {
     property alias appStyle: styleObject
 
     Metronome {
-
-    }
-
-    Item {
         id: metronome
-        property bool playing: false
-        property int tempo: 80
+
         property int songIndex: 0
         property int songCount: userSettings.songList.length
 
         onSongIndexChanged: {
             updateTempoFromSong()
-        }
-
-        Connections {
-            target: userSettings
-
-            onSongAdded: {
-                var temp = metronome.songIndex
-                metronome.songIndex = 0
-                metronome.songIndex = temp
-            }
-            onSongRemoved: {
-                if (removedIndex < metronome.songIndex)
-                    metronome.songIndex--
-                else if (removedIndex == metronome.songIndex)
-                    metronome.songIndex = 0
-            }
-            onAllSongsRemoved: {
-               metronome.songIndex = 0
-            }
         }
 
         function updateTempoFromSong()
@@ -72,6 +48,25 @@ Window {
                 songIndex = songCount - 1
             else
                 songIndex = songIndex - 1
+        }
+    }
+
+    Connections {
+        target: userSettings
+
+        onSongAdded: {
+            var temp = metronome.songIndex
+            metronome.songIndex = 0
+            metronome.songIndex = temp
+        }
+        onSongRemoved: {
+            if (removedIndex < metronome.songIndex)
+                metronome.songIndex--
+            else if (removedIndex == metronome.songIndex)
+                metronome.songIndex = 0
+        }
+        onAllSongsRemoved: {
+           metronome.songIndex = 0
         }
     }
 

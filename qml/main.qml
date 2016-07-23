@@ -12,21 +12,21 @@ Window {
 
     property alias appStyle: styleObject
 
-    SoundEffect {
+    /*SoundEffect {
         id: tickLow
         source: platform.soundsPath + "click_analog_low5.wav"
-    }
+    }*/
 
     Connections {
         enabled: !isAndroid
         target: metronome
 
         onMeasureTick: {
-            tickLow.play()
+            //tickLow.play()
         }
 
         onBeatTick: {
-            tickLow.play()
+            //tickLow.play()
         }
     }
 

@@ -46,12 +46,13 @@ public slots:
 private:
     void resetTempoSpecificCounters();
     void notifyTick(bool isMeasureTick);
-    void playTick();
+    void playTick(bool isMeasureTick);
 
 private:
     int m_tempo;
     int m_beatsPerMeasure;
     int m_beatsElapsed;
+    bool m_needTempoUpdate;
     QTimer m_timer;
     QSoundEffect m_lowTick;
     QSoundEffect m_lowTick2;

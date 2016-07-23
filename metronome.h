@@ -40,7 +40,10 @@ private:
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     QTimer m_timer;
-    QElapsedTimer m_elapsedTimer;
+
+    int m_tempoSessionTickCount;
+    QElapsedTimer m_tempoSessionElapsed;
+    QElapsedTimer m_lastTickElapsed;
 };
 
 #endif // METRONOME_H

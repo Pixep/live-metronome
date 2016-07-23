@@ -1,4 +1,5 @@
 #include "metronome.h"
+#include <QDebug>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
@@ -10,7 +11,7 @@ Metronome::Metronome() :
     m_beatsElapsed(0)
 {
     setBpm(80);
-    m_timer.setSingleShot(false);
+    //m_timer.setSingleShot(false);
     connect(&m_timer, &QTimer::timeout, this, &Metronome::onTick);
 
 #ifdef Q_OS_ANDROID
@@ -36,6 +37,8 @@ void Metronome::setBpm(int value)
 
     m_bpm = value;
     m_timer.setInterval(1000 * 60 / m_bpm);
+    m_tempoSessionTickCount = 0;
+    m_tempoSessionElapsed.start();
 
     emit bpmChanged();
 }
@@ -52,6 +55,9 @@ void Metronome::setBeatsPerMeasure(int value)
 void Metronome::start()
 {
     m_timer.start();
+    m_tempoSessionElapsed.start();
+    m_lastTickElapsed.start();
+    m_tempoSessionTickCount = 0;
     emit playingChanged();
 }
 
@@ -64,21 +70,31 @@ void Metronome::stop()
 
 void Metronome::onTick()
 {
-    qWarning() << "Tick!" << m_elapsedTimer.elapsed();
-    m_elapsedTimer.start();
-    if (m_beatsElapsed % m_beatsPerMeasure == 0)
+    //qWarning() << "Tick ?" << m_lastTickElapsed.elapsed() << 1000 * 60 / m_bpm;
+    while(m_lastTickElapsed.elapsed() < 1000 * 60 / m_bpm)
     {
-        emit beatTick();
-
-
+        int i = 0;
+        ++i;
     }
-    else
-    {
-        emit measureTick();
-    }
+
+    m_lastTickElapsed.start();
+    ++m_tempoSessionTickCount;
+
 #ifdef Q_OS_ANDROID
         QAndroidJniObject::callStaticMethod<void>("org.qtproject.example.TickPlayer",
                                                   "playTick", "()V");
 #endif
+    /*if (m_beatsElapsed % m_beatsPerMeasure == 0)
+    {
+        emit measureTick();
+    }
+    else
+    {
+        emit beatTick();
+    }*/
+
+    //qWarning() << "Tick!" << m_lastTickElapsed.elapsed() << ((1 + m_tempoSessionTickCount) * 1000 * 60 / m_bpm) << m_tempoSessionElapsed.elapsed();
+    m_timer.start(((1 + m_tempoSessionTickCount) * 1000 * 60 / m_bpm) - m_tempoSessionElapsed.elapsed() - 20);
+
     ++m_beatsElapsed;
 }

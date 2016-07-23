@@ -15,12 +15,11 @@ public class TickPlayer implements SoundPool.OnLoadCompleteListener
     private SoundPool m_soundPool;
     private int soundClickLowId = -1;
     private int soundClickHighId = -1;
+    private int soundClickLowStreamId = -1;
 
     static public void instantiate() {
-        Log.d("LOL", "Toto5A");
         m_instance = new TickPlayer();
         m_instance.loadSounds();
-        Log.d("LOL", "TotoB");
     }
 
     public static Activity getActivity() {
@@ -75,6 +74,8 @@ public class TickPlayer implements SoundPool.OnLoadCompleteListener
         if (highPitch)
             soundId = soundClickHighId;
 
-        m_soundPool.play(soundId, 1, 1, 1024, 0, 1);
+        if (soundClickLowStreamId >= 0)
+            m_soundPool.stop(soundClickLowStreamId);
+        soundClickLowStreamId = m_soundPool.play(soundId, 1, 1, 1024, 0, 1);
     }
 }

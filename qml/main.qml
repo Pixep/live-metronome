@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
 import LiveMetronome 1.0
+import QtMultimedia 5.5
 
 Window {
     id: window
@@ -10,6 +11,24 @@ Window {
     color: appStyle.backgroundColor
 
     property alias appStyle: styleObject
+
+    SoundEffect {
+        id: tickLow
+        source: platform.soundsPath + "click_analog_low5.wav"
+    }
+
+    Connections {
+        enabled: !isAndroid
+        target: metronome
+
+        onMeasureTick: {
+            tickLow.play()
+        }
+
+        onBeatTick: {
+            tickLow.play()
+        }
+    }
 
     Metronome {
         id: metronome

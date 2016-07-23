@@ -4,27 +4,33 @@
 #include <QObject>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QtMultimedia/QSoundEffect>
+
+#include <QDataStream>
+#include <QBuffer>
 
 class Metronome : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
-    Q_PROPERTY(int tempo READ bpm WRITE setBpm NOTIFY bpmChanged)
+    Q_PROPERTY(int tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
     Q_PROPERTY(int beatsPerMeasure READ beatsPerMeasure WRITE setBeatsPerMeasure NOTIFY beatsPerMeasureChanged)
 
 public:
     Metronome();
 
     bool playing() const { return m_timer.isActive(); }
-    void setPlaying(bool play);
-    int bpm() const { return m_bpm; }
-    void setBpm(int value);
+    int tempo() const { return m_tempo; }
+    int tempoInterval() const { return 1000 * 60 / m_tempo; }
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
+
+    void setPlaying(bool play);
+    void setTempo(int value);
     void setBeatsPerMeasure(int value);
 
 signals:
     void playingChanged();
-    void bpmChanged();
+    void tempoChanged();
     void beatsPerMeasureChanged();
 
     void measureTick();
@@ -36,10 +42,20 @@ public slots:
     void onTick();
 
 private:
-    int m_bpm;
+    void resetTempoSpecificCounters();
+    void notifyTick(bool isMeasureTick);
+
+private:
+    int m_tempo;
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     QTimer m_timer;
+    QSoundEffect m_lowTick;
+    QSoundEffect m_lowTick2;
+    QSoundEffect m_lowTick3;
+
+    QBuffer m_audioBuffer;
+    QDataStream m_audioStreamInput;
 
     int m_tempoSessionTickCount;
     QElapsedTimer m_tempoSessionElapsed;

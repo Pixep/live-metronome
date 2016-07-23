@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick multimedia
 CONFIG += c++11
 
 SOURCES += main.cpp \
@@ -36,7 +36,7 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/src/TickPlayer.java
+    android/src/com/livemetronome/MainActivity.java
 
 android {
     QT += androidextras

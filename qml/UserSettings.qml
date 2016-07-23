@@ -34,6 +34,9 @@ Item {
 
     function save()
     {
+        if ( ! db)
+            return;
+
         //console.log(userSettings.jsonSettings())
         db.transaction(
             function(tx) {

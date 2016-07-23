@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     usersettings.cpp \
     song.cpp \
     platform.cpp \
-    metronome.cpp
+    metronome.cpp \
+    audiostream.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,7 +27,8 @@ HEADERS += \
     usersettings.h \
     song.h \
     platform.h \
-    metronome.h
+    metronome.h \
+    audiostream.h
 
 DISTFILES += \
     android/AndroidManifest.xml \

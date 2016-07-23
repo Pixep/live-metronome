@@ -1,0 +1,69 @@
+#include "audiostream.h"
+
+#include <QDebug>
+
+AudioStream::AudioStream(QObject *parent) : QObject(parent),
+    m_audioOutput(NULL),
+    m_audioStream(NULL)
+{
+    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
+    QAudioFormat format = info.preferredFormat();
+    format.setSampleRate(8000);
+    format.setSampleSize(16);
+    format.setChannelCount(1);
+    format = info.nearestFormat(format);
+
+    if (!info.isFormatSupported(format)) {
+        qWarning() << "Specified raw audio format is not supported by backend, cannot play audio. Supported options:";
+        qWarning() << info.supportedByteOrders();
+        qWarning() << info.supportedChannelCounts();
+        qWarning() << info.supportedCodecs();
+        qWarning() << info.supportedSampleRates();
+        qWarning() << info.supportedSampleSizes();
+        qWarning() << info.supportedSampleTypes();
+
+        format = info.preferredFormat();
+    }
+
+    m_audioOutput = new QAudioOutput(format, this);
+}
+
+QAudioFormat AudioStream::format() const
+{
+    return m_audioOutput->format();
+}
+
+void AudioStream::setBufferSizeInMillisec(int ms)
+{
+    if (m_audioStream != NULL)
+        qWarning() << Q_FUNC_INFO << "Buffer size changed while playing, ignored until next call to 'play'";
+
+    qint64 bufferSize = ms * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8 / 1000;
+    qDebug() << "Audio buffer size=" << bufferSize << "bytes";
+    m_audioOutput->setBufferSize(bufferSize);
+}
+
+qint64 AudioStream::bufferSize() const
+{
+    return m_audioOutput->bufferSize();
+}
+
+void AudioStream::start()
+{
+    m_audioStream = m_audioOutput->start();
+}
+
+void AudioStream::stop()
+{
+    m_audioStream = NULL;
+    m_audioOutput->stop();
+}
+
+bool AudioStream::play(char *data, qint64 byteCount)
+{
+    if (m_audioStream == NULL)
+        return false;
+
+    qWarning() << "Write expected: " << byteCount << " | Write done: " << m_audioStream->write(data, byteCount);
+    return true;
+}

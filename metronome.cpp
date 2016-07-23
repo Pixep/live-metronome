@@ -3,6 +3,7 @@
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
+#include <qmath.h>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
@@ -11,7 +12,8 @@
 Metronome::Metronome() :
     m_tempo(0),
     m_beatsPerMeasure(4),
-    m_beatsElapsed(0)
+    m_beatsElapsed(0),
+    m_audioGenerationBuffer(NULL)
 {
     setTempo(80);
     connect(&m_timer, &QTimer::timeout, this, &Metronome::onTick);
@@ -19,6 +21,14 @@ Metronome::Metronome() :
     m_lowTick.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
     m_lowTick2.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
     m_lowTick3.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
+
+    m_stream.setBufferSizeInMillisec(2000);
+    m_audioGenerationBuffer = new char[m_stream.bufferSize()];
+}
+
+Metronome::~Metronome()
+{
+    delete[] m_audioGenerationBuffer;
 }
 
 void Metronome::setPlaying(bool play)
@@ -55,61 +65,14 @@ void Metronome::setBeatsPerMeasure(int value)
 
 void Metronome::start()
 {
+    m_stream.start();
+
     m_beatsElapsed = 0;
     m_lastTickElapsed.start();
     resetTempoSpecificCounters();
 
     m_timer.start();
-
-    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-    QAudioFormat format = info.preferredFormat();
-
-    QByteArray * bufferArray = new QByteArray( 2 * format.sampleRate() * format.sampleSize()/8, 0);
-    m_audioBuffer.setBuffer(bufferArray);
-    m_audioBuffer.open(QIODevice::ReadWrite);
-
-    /*int intValue;
-    unsigned int uintValue;
-    char charValue;
-    unsigned char ucharValue;*/
-
-    if (format.sampleSize() == 16 && format.sampleType() == QAudioFormat::SignedInt)
-    {
-        qint16 value;
-        for(int i = 0; i < format.sampleRate() * 2; ++i)
-        {
-            value = 32000 * qSin((float)1000 * i / format.sampleRate());
-            m_audioBuffer.write(reinterpret_cast<char*>(&value), 2);
-
-            if (i < 20)
-                qWarning() << value;
-        }
-    }
-
-    m_audioBuffer.seek(0);
-
-        // Set up the format, eg.
-        /*format.setSampleRate(44100);
-        format.setChannelCount(1);
-        format.setSampleSize(16);
-        format.setCodec("audio/pcm");
-        format.setByteOrder(QAudioFormat::LittleEndian);
-        format.setSampleType(QAudioFormat::UnSignedInt);*/
-
-    if (true || !info.isFormatSupported(format)) {
-        //qWarning() << "Raw audio format not supported by backend, cannot play audio.";
-        qWarning() << info.supportedByteOrders();
-        qWarning() << info.supportedChannelCounts();
-        qWarning() << info.supportedCodecs();
-        qWarning() << info.supportedSampleRates();
-        qWarning() << info.supportedSampleSizes();
-        qWarning() << info.supportedSampleTypes();
-        //return;
-    }
-
-    QAudioOutput * audio = new QAudioOutput(format, this);
-    //connect(audio, SIGNAL(stateChanged(QAudio::State)), this, SLOT(handleStateChanged(QAudio::State)));
-    audio->start(&m_audioBuffer);
+    playTick();
 
     emit playingChanged();
 }
@@ -117,6 +80,7 @@ void Metronome::start()
 void Metronome::stop()
 {
     m_timer.stop();
+    m_stream.stop();
     emit playingChanged();
 }
 
@@ -149,8 +113,45 @@ void Metronome::onTick()
     ++m_beatsElapsed;
 }
 
+void Metronome::playTick()
+{
+    QAudioFormat format = m_stream.format();
+    qint64 samplesCount = format.sampleRate() * tempoInterval() / 1000;
+    qint64 audioByteSize = samplesCount * format.sampleSize()/8;
+
+    qWarning() << format.sampleRate() << "*" << tempoInterval() << "=" << samplesCount;
+    int frequency = 440;
+    float sinFrequencyFactor = (float)frequency * 2 * M_PI / format.sampleRate();
+    if (format.sampleSize() == 16 && format.sampleType() == QAudioFormat::SignedInt)
+    {
+        qint16 value;
+        /*for(int i = 0; i < samplesCount; ++i)
+        {
+            value = 32000 * qSin((float)1000 * i / format.sampleRate());
+            memcpy(&audioData[2*i], &value, 2);
+        }*/
+        for(int i = 0; i < samplesCount; ++i)
+        {
+            float scaleFactor = qMax(0.0f, (float)(format.sampleRate()/10 - i) / (format.sampleRate()/10));
+            value = 32000 * qSin(sinFrequencyFactor * i) * scaleFactor;
+            memcpy(&m_audioGenerationBuffer[2*i], &value, 2);
+        }
+    }
+    else if (format.sampleSize() == 8 && format.sampleType() == QAudioFormat::SignedInt)
+    {
+        qint8 value;
+        for(int i = 0; i < samplesCount; ++i)
+        {
+            value = 127 * qSin((float)1000 * i / format.sampleRate());
+            memcpy(&m_audioGenerationBuffer[i], &value, 1);
+        }
+    }
+    m_stream.play(m_audioGenerationBuffer, audioByteSize);
+}
+
 void Metronome::notifyTick(bool isMeasureTick)
 {
+    playTick();
 /*#ifdef Q_OS_ANDROID
     QAndroidJniObject::callStaticMethod<void>("com.livemetronome.MainActivity",
                                               "playTick",

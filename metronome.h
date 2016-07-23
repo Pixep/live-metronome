@@ -8,6 +8,7 @@
 
 #include <QDataStream>
 #include <QBuffer>
+#include "audiostream.h"
 
 class Metronome : public QObject
 {
@@ -18,6 +19,7 @@ class Metronome : public QObject
 
 public:
     Metronome();
+    ~Metronome();
 
     bool playing() const { return m_timer.isActive(); }
     int tempo() const { return m_tempo; }
@@ -44,6 +46,7 @@ public slots:
 private:
     void resetTempoSpecificCounters();
     void notifyTick(bool isMeasureTick);
+    void playTick();
 
 private:
     int m_tempo;
@@ -54,8 +57,8 @@ private:
     QSoundEffect m_lowTick2;
     QSoundEffect m_lowTick3;
 
-    QBuffer m_audioBuffer;
-    QDataStream m_audioStreamInput;
+    AudioStream m_stream;
+    char* m_audioGenerationBuffer;
 
     int m_tempoSessionTickCount;
     QElapsedTimer m_tempoSessionElapsed;

@@ -15,6 +15,10 @@ class Metronome : public QObject
     Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
     Q_PROPERTY(int tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
     Q_PROPERTY(int beatsPerMeasure READ beatsPerMeasure WRITE setBeatsPerMeasure NOTIFY beatsPerMeasureChanged)
+    Q_PROPERTY(int minTempo READ minTempo CONSTANT)
+    Q_PROPERTY(int maxTempo READ maxTempo CONSTANT)
+    Q_PROPERTY(int minBeatsPerMeasure READ minBeatsPerMeasure CONSTANT)
+    Q_PROPERTY(int maxBeatsPerMeasure READ maxBeatsPerMeasure CONSTANT)
 
 public:
     Metronome();
@@ -24,9 +28,14 @@ public:
     int tempoInterval() const { return 1000 * 60 / m_tempo; }
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
 
+    static int minTempo() { return 20; }
+    static int maxTempo() { return 400; }
+    static int minBeatsPerMeasure() { return 1; }
+    static int maxBeatsPerMeasure() { return 64; }
+
     void setPlaying(bool play);
     void setTempo(int value);
-    void setBeatsPerMeasure(int value);
+    void setBeatsPerMeasure(int newBeats);
 
 signals:
     void playingChanged();

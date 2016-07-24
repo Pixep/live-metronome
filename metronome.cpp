@@ -10,19 +10,17 @@
 #endif
 
 Metronome::Metronome() :
-    m_tempo(0),
+    m_tempo(80),
     m_beatsPerMeasure(4),
     m_beatsElapsed(0),
     m_needTempoUpdate(false)
 {
-    setTempo(80);
     connect(&m_timer, &QTimer::timeout, this, &Metronome::onTick);
 
     m_lowTick.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
     m_lowTick2.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
     m_lowTick3.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
 
-    // TODO link both buffer creation in one method
     m_stream.setBufferSizeInMillisec(2000);
 
     loadSounds();
@@ -77,12 +75,19 @@ void Metronome::setPlaying(bool play)
         stop();
 }
 
-void Metronome::setTempo(int value)
+void Metronome::setTempo(int newTempo)
 {
-    if (m_tempo == value)
+    // Don't change value in case editing in GUI
+    if (newTempo < minTempo())
         return;
 
-    m_tempo = value;
+    if (newTempo > maxTempo())
+        newTempo = maxTempo();
+
+    if (m_tempo == newTempo)
+        return;
+
+    m_tempo = newTempo;
 
     if (m_timer.isActive())
         m_needTempoUpdate = true;
@@ -92,12 +97,17 @@ void Metronome::setTempo(int value)
     emit tempoChanged();
 }
 
-void Metronome::setBeatsPerMeasure(int value)
+void Metronome::setBeatsPerMeasure(int newBeats)
 {
-    if (m_beatsPerMeasure == value)
+    if (newBeats < minBeatsPerMeasure())
+        newBeats = minBeatsPerMeasure();
+    else if (newBeats > maxBeatsPerMeasure())
+        newBeats = maxBeatsPerMeasure();
+
+    if (m_beatsPerMeasure == newBeats)
         return;
 
-    m_beatsPerMeasure = value;
+    m_beatsPerMeasure = newBeats;
     emit beatsPerMeasureChanged();
 }
 

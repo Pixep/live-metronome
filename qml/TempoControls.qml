@@ -19,10 +19,10 @@ RowLayout {
     onIncreaseTempoLarge: setTempo(tempo + 10)
 
     function setTempo(newTempo) {
-        if (newTempo < 10)
-            newTempo = 10
-        else if (newTempo > 400)
-            newTempo = 400
+        if (newTempo < metronome.minTempo)
+            newTempo = metronome.minTempo
+        else if (newTempo > metronome.maxTempo)
+            newTempo = metronome.maxTempo
 
         tempoTextItem.text = newTempo.toString()
     }

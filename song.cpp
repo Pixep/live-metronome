@@ -1,4 +1,5 @@
 #include "song.h"
+#include "metronome.h"
 
 #include <QtMath>
 
@@ -12,7 +13,7 @@ Song::Song(const QString &artist, const QString &title, int tempo, int beatsPerM
     m_artist(artist),
     m_title(title),
     m_tempo(tempo),
-    m_beatsPerMeasure(beatsPerMeasure)
+    m_beatsPerMeasure(beatsPerMeasure )
 {
 }
 
@@ -36,15 +37,17 @@ void Song::setTitle(const QString& title)
 
 void Song::setTempo(int tempo)
 {
+    tempo = qMax(qMin(tempo, Metronome::maxTempo()), Metronome::minTempo());
     if (m_tempo == tempo)
         return;
 
-    m_tempo = qMax(qMin(tempo, 400), 10);
+    m_tempo = tempo;
     emit tempoChanged(m_tempo);
 }
 
 void Song::setBeatsPerMeasure(int beats)
 {
+    beats = qMax(qMin(beats, Metronome::maxBeatsPerMeasure()), Metronome::minBeatsPerMeasure());
     if (m_beatsPerMeasure == beats)
         return;
 

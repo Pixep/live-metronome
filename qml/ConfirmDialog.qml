@@ -54,6 +54,12 @@ BaseDialog {
                 }
             }
 
+            Rectangle {
+                color: appStyle.backgroundColor2
+                width: parent.width
+                height: 1
+            }
+
             Row {
                 height: childrenRect.height
                 width: parent.width

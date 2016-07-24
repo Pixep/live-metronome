@@ -249,7 +249,17 @@ Window {
                     text: qsTr("Clear all")
                     onClicked: {
                         actionDialog.close()
-                        userSettings.removeAllSongs();
+                        confirmDialog.show(qsTr("Do you confirm removing all songs from the set ?"),
+                                           clearConfirmation)
+                    }
+
+                    QtObject {
+                        id: clearConfirmation
+                        function onAccepted() {
+                            userSettings.removeAllSongs();
+                        }
+                        function onRefused() {
+                        }
                     }
                 }
 

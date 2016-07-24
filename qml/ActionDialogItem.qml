@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.5
 
 Item {
     height: appStyle.controlHeight
@@ -33,6 +33,6 @@ Item {
         width: parent.width
         height: 1
         anchors.bottom: parent.bottom
-        color: "gray"
+        color: appStyle.backgroundColor2
     }
 }

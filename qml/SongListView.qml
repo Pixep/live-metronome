@@ -113,7 +113,7 @@ Item {
             MouseArea {
                 id: songMouseArea
                 anchors.fill: parent
-                onClicked: {
+                onPressed: {
                     metronome.songIndex = index
                 }
                 onPressAndHold: {

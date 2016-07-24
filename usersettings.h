@@ -17,6 +17,7 @@ signals:
     void songAdded();
     void songRemoved(int removedIndex);
     void allSongsRemoved();
+    void songModified();
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
@@ -28,13 +29,13 @@ public slots:
     bool setJsonSettings(const QString& json);
     QString jsonSettings() const;
 
-    bool setSong(int index, const QString& title, const QString& artist, int tempo);
-    bool addSong(const QString& title, const QString& artist, int tempo);
+    bool setSong(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
+    bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool removeSong(int index);
     bool removeAllSongs();
 
 private:
-    bool addSong_internal(const QString& title, const QString& artist, int tempo);
+    bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
 
 private:
     QList<Song*> m_songs;

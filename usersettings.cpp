@@ -54,7 +54,7 @@ bool UserSettings::setJsonSettings(const QString &json)
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
     for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
         QJsonObject songObject = userSongs.at(songIndex).toObject();
-        addSong_internal(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80));
+        addSong_internal(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4));
     }
 
     emit songListChanged();
@@ -75,6 +75,7 @@ QString UserSettings::jsonSettings() const
         songObject["title"] = song->title();
         songObject["artist"] = song->artist();
         songObject["tempo"] = song->tempo();
+        songObject["beatsPerMeasure"] = song->beatsPerMeasure();
         jsonArraySongs.append(songObject);
     }
 
@@ -84,7 +85,7 @@ QString UserSettings::jsonSettings() const
     return jsonDoc.toJson(QJsonDocument::Compact);
 }
 
-bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo)
+bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
     if (index < 0 || index >= m_songs.size())
         return false;
@@ -93,25 +94,26 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
     song->setTitle(title);
     song->setArtist(artist);
     song->setTempo(tempo);
+    song->setBeatsPerMeasure(beatsPerMeasure);
 
     emit settingsModified();
     return true;
 }
 
-bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo)
+bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
     if (m_songs.count() >= MaxSongs)
         return false;
 
-    Song* newSong = new Song(artist, title, tempo);
+    Song* newSong = new Song(artist, title, tempo, beatsPerMeasure);
     m_songs.append(newSong);
 
     return true;
 }
 
-bool UserSettings::addSong(const QString &title, const QString &artist, int tempo)
+bool UserSettings::addSong(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    if (!addSong_internal(title, artist, tempo))
+    if (!addSong_internal(title, artist, tempo, beatsPerMeasure))
         return false;
 
     emit songListChanged();

@@ -13,9 +13,13 @@ Page {
     // Save
     onActionButtonRightClicked: {
         if (songIndex >= 0)
-            userSettings.setSong(songIndex, titleEdit.text, artistEdit.text, parseInt(tempoEdit.text, 10))
+            userSettings.setSong(songIndex, titleEdit.text, artistEdit.text,
+                                 parseInt(tempoEdit.text, 10),
+                                 parseInt(beatsPerMeasureEdit.text, 10))
         else
-            userSettings.addSong(titleEdit.text, artistEdit.text, parseInt(tempoEdit.text, 10))
+            userSettings.addSong(titleEdit.text, artistEdit.text,
+                                 parseInt(tempoEdit.text, 10),
+                                 parseInt(beatsPerMeasureEdit.text, 10))
 
         hide()
     }
@@ -26,6 +30,7 @@ Page {
         titleEdit.text = song.title
         artistEdit.text = song.artist
         tempoEdit.text = "" + song.tempo
+        beatsPerMeasureEdit.text = "" + song.beatsPerMeasure
     }
 
     function clear()
@@ -34,13 +39,14 @@ Page {
         titleEdit.text = ""
         artistEdit.text = ""
         tempoEdit.text = ""
+        beatsPerMeasureEdit.text = ""
     }
 
     Column {
         anchors.fill: parent
 
         BaseText {
-            text: "Title"
+            text: qsTr("Title")
         }
         BaseEdit {
             id: titleEdit
@@ -49,7 +55,7 @@ Page {
             KeyNavigation.tab: artistEdit
         }
         BaseText {
-            text: "Artist"
+            text: qsTr("Artist")
         }
         BaseEdit {
             id: artistEdit
@@ -59,10 +65,20 @@ Page {
             KeyNavigation.tab: tempoEdit
         }
         BaseText {
-            text: "Tempo"
+            text: qsTr("Tempo")
         }
         BaseEdit {
             id: tempoEdit
+            x: appStyle.width_col1
+            width: appStyle.width_col5
+            isNumber: true
+            KeyNavigation.backtab: artistEdit
+        }
+        BaseText {
+            text: qsTr("Beats per measure")
+        }
+        BaseEdit {
+            id: beatsPerMeasureEdit
             x: appStyle.width_col1
             width: appStyle.width_col5
             isNumber: true

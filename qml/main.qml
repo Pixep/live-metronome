@@ -30,6 +30,13 @@ Window {
         }
     }
 
+    Connections {
+        target: userSettings
+        onSettingsModified: {
+            metronome.updateFromSong()
+        }
+    }
+
     Metronome {
         id: metronome
 
@@ -37,14 +44,15 @@ Window {
         property int songCount: userSettings.songList.length
 
         onSongIndexChanged: {
-            updateTempoFromSong()
+            updateFromSong()
         }
 
-        function updateTempoFromSong()
+        function updateFromSong()
         {
             if (songIndex >= 0 && songIndex < songCount)
             {
                 setTempo(userSettings.songList[songIndex].tempo)
+                beatsPerMeasure = userSettings.songList[songIndex].beatsPerMeasure
                 songListView.currentIndex = songIndex
                 clickSound.restart()
             }
@@ -121,7 +129,7 @@ Window {
 
         onLoaded: {
             metronome.songIndex = 0
-            metronome.updateTempoFromSong()
+            metronome.updateFromSong()
         }
     }
 

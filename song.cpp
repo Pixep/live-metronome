@@ -2,15 +2,17 @@
 
 #include <QtMath>
 
-Song::Song(QObject *parent) : QObject(parent)
+Song::Song(QObject *parent) : QObject(parent),
+    m_beatsPerMeasure(4)
 {
 }
 
-Song::Song(const QString &artist, const QString &title, int tempo, QObject *parent) :
+Song::Song(const QString &artist, const QString &title, int tempo, int beatsPerMeasure, QObject *parent) :
     QObject(parent),
     m_artist(artist),
     m_title(title),
-    m_tempo(tempo)
+    m_tempo(tempo),
+    m_beatsPerMeasure(beatsPerMeasure)
 {
 }
 
@@ -39,4 +41,13 @@ void Song::setTempo(int tempo)
 
     m_tempo = qMax(qMin(tempo, 400), 10);
     emit tempoChanged(m_tempo);
+}
+
+void Song::setBeatsPerMeasure(int beats)
+{
+    if (m_beatsPerMeasure == beats)
+        return;
+
+    m_beatsPerMeasure = beats;
+    emit beatsPerMeasureChanged(m_beatsPerMeasure);
 }

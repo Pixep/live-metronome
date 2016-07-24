@@ -57,6 +57,10 @@ Window {
             else
                 songIndex = songIndex - 1
         }
+
+        Component.onCompleted: {
+            setTempo(tempo)
+        }
     }
 
     Connections {

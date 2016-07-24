@@ -9,6 +9,16 @@ Item {
 
     signal editSong(var songIndex)
 
+    BaseText {
+        anchors.fill: songListView
+        anchors.margins: appStyle.sidesMargin
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("No song present your set<br>Add one with the <img src='qrc:/qml/images/icon_menu.png'></img> button")
+        wrapMode: Text.WordWrap
+        visible: !songListView.visible
+    }
+
     ListView {
         id: songListView
         anchors.fill: parent
@@ -18,6 +28,7 @@ Item {
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)
         highlightRangeMode: ListView.ApplyRange
+        visible: count > 0
 
         highlight: Rectangle {
             width: songListView.width

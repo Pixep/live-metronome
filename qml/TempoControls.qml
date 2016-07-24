@@ -77,7 +77,7 @@ RowLayout {
                 if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
                 {
                     event.accepted = true
-                    validate()
+                    contentRoot.focus = true
                 }
             }
             onFocusChanged: {

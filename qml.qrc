@@ -30,5 +30,6 @@
         <file>sounds/click_analog_low2.wav</file>
         <file>sounds/click_analog_low5.wav</file>
         <file>sounds/click_analog_low6.wav</file>
+        <file>qml/BaseDialog.qml</file>
     </qresource>
 </RCC>

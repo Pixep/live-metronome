@@ -3,7 +3,14 @@ import QtQuick 2.5
 Rectangle {
     id: root
     color: appStyle.backgroundColor2
-    opacity: mouseArea.pressed ? 0.5 : 1
+    opacity: {
+        if (!enabled)
+            return 0.3
+        else if (mouseArea.pressed)
+            return 0.5
+
+        return 1
+    }
     radius: appStyle.borderRadius
 
     property alias text: textItem.text

@@ -1,11 +1,18 @@
-import QtQuick 2.0
+import QtQuick 2.5
 
 Page {
     id: page
     actionButtonsVisible: true
+    actionButtonRight.enabled: inputValid()
 
     property int songIndex
     readonly property  bool addingNewSong: songIndex < 0
+
+    function inputValid()
+    {
+        return titleEdit.inputValid && artistEdit.inputValid
+                && tempoEdit.inputValid && beatsPerMeasureEdit.inputValid
+    }
 
     // Cancel
     onActionButtonLeftClicked: {
@@ -14,6 +21,14 @@ Page {
 
     // Save
     onActionButtonRightClicked: {
+        titleEdit.validate()
+        artistEdit.validate()
+        tempoEdit.validate()
+        beatsPerMeasureEdit.validate()
+
+        if ( ! inputValid())
+            return
+
         if (addingNewSong) {
             userSettings.addSong(titleEdit.text, artistEdit.text,
                                  parseInt(tempoEdit.text, 10),
@@ -42,12 +57,17 @@ Page {
         titleEdit.text = ""
         artistEdit.text = ""
         tempoEdit.text = ""
-        beatsPerMeasureEdit.text = ""
+        beatsPerMeasureEdit.text = "4"
+
+        titleEdit.inputValid = true
+        artistEdit.inputValid = true
+        tempoEdit.inputValid = true
+        beatsPerMeasureEdit.inputValid = true
     }
 
     function focusFirstField()
     {
-        titleEdit.focus = true
+        titleEdit.forceActiveFocus()
     }
 
     Column {
@@ -62,6 +82,12 @@ Page {
             width: appStyle.width_col5
             nextFocused: artistEdit
             focusNextOnEnter: page.addingNewSong
+            onValidateInput: {
+                if (text !== "")
+                    inputValid = true
+                else
+                    inputValid = false
+            }
         }
         BaseText {
             text: qsTr("Artist")
@@ -85,6 +111,13 @@ Page {
             previousFocused: artistEdit
             nextFocused: beatsPerMeasureEdit
             focusNextOnEnter: page.addingNewSong
+            onValidateInput: {
+                if (text === "" || parseInt(text, 10) < metronome.minTempo
+                        || parseInt(text, 10) > metronome.maxTempo)
+                    inputValid = false
+                else
+                    inputValid = true
+            }
         }
         BaseText {
             text: qsTr("Beats per measure")
@@ -96,6 +129,22 @@ Page {
             isNumber: true
             previousFocused: tempoEdit
             focusNextOnEnter: page.addingNewSong
+            onValidateInput: {
+                if (text === "" || !isFinite(text, 10))
+                {
+                    inputValid = false
+                    return
+                }
+
+                if (parseInt(text, 10) < metronome.minBeatsPerMeasure
+                        || parseInt(text, 10) > metronome.maxBeatsPerMeasure)
+                {
+                    inputValid = false
+                    return
+                }
+
+                inputValid = true
+            }
         }
     }
 }

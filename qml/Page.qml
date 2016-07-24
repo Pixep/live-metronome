@@ -36,6 +36,11 @@ Item {
         width: 1.5 * pageContainer.backgroundWidth // Larger than page for animation overshoot
         height: pageContainer.backgroundHeight
         color: appStyle.backgroundColor
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {}
+        }
     }
 
     Item {

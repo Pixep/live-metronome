@@ -38,7 +38,6 @@ Item {
 
     Button {
         id: menuButton
-        opacity: enabled ? 1 : 0.3
         height: parent.height
         width: height
         imageSource: "qrc:/qml/images/icon_menu.png"

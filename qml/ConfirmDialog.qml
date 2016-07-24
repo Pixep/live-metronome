@@ -1,6 +1,6 @@
 import QtQuick 2.5
 
-Item {
+BaseDialog {
     width: parent.width
     height: parent.height
     visible: false
@@ -12,22 +12,18 @@ Item {
         titleText.text = title
         target = targetObject
         visible = true
+
+        __show()
     }
 
-    function hide()
+    function close(accepted)
     {
-        visible = false
-    }
+        __close()
 
-    Rectangle {
-        opacity: 0.7
-        anchors.fill: parent
-        color: "black"
-        MouseArea {
-            onClicked: {
-                //Catch signal
-            }
-        }
+        if (accepted)
+            confirmDialog.target.onAccepted()
+        else
+            confirmDialog.target.onRefused()
     }
 
     Rectangle {
@@ -67,8 +63,8 @@ Item {
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
-                        confirmDialog.hide()
-                        confirmDialog.target.onRefused()
+                        confirmDialog.close(false)
+
                     }
                 }
                 ActionDialogItem {
@@ -76,8 +72,7 @@ Item {
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
-                        confirmDialog.hide()
-                        confirmDialog.target.onAccepted()
+                        confirmDialog.close(true)
                     }
                 }
             }

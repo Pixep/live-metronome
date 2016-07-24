@@ -10,21 +10,21 @@ ActionDialog {
     ActionDialogItem {
         text: qsTr("Update tempo")
         onClicked: {
-            dialog.hide()
+            dialog.close()
             dialog.updateSongTempo()
         }
     }
     ActionDialogItem {
         text: qsTr("Edit")
         onClicked: {
-            dialog.hide()
+            dialog.close()
             dialog.editSong()
         }
     }
     ActionDialogItem {
         text: qsTr("Delete")
         onClicked: {
-            dialog.hide()
+            dialog.close()
             dialog.removeSong()
         }
     }
@@ -32,7 +32,7 @@ ActionDialog {
         text: qsTr("Cancel")
         showSeparator: false
         onClicked: {
-            dialog.hide()
+            dialog.close()
         }
     }
 }

@@ -12,24 +12,6 @@ Window {
 
     property alias appStyle: styleObject
 
-    /*SoundEffect {
-        id: tickLow
-        source: platform.soundsPath + "click_analog_low5.wav"
-    }*/
-
-    Connections {
-        enabled: !isAndroid
-        target: metronome
-
-        onMeasureTick: {
-            //tickLow.play()
-        }
-
-        onBeatTick: {
-            //tickLow.play()
-        }
-    }
-
     Connections {
         target: userSettings
         onSettingsModified: {
@@ -133,139 +115,158 @@ Window {
         }
     }
 
-    ApplicationHeader {
-        id: appHeader
-        backVisible: addEditPage.visible
-        menuVisible: !addEditPage.visible
-        menuEnabled: !metronome.playing
-
-        onBack: {
-            addEditPage.hide()
-        }
-        onShowMenu: {
-            actionDialog.show()
-        }
-    }
-
     Item {
-        id: pageContainer
-        x: appStyle.sidesMargin
-        width: parent.width - 2 * appStyle.sidesMargin
-        anchors.top: appHeader.bottom
-        anchors.bottom: parent.bottom
-
-        property int backgroundWidth: parent.width
-        property int backgroundHeight: height
-
-        Page {
-            x: 0
-            visible: true
-
-            TempoControls {
-                id: tempoControls
-
-                onTempoChanged: {
-                   metronome.tempo = tempo
-                }
-            }
-
-            SongListView {
-                id: songListView
-                x: - appStyle.sidesMargin
-                width: parent.width + 2 * appStyle.sidesMargin
-                anchors.top: tempoControls.bottom
-                anchors.topMargin: appStyle.sidesMargin
-                anchors.bottom: previousNextRow.top
-                anchors.bottomMargin: appStyle.sidesMargin
-
-                onEditSong: {
-                    addEditPage.songIndex = songIndex;
-                    addEditPage.prefill()
-                    addEditPage.show()
-                }
-            }
-
-            PreviousNextControls {
-                id: previousNextRow
-                anchors.bottom: startStopButton.top
-                anchors.bottomMargin: 10
-
-                onPrevious: {
-                    metronome.previousSong()
-                }
-                onNext: {
-                    metronome.nextSong()
-                }
-            }
-
-            StartStopButton {
-                id: startStopButton
-                anchors.bottom: parent.bottom
-                playing: metronome.playing
-                tickIndex: clickSound.tickIndex
-                tickCount: clickSound.tickCount
-
-                onClicked: {
-                    metronome.playing = !metronome.playing
-                }
-            }
-
-            ClickSound {
-                id: clickSound
-                tempo: metronome.tempo
-                playing: metronome.playing
-            }
-        }
-
-        AddEditSongPage {
-            id: addEditPage
-        }
-    }
-
-    Item {
-        id: dialogContainer
+        id: contentRoot
         anchors.fill: parent
-        z: 100
+        focus: true
 
-        ConfirmDialog {
-            id: confirmDialog
+        Keys.onBackPressed: {
+            onBack()
         }
 
-        ActionDialog {
-            id: actionDialog
+        function onBack() {
+            if (addEditPage.visible)
+                addEditPage.hide()
+            else if (confirmDialog.visible)
+                confirmDialog.close(false)
+            else if (actionDialog.visible)
+                actionDialog.close()
+        }
 
-            ActionDialogItem {
-                text: qsTr("Add new song")
-                onClicked: {
-                    actionDialog.hide()
-                    addEditPage.songIndex = -1;
-                    addEditPage.clear()
-                    addEditPage.focusFirstField()
-                    addEditPage.show()
+        ApplicationHeader {
+            id: appHeader
+            backVisible: addEditPage.visible
+            menuVisible: !addEditPage.visible
+            menuEnabled: !metronome.playing
+
+            onBack: {
+                contentRoot.onBack()
+            }
+            onShowMenu: {
+                actionDialog.show()
+            }
+        }
+
+        Item {
+            id: pageContainer
+            x: appStyle.sidesMargin
+            width: parent.width - 2 * appStyle.sidesMargin
+            anchors.top: appHeader.bottom
+            anchors.bottom: parent.bottom
+
+            property int backgroundWidth: parent.width
+            property int backgroundHeight: height
+
+            Page {
+                x: 0
+                visible: true
+
+                TempoControls {
+                    id: tempoControls
+
+                    onTempoChanged: {
+                       metronome.tempo = tempo
+                    }
+                }
+
+                SongListView {
+                    id: songListView
+                    x: - appStyle.sidesMargin
+                    width: parent.width + 2 * appStyle.sidesMargin
+                    anchors.top: tempoControls.bottom
+                    anchors.topMargin: appStyle.sidesMargin
+                    anchors.bottom: previousNextRow.top
+                    anchors.bottomMargin: appStyle.sidesMargin
+
+                    onEditSong: {
+                        addEditPage.songIndex = songIndex;
+                        addEditPage.prefill()
+                        addEditPage.show()
+                    }
+                }
+
+                PreviousNextControls {
+                    id: previousNextRow
+                    anchors.bottom: startStopButton.top
+                    anchors.bottomMargin: 10
+
+                    onPrevious: {
+                        metronome.previousSong()
+                    }
+                    onNext: {
+                        metronome.nextSong()
+                    }
+                }
+
+                StartStopButton {
+                    id: startStopButton
+                    anchors.bottom: parent.bottom
+                    playing: metronome.playing
+                    tickIndex: clickSound.tickIndex
+                    tickCount: clickSound.tickCount
+
+                    onClicked: {
+                        metronome.playing = !metronome.playing
+                    }
+                }
+
+                ClickSound {
+                    id: clickSound
+                    tempo: metronome.tempo
+                    playing: metronome.playing
                 }
             }
 
-            ActionDialogItem {
-                text: qsTr("Clear all")
-                onClicked: {
-                    userSettings.removeAllSongs();
-                    actionDialog.hide()
-                }
+            AddEditSongPage {
+                id: addEditPage
+            }
+        }
+
+        Item {
+            id: dialogContainer
+            anchors.fill: parent
+            z: 100
+
+            ConfirmDialog {
+                id: confirmDialog
             }
 
-            ActionDialogItem {
-                text: qsTr("Reset all")
-                onClicked: {
-                    userSettings.resetToDefault();
-                    actionDialog.hide()
-                }
-            }
+            ActionDialog {
+                id: actionDialog
 
-            ActionDialogItem {
-                text: qsTr("Cancel")
-                showSeparator: false
-                onClicked: {
-                    actionDialog.hide()
+                ActionDialogItem {
+                    text: qsTr("Add new song")
+                    onClicked: {
+                        actionDialog.close()
+                        addEditPage.songIndex = -1;
+                        addEditPage.clear()
+                        addEditPage.show()
+                        addEditPage.focusFirstField()
+                    }
+                }
+
+                ActionDialogItem {
+                    text: qsTr("Clear all")
+                    onClicked: {
+                        actionDialog.close()
+                        userSettings.removeAllSongs();
+                    }
+                }
+
+                ActionDialogItem {
+                    text: qsTr("Reset all")
+                    onClicked: {
+                        actionDialog.close()
+                        userSettings.resetToDefault();
+                    }
+                }
+
+                ActionDialogItem {
+                    text: qsTr("Cancel")
+                    showSeparator: false
+                    onClicked: {
+                        actionDialog.close()
+                    }
                 }
             }
         }

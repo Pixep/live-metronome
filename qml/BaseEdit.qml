@@ -7,9 +7,21 @@ FocusScope {
     property bool isNumber: false
     property bool focusNextOnEnter: false
     property alias text: textInput.text
+    property bool inputValid: true
 
     property Item previousFocused
     property Item nextFocused
+
+    signal validateInput()
+
+    function validate()
+    {
+        validateInput()
+    }
+
+    onTextChanged: {
+        validate()
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -18,6 +30,16 @@ FocusScope {
         anchors.bottomMargin: appStyle.sidesMargin
         anchors.leftMargin: 0
         radius: appStyle.borderRadius
+        border.width: inputValid ? 0 : height / 15
+        border.color: "#DD2222"
+
+        Behavior on border.width {
+            NumberAnimation {
+                easing.overshoot: 5
+                duration: 350
+                easing.type: Easing.OutBack
+            }
+        }
     }
 
     TextInput {
@@ -44,7 +66,7 @@ FocusScope {
             if (root.nextFocused && root.focusNextOnEnter)
                 root.nextFocused.focus = true
             else
-                root.focus = false
+                contentRoot.focus = true
         }
     }
 }

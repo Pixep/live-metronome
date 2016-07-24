@@ -1,38 +1,22 @@
 import QtQuick 2.5
 
-Item {
+BaseDialog {
     id: dialog
     width: parent.width
     height: parent.height
     visible: false
+    opacity: 0
 
     property int contextValue
     default property alias dialogActions: actionsColumn.children
 
-    function show(value)
-    {
+    function show(value) {
         contextValue = value !== undefined ? value : -1
-        visible = true
-    }
-
-    function hide()
-    {
-        visible = false
+        __show()
     }
 
     Rectangle {
-        opacity: 0.7
-        anchors.fill: parent
-        color: "black"
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                //Catch signal
-            }
-        }
-    }
-
-    Rectangle {
+        id: dialogContent
         radius: appStyle.borderRadius
         anchors.centerIn: parent
         width: 0.8 * parent.width

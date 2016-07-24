@@ -15,6 +15,7 @@ Rectangle {
 
     property alias text: textItem.text
     property alias imageSource: imageItem.source
+    property alias pressed: mouseArea.pressed
 
     signal clicked()
     signal pressAndHold()

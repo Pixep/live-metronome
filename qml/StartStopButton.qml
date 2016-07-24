@@ -7,8 +7,10 @@ Item {
     width: parent.width
 
     property bool playing: false
-    property int tickIndex
-    property int tickCount
+
+    property int beatIndex
+    property int beatTotalCount
+    property int beatsPerMeasure
 
     signal clicked()
 
@@ -16,7 +18,8 @@ Item {
         id: playButton
         anchors.fill: parent
         text: root.playing ? "" : "Play"
-        color: appStyle.headerColor
+        color: pressed ? appStyle.headerColorDark : appStyle.headerColor
+        opacity: 1
 
         onClicked: {
             root.clicked()
@@ -47,13 +50,13 @@ Item {
 
                 Repeater {
                     id: repeater
-                    model: 4
+                    model: root.beatsPerMeasure
 
                     Rectangle {
                         id: circle
                         width: height
                         height: parent.circleWidth
-                        color: root.tickIndex == index ? appStyle.textColor : appStyle.textColor2
+                        color: root.beatIndex == index ? appStyle.textColor : appStyle.textColor2
                         radius: 0.5 * width
                         Connections {
                             target: root
@@ -66,8 +69,8 @@ Item {
                         }
                         Connections {
                             target: root
-                            onTickCountChanged: {
-                                if (root.playing && (root.tickIndex % 4) == index)
+                            onBeatTotalCountChanged: {
+                                if (root.playing && (root.beatIndex % root.beatsPerMeasure) == index)
                                 {
                                     circle.animate()
                                 }

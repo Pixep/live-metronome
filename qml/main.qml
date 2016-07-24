@@ -35,15 +35,14 @@ Window {
             {
                 setTempo(userSettings.songList[songIndex].tempo)
                 beatsPerMeasure = userSettings.songList[songIndex].beatsPerMeasure
-                songListView.currentIndex = songIndex
-                clickSound.restart()
+                mainPage.currentSongIndex = songIndex
             }
         }
 
         function setTempo(value)
         {
             tempo = value
-            tempoControls.setTempo(value)
+            mainPage.setTempo(value)
         }
 
         function nextSong()
@@ -87,6 +86,7 @@ Window {
         property string textColor2: "#c0c0c0"
         property string textColorDark: "#202020"
         property string headerColor: "#354582"
+        property string headerColorDark: "#2a3251"
         property string backgroundColor: "#202020"
         property string backgroundColor2: "#656565"
         property string backgroundColor3: "#353535"
@@ -157,64 +157,8 @@ Window {
             property int backgroundWidth: parent.width
             property int backgroundHeight: height
 
-            Page {
-                x: 0
-                visible: true
-
-                TempoControls {
-                    id: tempoControls
-
-                    onTempoChanged: {
-                       metronome.tempo = tempo
-                    }
-                }
-
-                SongListView {
-                    id: songListView
-                    x: - appStyle.sidesMargin
-                    width: parent.width + 2 * appStyle.sidesMargin
-                    anchors.top: tempoControls.bottom
-                    anchors.topMargin: appStyle.sidesMargin
-                    anchors.bottom: previousNextRow.top
-                    anchors.bottomMargin: appStyle.sidesMargin
-
-                    onEditSong: {
-                        addEditPage.songIndex = songIndex;
-                        addEditPage.prefill()
-                        addEditPage.show()
-                    }
-                }
-
-                PreviousNextControls {
-                    id: previousNextRow
-                    anchors.bottom: startStopButton.top
-                    anchors.bottomMargin: 10
-
-                    onPrevious: {
-                        metronome.previousSong()
-                    }
-                    onNext: {
-                        metronome.nextSong()
-                    }
-                }
-
-                StartStopButton {
-                    id: startStopButton
-                    anchors.bottom: parent.bottom
-                    playing: metronome.playing
-                    tickIndex: clickSound.tickIndex
-                    tickCount: clickSound.tickCount
-
-                    onClicked: {
-                        metronome.playing = !metronome.playing
-                    }
-                }
-
-                ClickSound {
-                    id: clickSound
-                    tempo: metronome.tempo
-                    playing: metronome.playing
-                }
+            MainPage {
+                id: mainPage
             }
 
             AddEditSongPage {

@@ -6,7 +6,7 @@ RowLayout {
     height: appStyle.controlHeight
     width: parent.width
 
-    readonly property int tempo: parseInt(tempoTextItem.text, 10)
+    readonly property alias tempo: tempoTextItem.tempo
 
     signal decreaseTempo()
     signal decreaseTempoLarge()
@@ -24,7 +24,7 @@ RowLayout {
         else if (newTempo > metronome.maxTempo)
             newTempo = metronome.maxTempo
 
-        tempoTextItem.text = newTempo.toString()
+        tempoTextItem.tempo = newTempo
     }
 
     Button {
@@ -52,11 +52,59 @@ RowLayout {
 
         TextInput {
             id: tempoTextItem
-            text: "120"
             font.pixelSize: appStyle.titleFontSize
             color: appStyle.textColor
             anchors.centerIn: parent
             inputMethodHints: Qt.ImhDigitsOnly
+
+            property int tempo
+
+            onTempoChanged: {
+                text = tempo.toString()
+            }
+
+            onTextChanged: {
+                 if (text === "" || !isFinite(text))
+                     return
+
+                 var newTempo = parseInt(tempoTextItem.text, 10)
+                 if (newTempo < metronome.minTempo || newTempo > metronome.maxTempo)
+                     return
+
+                 tempo = newTempo
+            }
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                {
+                    event.accepted = true
+                    validate()
+                }
+            }
+            onFocusChanged: {
+                if (!focus)
+                    validate()
+            }
+
+            function validate() {
+                if (text === "" || !isFinite(text))
+                {
+                    text = tempo.toString()
+                    return
+                }
+
+                var newTempo = parseInt(tempoTextItem.text, 10)
+                if (newTempo < metronome.minTempo)
+                {
+                    tempo = metronome.minTempo
+                    return
+                }
+
+                if (newTempo > metronome.maxTempo)
+                {
+                    tempo = metronome.maxTempo
+                    return
+                }
+            }
         }
     }
 

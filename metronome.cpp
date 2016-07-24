@@ -122,6 +122,7 @@ void Metronome::start()
     m_timer.start(tempoInterval());
     notifyTick(true);
 
+    emit beatIndexChanged();
     emit playingChanged();
 }
 
@@ -152,6 +153,7 @@ void Metronome::onTick()
     m_lastTickElapsed.start();
     ++m_tempoSessionTickCount;
     ++m_beatsElapsed;
+    emit beatIndexChanged();
     notifyTick(m_beatsElapsed % m_beatsPerMeasure == 0);
 
     if (m_needTempoUpdate)

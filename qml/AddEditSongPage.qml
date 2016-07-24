@@ -112,11 +112,20 @@ Page {
             nextFocused: beatsPerMeasureEdit
             focusNextOnEnter: page.addingNewSong
             onValidateInput: {
-                if (text === "" || parseInt(text, 10) < metronome.minTempo
-                        || parseInt(text, 10) > metronome.maxTempo)
+                if (text === "" || !isFinite(text))
+                {
                     inputValid = false
-                else
-                    inputValid = true
+                    return
+                }
+
+                if (parseInt(text, 10) < metronome.minTempo
+                        || parseInt(text, 10) > metronome.maxTempo)
+                {
+                    inputValid = false
+                    return
+                }
+
+                inputValid = true
             }
         }
         BaseText {
@@ -130,7 +139,7 @@ Page {
             previousFocused: tempoEdit
             focusNextOnEnter: page.addingNewSong
             onValidateInput: {
-                if (text === "" || !isFinite(text, 10))
+                if (text === "" || !isFinite(text))
                 {
                     inputValid = false
                     return

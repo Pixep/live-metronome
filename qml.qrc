@@ -9,7 +9,6 @@
         <file>qml/BaseEdit.qml</file>
         <file>qml/BaseText.qml</file>
         <file>qml/Button.qml</file>
-        <file>qml/ClickSound.qml</file>
         <file>qml/ConfirmDialog.qml</file>
         <file>qml/main.qml</file>
         <file>qml/Page.qml</file>
@@ -31,5 +30,6 @@
         <file>sounds/click_analog_low5.wav</file>
         <file>sounds/click_analog_low6.wav</file>
         <file>qml/BaseDialog.qml</file>
+        <file>qml/MainPage.qml</file>
     </qresource>
 </RCC>

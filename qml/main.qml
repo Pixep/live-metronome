@@ -240,6 +240,7 @@ Window {
                     actionDialog.hide()
                     addEditPage.songIndex = -1;
                     addEditPage.clear()
+                    addEditPage.focusFirstField()
                     addEditPage.show()
                 }
             }

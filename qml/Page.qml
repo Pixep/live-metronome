@@ -22,6 +22,7 @@ Item {
         hideAnimation.stop()
         x = window.width
         visible = true
+        page.focus = true
         showAnimation.start()
     }
 

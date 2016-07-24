@@ -1,9 +1,11 @@
 import QtQuick 2.0
 
 Page {
+    id: page
     actionButtonsVisible: true
 
     property int songIndex
+    readonly property  bool addingNewSong: songIndex < 0
 
     // Cancel
     onActionButtonLeftClicked: {
@@ -12,14 +14,16 @@ Page {
 
     // Save
     onActionButtonRightClicked: {
-        if (songIndex >= 0)
-            userSettings.setSong(songIndex, titleEdit.text, artistEdit.text,
-                                 parseInt(tempoEdit.text, 10),
-                                 parseInt(beatsPerMeasureEdit.text, 10))
-        else
+        if (addingNewSong) {
             userSettings.addSong(titleEdit.text, artistEdit.text,
                                  parseInt(tempoEdit.text, 10),
                                  parseInt(beatsPerMeasureEdit.text, 10))
+        }
+        else {
+            userSettings.setSong(songIndex, titleEdit.text, artistEdit.text,
+                                 parseInt(tempoEdit.text, 10),
+                                 parseInt(beatsPerMeasureEdit.text, 10))
+        }
 
         hide()
     }
@@ -35,11 +39,15 @@ Page {
 
     function clear()
     {
-        var song = userSettings.songList[songIndex]
         titleEdit.text = ""
         artistEdit.text = ""
         tempoEdit.text = ""
         beatsPerMeasureEdit.text = ""
+    }
+
+    function focusFirstField()
+    {
+        titleEdit.focus = true
     }
 
     Column {
@@ -52,7 +60,8 @@ Page {
             id: titleEdit
             x: appStyle.width_col1
             width: appStyle.width_col5
-            KeyNavigation.tab: artistEdit
+            nextFocused: artistEdit
+            focusNextOnEnter: page.addingNewSong
         }
         BaseText {
             text: qsTr("Artist")
@@ -61,8 +70,9 @@ Page {
             id: artistEdit
             x: appStyle.width_col1
             width: appStyle.width_col5
-            KeyNavigation.backtab: titleEdit
-            KeyNavigation.tab: tempoEdit
+            previousFocused: titleEdit
+            nextFocused: tempoEdit
+            focusNextOnEnter: page.addingNewSong
         }
         BaseText {
             text: qsTr("Tempo")
@@ -72,7 +82,9 @@ Page {
             x: appStyle.width_col1
             width: appStyle.width_col5
             isNumber: true
-            KeyNavigation.backtab: artistEdit
+            previousFocused: artistEdit
+            nextFocused: beatsPerMeasureEdit
+            focusNextOnEnter: page.addingNewSong
         }
         BaseText {
             text: qsTr("Beats per measure")
@@ -82,7 +94,8 @@ Page {
             x: appStyle.width_col1
             width: appStyle.width_col5
             isNumber: true
-            KeyNavigation.backtab: artistEdit
+            previousFocused: tempoEdit
+            focusNextOnEnter: page.addingNewSong
         }
     }
 }

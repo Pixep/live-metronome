@@ -14,6 +14,15 @@ bool Platform::isWindows() const
 #endif
 }
 
+bool Platform::isAndroid() const
+{
+#ifdef Q_OS_ANDROID
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool Platform::isCompiledWithMVS() const
 {
 #ifdef Q_CC_MSVC

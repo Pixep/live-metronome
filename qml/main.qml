@@ -263,11 +263,32 @@ Window {
                     }
                 }
 
-                ActionDialogItem {
-                    text: qsTr("Reset all")
-                    onClicked: {
-                        actionDialog.close()
-                        userSettings.resetToDefault();
+                Loader {
+                    height: active ? appStyle.controlHeight : 0
+                    width: parent.width
+                    sourceComponent: resetAllAction
+                    active: platform.isWindows
+
+                    Component {
+                        id: resetAllAction
+
+                        ActionDialogItem {
+                            text: qsTr("Reset all")
+                            onClicked: {
+                                actionDialog.close()
+                                confirmDialog.show(qsTr("Do you confirm resetting all set content ?"),
+                                                   resetConfirmation)
+                            }
+
+                            QtObject {
+                                id: resetConfirmation
+                                function onAccepted() {
+                                    userSettings.resetToDefault();
+                                }
+                                function onRefused() {
+                                }
+                            }
+                        }
                     }
                 }
 

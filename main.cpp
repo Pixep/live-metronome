@@ -21,12 +21,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("platform", &platform);
     engine.rootContext()->setContextProperty("userSettings", &userSettings);
 
-#ifdef Q_OS_ANDROID
-    engine.rootContext()->setContextProperty("isAndroid", QVariant(true));
-#else
-    engine.rootContext()->setContextProperty("isAndroid", QVariant(false));
-#endif
-
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
     return app.exec();

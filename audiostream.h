@@ -10,8 +10,10 @@ class AudioStream : public QObject
 public:
     explicit AudioStream(QObject *parent = 0);
 
-    qint64 bufferSize() const;
+    qint64 bufferSize() const { return m_bufferSize; }
     QAudioFormat format() const;
+
+    bool isActive() { return m_audioStream != NULL; }
 
 public slots:
     void setBufferSizeInMillisec(int ms);
@@ -22,6 +24,7 @@ public slots:
 private:
     QAudioOutput* m_audioOutput;
     QIODevice* m_audioStream;
+    qint64 m_bufferSize;
 };
 
 #endif // AUDIOSTREAM_H

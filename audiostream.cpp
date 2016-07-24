@@ -4,7 +4,8 @@
 
 AudioStream::AudioStream(QObject *parent) : QObject(parent),
     m_audioOutput(NULL),
-    m_audioStream(NULL)
+    m_audioStream(NULL),
+    m_bufferSize(0)
 {
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
     QAudioFormat format = info.preferredFormat();
@@ -35,17 +36,12 @@ QAudioFormat AudioStream::format() const
 
 void AudioStream::setBufferSizeInMillisec(int ms)
 {
-    if (m_audioStream != NULL)
+    if (isActive())
         qWarning() << Q_FUNC_INFO << "Buffer size changed while playing, ignored until next call to 'play'";
 
-    qint64 bufferSize = ms * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8 / 1000;
-    qDebug() << "Audio buffer size=" << bufferSize << "bytes";
-    m_audioOutput->setBufferSize(bufferSize);
-}
-
-qint64 AudioStream::bufferSize() const
-{
-    return m_audioOutput->bufferSize();
+    m_bufferSize = ms * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8 / 1000;
+    qDebug() << "Audio buffer size=" << m_bufferSize << "bytes";
+    m_audioOutput->setBufferSize(m_bufferSize);
 }
 
 void AudioStream::start()
@@ -61,7 +57,7 @@ void AudioStream::stop()
 
 bool AudioStream::play(char *data, qint64 byteCount)
 {
-    if (m_audioStream == NULL)
+    if ( ! isActive())
         return false;
 
     qWarning() << "Write expected: " << byteCount << " | Write done: " << m_audioStream->write(data, byteCount);

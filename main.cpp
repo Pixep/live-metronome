@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("userSettings", &userSettings);
 
 #ifdef Q_OS_ANDROID
-    engine.rootContext()->setContextProperty("isAndroid", true);
+    engine.rootContext()->setContextProperty("isAndroid", QVariant(true));
 #else
-    engine.rootContext()->setContextProperty("isAndroid", false);
+    engine.rootContext()->setContextProperty("isAndroid", QVariant(false));
 #endif
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

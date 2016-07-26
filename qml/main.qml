@@ -128,6 +128,8 @@ Window {
             onBack()
         }
 
+        signal back()
+
         function onBack() {
             if (addEditPage.visible)
                 addEditPage.hide()
@@ -135,6 +137,8 @@ Window {
                 confirmDialog.close(false)
             else if (actionDialog.visible)
                 actionDialog.close()
+
+            back()
         }
 
         ApplicationHeader {

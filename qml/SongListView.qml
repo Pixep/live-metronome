@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtQml.Models 2.2
 
 Item {
     id: root
@@ -24,7 +25,91 @@ Item {
         anchors.fill: parent
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
-        model: userSettings.songList
+        //model: userSettings.songList
+        model: DelegateModel {
+            id: visualModel
+            model: userSettings.songsModel
+            /*ListModel {
+                id: colorModel
+                ListElement { color: "blue" }
+                ListElement { color: "green" }
+                ListElement { color: "red" }
+                ListElement { color: "yellow" }
+                ListElement { color: "orange" }
+                ListElement { color: "purple" }
+                ListElement { color: "cyan" }
+                ListElement { color: "magenta" }
+                ListElement { color: "chartreuse" }
+                ListElement { color: "aquamarine" }
+                ListElement { color: "indigo" }
+                ListElement { color: "black" }
+                ListElement { color: "lightsteelblue" }
+                ListElement { color: "violet" }
+                ListElement { color: "grey" }
+                ListElement { color: "springgreen" }
+                ListElement { color: "salmon" }
+                ListElement { color: "blanchedalmond" }
+                ListElement { color: "forestgreen" }
+                ListElement { color: "pink" }
+                ListElement { color: "navy" }
+                ListElement { color: "goldenrod" }
+                ListElement { color: "crimson" }
+                ListElement { color: "teal" }
+            }*/
+
+            delegate: MouseArea {
+                id: delegateRoot
+
+                property int visualIndex: DelegateModel.itemsIndex
+
+                width: songListView.width; height: 80
+                drag.target: icon
+
+                Rectangle {
+                    id: icon
+                    width: parent.width; height: 72
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter;
+                        verticalCenter: parent.verticalCenter
+                    }
+                    //color: model.color
+                    radius: 3
+
+                    Drag.active: delegateRoot.drag.active
+                    Drag.source: delegateRoot
+                    Drag.hotSpot.x: 36
+                    Drag.hotSpot.y: 36
+
+                    Text {
+                        anchors.fill: parent
+                        text: "o" + title
+                    }
+
+                    states: [
+                        State {
+                            when: icon.Drag.active
+                            ParentChange {
+                                target: icon
+                                parent: root
+                            }
+
+                            AnchorChanges {
+                                target: icon;
+                                anchors.horizontalCenter: undefined;
+                                anchors.verticalCenter: undefined
+                            }
+                        }
+                    ]
+                }
+
+                DropArea {
+                    anchors { fill: parent; margins: 15 }
+
+                    onEntered: visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
+                }
+            }
+        }
+
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)
         highlightRangeMode: ListView.ApplyRange
@@ -46,92 +131,7 @@ Item {
         }
         highlightMoveDuration: 300
 
-        delegate: Item {
-            width: parent.width
-            height: appStyle.controlHeight
-
-            Rectangle {
-                color: appStyle.headerColor
-                anchors.fill: parent
-                opacity: songMouseArea.pressed ? 0.6 : 0
-
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 800
-                        easing.type: Easing.OutQuad
-                    }
-                }
-            }
-
-            Row {
-                anchors.fill: parent
-                anchors.margins: appStyle.sidesMargin
-                anchors.leftMargin: 2 * appStyle.sidesMargin
-                scale: songMouseArea.pressed ? 0.9 : 1
-
-                Behavior on scale {
-                    NumberAnimation {
-                        duration: 300
-                        easing.type: Easing.OutQuad
-                    }
-                }
-
-                BaseText {
-                    x: 0.15 * parent.width
-                    height: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    text: (index+1) + "."
-                }
-
-                Item {
-                    width: 0.05 * parent.width
-                    height: parent.height
-                }
-
-                Item {
-                    width: 0.65 * parent.width
-                    height: parent.height
-
-                    BaseText {
-                        width: parent.width
-                        height: parent.height
-                        verticalAlignment: artistText.visible ? Text.AlignTop : Text.AlignVCenter
-                        text: modelData.title
-                        elide: Text.ElideRight
-                    }
-
-                    BaseText {
-                        id: artistText
-                        width: parent.width
-                        height: parent.height
-                        verticalAlignment: Text.AlignBottom
-                        color: appStyle.textColor2
-                        font.pixelSize: appStyle.smallFontSize
-                        text: modelData.artist
-                        elide: Text.ElideRight
-                        visible: modelData.artist !== ""
-                    }
-                }
-
-                BaseText {
-                    width: 0.15 * parent.width
-                    height: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    text: modelData.tempo + ""
-                }
-            }
-            MouseArea {
-                id: songMouseArea
-                anchors.fill: parent
-                onPressed: {
-                    metronome.songIndex = index
-                }
-                onPressAndHold: {
-                    actionDialog.show(index)
-                }
-            }
-        }
+        //delegate: SongListDelegate{}
     }
 
     Item {
@@ -152,6 +152,13 @@ Item {
         }
     }
 
+    Connections {
+        target: contentRoot
+        onBack: {
+           actionDialog.close()
+        }
+    }
+
     SongActionDialog {
         id: actionDialog
         parent: dialogContainer
@@ -159,6 +166,9 @@ Item {
         onUpdateSongTempo: {
             userSettings.songList[contextValue].tempo = metronome.tempo
             userSettingsDb.save()
+        }
+        onMoveSong: {
+            root.moveSong(contextValue)
         }
         onEditSong: {
             root.editSong(contextValue)

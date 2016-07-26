@@ -4,6 +4,7 @@ ActionDialog {
     id: dialog
 
     signal updateSongTempo()
+    signal moveSong()
     signal editSong()
     signal removeSong()
 
@@ -19,6 +20,13 @@ ActionDialog {
         onClicked: {
             dialog.close()
             dialog.editSong()
+        }
+    }
+    ActionDialogItem {
+        text: qsTr("Move song")
+        onClicked: {
+            dialog.close()
+            dialog.moveSong()
         }
     }
     ActionDialogItem {

@@ -31,5 +31,7 @@
         <file>sounds/click_analog_low6.wav</file>
         <file>qml/BaseDialog.qml</file>
         <file>qml/MainPage.qml</file>
+        <file>qml/SongListDelegate.qml</file>
+        <file>qml/SongListDelegateDragAndDrop.qml</file>
     </qresource>
 </RCC>

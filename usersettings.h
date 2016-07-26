@@ -1,15 +1,16 @@
 #ifndef USERSETTINGS_H
 #define USERSETTINGS_H
 
+#include "song.h"
+#include "songslistmodel.h"
+
 #include <QObject>
 #include <QQmlListProperty>
-
-#include "song.h"
 
 class UserSettings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Song> songList READ songList NOTIFY songListChanged)
+    Q_PROPERTY(SongsListModel* songsModel READ songsModel CONSTANT)
 
 signals:
     void songListChanged();
@@ -23,6 +24,7 @@ public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
 
     QQmlListProperty<Song> songList();
+    SongsListModel* songsModel() { return &m_songsModel; }
 
 public slots:
     void resetToDefault();
@@ -38,7 +40,8 @@ private:
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
 
 private:
-    QList<Song*> m_songs;
+    SongsListModel m_songsModel;
+
     QString m_storagePath;
     const int MaxSongs = 6;
 };

@@ -15,32 +15,11 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
     m_storagePath = path;
 }
 
-Song * songList_at(QQmlListProperty<Song> *property, int index) {
-    return (*static_cast<QList<Song*>* >(property->data))[index];
-}
-
-void songList_append(QQmlListProperty<Song> *property, Song * value) {
-    static_cast<QList<Song*>* >(property->data)->append(value);
-}
-
-void songList_clear(QQmlListProperty<Song> *property) {
-    static_cast<QList<Song*>* >(property->data)->clear();
-}
-
-int songList_count(QQmlListProperty<Song> *property) {
-    return static_cast<QList<Song*>* >(property->data)->length();
-}
-
-QQmlListProperty<Song> UserSettings::songList()
-{
-    return QQmlListProperty<Song>(this, &m_songs, &songList_append, &songList_count, &songList_at, &songList_clear);
-}
-
 void UserSettings::resetToDefault()
 {
-    m_songs.clear();
-    m_songs.append(new Song("AC/DC", "Highway to Hell", 116));
-    m_songs.append(new Song("Miles Davis", "So What", 136));
+    removeAllSongs();
+    addSong_internal("Highway to Hell", "AC/DC", 116, 4);
+    addSong_internal("So What", "Miles Davis", 136, 4);
 
     emit songListChanged();
     emit settingsModified();
@@ -48,7 +27,7 @@ void UserSettings::resetToDefault()
 
 bool UserSettings::setJsonSettings(const QString &json)
 {
-    m_songs.clear();
+    m_songsModel.removeRows(0, m_songsModel.rowCount());
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
@@ -69,7 +48,7 @@ QString UserSettings::jsonSettings() const
     QJsonObject jsonDocObject;
 
     QJsonArray jsonArraySongs;
-    foreach(const Song* song, m_songs)
+    foreach(const Song* song, m_songsModel.songsList())
     {
         QJsonObject songObject;
         songObject["title"] = song->title();
@@ -87,14 +66,14 @@ QString UserSettings::jsonSettings() const
 
 bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    if (index < 0 || index >= m_songs.size())
+    QModelIndex songModelIndex = m_songsModel.index(index);
+    if (!songModelIndex.isValid())
         return false;
 
-    Song* song = m_songs[index];
-    song->setTitle(title);
-    song->setArtist(artist);
-    song->setTempo(tempo);
-    song->setBeatsPerMeasure(beatsPerMeasure);
+    m_songsModel.setData(songModelIndex, title, SongsListModel::TitleRole);
+    m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
+    m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
+    m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
 
     emit settingsModified();
     return true;
@@ -102,11 +81,18 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
 
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    if (m_songs.count() >= MaxSongs)
+    if (m_songsModel.rowCount() >= MaxSongs)
         return false;
 
-    Song* newSong = new Song(artist, title, tempo, beatsPerMeasure);
-    m_songs.append(newSong);
+    int newSongIndex = m_songsModel.rowCount();
+    if ( ! m_songsModel.insertRow(newSongIndex))
+        return false;
+
+    QModelIndex songModelIndex = m_songsModel.index(newSongIndex);
+    m_songsModel.setData(songModelIndex, title, SongsListModel::TitleRole);
+    m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
+    m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
+    m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
 
     return true;
 }
@@ -124,11 +110,7 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
 
 bool UserSettings::removeSong(int index)
 {
-    if (index < 0 || index >= m_songs.size())
-        return false;
-
-    Song* song = m_songs.takeAt(index);
-    song->deleteLater();
+    m_songsModel.removeRow(index);
 
     emit songListChanged();
     emit songRemoved(index);
@@ -139,10 +121,7 @@ bool UserSettings::removeSong(int index)
 
 bool UserSettings::removeAllSongs()
 {
-    foreach (Song* song, m_songs) {
-        song->deleteLater();
-    }
-    m_songs.clear();
+    m_songsModel.removeRows(0, m_songsModel.rowCount());
 
     emit songListChanged();
     emit allSongsRemoved();

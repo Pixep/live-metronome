@@ -1,5 +1,6 @@
 #include "songslistmodel.h"
 #include "song.h"
+#include <QDebug>
 
 SongsListModel::SongsListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -111,6 +112,9 @@ Qt::ItemFlags SongsListModel::flags(const QModelIndex &index) const
 
 bool SongsListModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+    if (count <= 0)
+        return true;
+
     beginInsertRows(parent, row, row + count - 1);
 
     for(int i = 0; i < count; ++i)
@@ -122,6 +126,9 @@ bool SongsListModel::insertRows(int row, int count, const QModelIndex &parent)
 
 bool SongsListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    if (count <= 0)
+        return true;
+
     if (row < 0 || row + count > m_songsList.count())
         return false;
 

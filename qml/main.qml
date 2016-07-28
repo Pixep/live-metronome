@@ -23,7 +23,7 @@ Window {
         id: metronome
 
         property int songIndex: 0
-        property int songCount: userSettings.songList.length
+        property int songCount: userSettings.songsModel.rowCount()
 
         onSongIndexChanged: {
             updateFromSong()
@@ -33,8 +33,8 @@ Window {
         {
             if (songIndex >= 0 && songIndex < songCount)
             {
-                setTempo(userSettings.songList[songIndex].tempo)
-                beatsPerMeasure = userSettings.songList[songIndex].beatsPerMeasure
+                setTempo(userSettings.songsModel[songIndex].tempo)
+                beatsPerMeasure = userSettings.songsModel[songIndex].beatsPerMeasure
                 mainPage.currentSongIndex = songIndex
             }
         }

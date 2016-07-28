@@ -164,7 +164,7 @@ Item {
         parent: dialogContainer
 
         onUpdateSongTempo: {
-            userSettings.songList[contextValue].tempo = metronome.tempo
+            userSettings.songsModel[contextValue].tempo = metronome.tempo
             userSettingsDb.save()
         }
         onMoveSong: {
@@ -174,7 +174,7 @@ Item {
             root.editSong(contextValue)
         }
         onRemoveSong: {
-            confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songList[contextValue].title),
+            confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songsModel[contextValue].title),
                                removeConfirmation)
         }
     }

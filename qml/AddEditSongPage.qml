@@ -45,7 +45,7 @@ Page {
 
     function prefill()
     {
-        var song = userSettings.songList[songIndex]
+        var song = userSettings.songsModel[songIndex]
         titleEdit.text = song.title
         artistEdit.text = song.artist
         tempoEdit.text = "" + song.tempo

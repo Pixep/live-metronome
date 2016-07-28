@@ -25,37 +25,10 @@ Item {
         anchors.fill: parent
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
-        //model: userSettings.songList
+
         model: DelegateModel {
             id: visualModel
             model: userSettings.songsModel
-            /*ListModel {
-                id: colorModel
-                ListElement { color: "blue" }
-                ListElement { color: "green" }
-                ListElement { color: "red" }
-                ListElement { color: "yellow" }
-                ListElement { color: "orange" }
-                ListElement { color: "purple" }
-                ListElement { color: "cyan" }
-                ListElement { color: "magenta" }
-                ListElement { color: "chartreuse" }
-                ListElement { color: "aquamarine" }
-                ListElement { color: "indigo" }
-                ListElement { color: "black" }
-                ListElement { color: "lightsteelblue" }
-                ListElement { color: "violet" }
-                ListElement { color: "grey" }
-                ListElement { color: "springgreen" }
-                ListElement { color: "salmon" }
-                ListElement { color: "blanchedalmond" }
-                ListElement { color: "forestgreen" }
-                ListElement { color: "pink" }
-                ListElement { color: "navy" }
-                ListElement { color: "goldenrod" }
-                ListElement { color: "crimson" }
-                ListElement { color: "teal" }
-            }*/
 
             delegate: MouseArea {
                 id: delegateRoot
@@ -79,6 +52,11 @@ Item {
                     Drag.source: delegateRoot
                     Drag.hotSpot.x: 36
                     Drag.hotSpot.y: 36
+
+                    Drag.onActiveChanged: {
+                        if (!Drag.active)
+                            userSettings.moveSong(index, delegateRoot.visualIndex)
+                    }
 
                     Text {
                         anchors.fill: parent
@@ -105,7 +83,9 @@ Item {
                 DropArea {
                     anchors { fill: parent; margins: 15 }
 
-                    onEntered: visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
+                    onEntered: {
+                        visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
+                    }
                 }
             }
         }

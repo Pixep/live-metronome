@@ -144,6 +144,31 @@ bool SongsListModel::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
+bool SongsListModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild)
+{
+    if (sourceRow == destinationChild)
+        return false;
+
+    if (count <= 0)
+        return true;
+
+    // Not supported
+    if (count > 1)
+        return false;
+
+    if (!beginMoveRows(sourceParent, sourceRow, sourceRow+count-1, destinationParent, destinationChild))
+        return false;
+
+    if (destinationChild > sourceRow)
+        m_songsList.move(sourceRow, destinationChild-1);
+    else
+        m_songsList.move(sourceRow, destinationChild);
+
+    endMoveRows();
+
+    return true;
+}
+
 QList<const Song *> SongsListModel::songsList() const
 {
     QList<const Song*> songs;

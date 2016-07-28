@@ -35,9 +35,11 @@ public slots:
     bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool removeSong(int index);
     bool removeAllSongs();
+    bool moveSong(int index, int destinationIndex);
 
 private:
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
+    bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
 
 private:
     SongsListModel m_songsModel;

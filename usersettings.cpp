@@ -33,7 +33,7 @@ bool UserSettings::setJsonSettings(const QString &json)
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
     for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
         QJsonObject songObject = userSongs.at(songIndex).toObject();
-        addSong_internal(songObject.value("artist").toString(), songObject.value("title").toString(), songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4));
+        addSong_internal(songObject.value("title").toString(), songObject.value("artist").toString(), songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4));
     }
 
     emit songListChanged();
@@ -66,6 +66,15 @@ QString UserSettings::jsonSettings() const
 
 bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
+    if (!setSong_internal(index, title, artist, tempo, beatsPerMeasure))
+        return false;
+
+    emit settingsModified();
+    return true;
+}
+
+bool UserSettings::setSong_internal(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
+{
     QModelIndex songModelIndex = m_songsModel.index(index);
     if (!songModelIndex.isValid())
         return false;
@@ -74,9 +83,6 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
     m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
     m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
     m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
-
-    emit settingsModified();
-    return true;
 }
 
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
@@ -88,11 +94,7 @@ bool UserSettings::addSong_internal(const QString &title, const QString &artist,
     if ( ! m_songsModel.insertRow(newSongIndex))
         return false;
 
-    QModelIndex songModelIndex = m_songsModel.index(newSongIndex);
-    m_songsModel.setData(songModelIndex, title, SongsListModel::TitleRole);
-    m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
-    m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
-    m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
+    setSong(newSongIndex, title, artist, tempo, beatsPerMeasure);
 
     return true;
 }
@@ -110,7 +112,8 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
 
 bool UserSettings::removeSong(int index)
 {
-    m_songsModel.removeRow(index);
+    if (!m_songsModel.removeRow(index))
+        return false;
 
     emit songListChanged();
     emit songRemoved(index);
@@ -121,10 +124,26 @@ bool UserSettings::removeSong(int index)
 
 bool UserSettings::removeAllSongs()
 {
-    m_songsModel.removeRows(0, m_songsModel.rowCount());
+    if (!m_songsModel.removeRows(0, m_songsModel.rowCount()))
+        return false;
 
     emit songListChanged();
     emit allSongsRemoved();
+    emit settingsModified();
+
+    return true;
+}
+
+bool UserSettings::moveSong(int index, int destinationIndex)
+{
+    int destinationChild = destinationIndex;
+    if (destinationIndex > index)
+        ++destinationChild;
+
+    if (!m_songsModel.moveRow(QModelIndex(), index, QModelIndex(), destinationChild))
+        return false;
+
+    emit songListChanged();
     emit settingsModified();
 
     return true;

@@ -41,6 +41,7 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     android/src/com/livemetronome/MainActivity.java \
+    qml/SongMoveListView.qml
 
 android {
     QT += androidextras

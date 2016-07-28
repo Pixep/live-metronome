@@ -50,7 +50,7 @@ Item {
                 width: parent.width
                 height: parent.height
                 verticalAlignment: artistText.visible ? Text.AlignTop : Text.AlignVCenter
-                text: modelData.title
+                text: title
                 elide: Text.ElideRight
             }
 
@@ -72,7 +72,7 @@ Item {
             height: parent.height
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            text: modelData.tempo + ""
+            text: tempo + ""
         }
     }
     MouseArea {

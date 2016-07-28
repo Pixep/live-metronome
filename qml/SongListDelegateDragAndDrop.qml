@@ -1,88 +1,60 @@
 import QtQuick 2.5
 
-Item {
-    width: parent.width
-    height: appStyle.controlHeight
+MouseArea {
+    id: delegateRoot
+
+    property int visualIndex: DelegateModel.itemsIndex
+
+    width: songListView.width; height: 80
+    drag.target: icon
 
     Rectangle {
-        color: appStyle.headerColor
-        anchors.fill: parent
-        opacity: songMouseArea.pressed ? 0.6 : 0
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 800
-                easing.type: Easing.OutQuad
-            }
+        id: icon
+        width: parent.width; height: 72
+        anchors {
+            horizontalCenter: parent.horizontalCenter;
+            verticalCenter: parent.verticalCenter
         }
+        //color: model.color
+        radius: 3
+
+        Drag.active: delegateRoot.drag.active
+        Drag.source: delegateRoot
+        Drag.hotSpot.x: 36
+        Drag.hotSpot.y: 36
+
+        Drag.onActiveChanged: {
+            if (!Drag.active)
+                userSettings.moveSong(index, delegateRoot.visualIndex)
+        }
+
+        Text {
+            anchors.fill: parent
+            text: "o" + title
+        }
+
+        states: [
+            State {
+                when: icon.Drag.active
+                ParentChange {
+                    target: icon
+                    parent: root
+                }
+
+                AnchorChanges {
+                    target: icon;
+                    anchors.horizontalCenter: undefined;
+                    anchors.verticalCenter: undefined
+                }
+            }
+        ]
     }
 
-    Row {
-        anchors.fill: parent
-        anchors.margins: appStyle.sidesMargin
-        anchors.leftMargin: 2 * appStyle.sidesMargin
-        scale: songMouseArea.pressed ? 0.9 : 1
+    DropArea {
+        anchors { fill: parent; margins: 15 }
 
-        Behavior on scale {
-            NumberAnimation {
-                duration: 300
-                easing.type: Easing.OutQuad
-            }
-        }
-
-        BaseText {
-            x: 0.15 * parent.width
-            height: parent.height
-            verticalAlignment: Text.AlignVCenter
-            text: (index+1) + "."
-        }
-
-        Item {
-            width: 0.05 * parent.width
-            height: parent.height
-        }
-
-        Item {
-            width: 0.65 * parent.width
-            height: parent.height
-
-            BaseText {
-                width: parent.width
-                height: parent.height
-                verticalAlignment: artistText.visible ? Text.AlignTop : Text.AlignVCenter
-                text: modelData.title
-                elide: Text.ElideRight
-            }
-
-            BaseText {
-                id: artistText
-                width: parent.width
-                height: parent.height
-                verticalAlignment: Text.AlignBottom
-                color: appStyle.textColor2
-                font.pixelSize: appStyle.smallFontSize
-                text: modelData.artist
-                elide: Text.ElideRight
-                visible: modelData.artist !== ""
-            }
-        }
-
-        BaseText {
-            width: 0.15 * parent.width
-            height: parent.height
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            text: modelData.tempo + ""
-        }
-    }
-    MouseArea {
-        id: songMouseArea
-        anchors.fill: parent
-        onPressed: {
-            metronome.songIndex = index
-        }
-        onPressAndHold: {
-            actionDialog.show(index)
+        onEntered: {
+            visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
         }
     }
 }

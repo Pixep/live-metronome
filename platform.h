@@ -17,10 +17,6 @@ public:
     bool isAndroid() const;
     bool isCompiledWithMVS() const;
     QString soundsPath() const;
-
-signals:
-
-public slots:
 };
 
 #endif // PLATFORM_H

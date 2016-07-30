@@ -23,18 +23,20 @@ Window {
         id: metronome
 
         property int songIndex: 0
-        property int songCount: userSettings.songsModel.rowCount()
+        property int songCount: userSettings.songsModel.count
 
         onSongIndexChanged: {
             updateFromSong()
+        }
+
+        Component.onCompleted: {
+            setTempo(tempo)
         }
 
         function updateFromSong()
         {
             if (songIndex >= 0 && songIndex < songCount)
             {
-                setTempo(userSettings.songsModel[songIndex].tempo)
-                beatsPerMeasure = userSettings.songsModel[songIndex].beatsPerMeasure
                 mainPage.currentSongIndex = songIndex
             }
         }
@@ -56,10 +58,6 @@ Window {
                 songIndex = songCount - 1
             else
                 songIndex = songIndex - 1
-        }
-
-        Component.onCompleted: {
-            setTempo(tempo)
         }
     }
 

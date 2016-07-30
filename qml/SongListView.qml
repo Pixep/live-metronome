@@ -10,6 +10,13 @@ Item {
 
     signal editSong(var songIndex)
 
+    onCurrentIndexChanged: {
+        var song = songListView.model.get(currentIndex)
+
+        metronome.setTempo(song.tempo)
+        metronome.beatsPerMeasure = songListView.model.get(currentIndex).beatsPerMeasure
+    }
+
     BaseText {
         anchors.fill: songListView
         anchors.margins: appStyle.sidesMargin
@@ -26,7 +33,8 @@ Item {
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
 
-        model: SongListDelegate {}
+        model: userSettings.songsModel
+        delegate: SongListDelegate {}
 
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)
@@ -48,8 +56,6 @@ Item {
             }
         }
         highlightMoveDuration: 300
-
-        //delegate: SongListDelegate{}
     }
 
     Item {

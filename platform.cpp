@@ -2,7 +2,6 @@
 
 Platform::Platform(QObject *parent) : QObject(parent)
 {
-
 }
 
 bool Platform::isWindows() const

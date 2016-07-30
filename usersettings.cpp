@@ -83,6 +83,7 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
     m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
     m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
     m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
+    return true;
 }
 
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)

@@ -8,6 +8,7 @@ class Song;
 class SongsListModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     enum SongRoles {
@@ -19,7 +20,7 @@ public:
 
     explicit SongsListModel(QObject *parent = 0);
 
-    // Header:
+    // Reimplemented methods
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
 
@@ -37,7 +38,15 @@ public:
     bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count,
                   const QModelIndex &destinationParent, int destinationChild);
 
+    // New methods
+    int count() const { return rowCount(); }
     QList<const Song*> songsList() const;
+
+public slots:
+    Song *get(int index) const;
+
+signals:
+    void countChanged(int count);
 
 private:
     QList<Song*> m_songsList;

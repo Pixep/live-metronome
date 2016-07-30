@@ -61,9 +61,9 @@ Item {
                 verticalAlignment: Text.AlignBottom
                 color: appStyle.textColor2
                 font.pixelSize: appStyle.smallFontSize
-                text: modelData.artist
+                text: artist
                 elide: Text.ElideRight
-                visible: modelData.artist !== ""
+                visible: artist !== ""
             }
         }
 

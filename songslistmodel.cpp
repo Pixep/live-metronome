@@ -1,6 +1,9 @@
 #include "songslistmodel.h"
 #include "song.h"
+#include "platform.h"
+
 #include <QDebug>
+#include <QQmlEngine>
 
 SongsListModel::SongsListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -34,8 +37,6 @@ bool SongsListModel::setHeaderData(int section, Qt::Orientation orientation, con
 int SongsListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    //if (!parent.isValid())
-    //    return 0;
 
     return m_songsList.count();
 }
@@ -110,37 +111,41 @@ Qt::ItemFlags SongsListModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-bool SongsListModel::insertRows(int row, int count, const QModelIndex &parent)
+bool SongsListModel::insertRows(int row, int insertCount, const QModelIndex &parent)
 {
-    if (count <= 0)
+    if (insertCount <= 0)
         return true;
 
-    beginInsertRows(parent, row, row + count - 1);
+    beginInsertRows(parent, row, row + insertCount - 1);
 
-    for(int i = 0; i < count; ++i)
+    for(int i = 0; i < insertCount; ++i)
         m_songsList.insert(row, new Song());
 
     endInsertRows();
+    countChanged(count());
+
     return true;
 }
 
-bool SongsListModel::removeRows(int row, int count, const QModelIndex &parent)
+bool SongsListModel::removeRows(int row, int removeCount, const QModelIndex &parent)
 {
-    if (count <= 0)
+    if (removeCount <= 0)
         return true;
 
-    if (row < 0 || row + count > m_songsList.count())
+    if (row < 0 || row + removeCount > count())
         return false;
 
-    beginRemoveRows(parent, row, row + count - 1);
+    beginRemoveRows(parent, row, row + removeCount - 1);
 
-    for(int i = 0; i < count; ++i)
+    for(int i = 0; i < removeCount; ++i)
     {
         Song * song = m_songsList.takeAt(row);
         song->deleteLater();
     }
 
     endRemoveRows();
+    countChanged(count());
+
     return true;
 }
 
@@ -176,4 +181,13 @@ QList<const Song *> SongsListModel::songsList() const
         songs.append(song);
 
     return songs;
+}
+
+Song *SongsListModel::get(int indexValue) const
+{
+    Song *song = m_songsList.value(indexValue);
+    if (song != nullptr)
+        QQmlEngine::setObjectOwnership(song, QQmlEngine::CppOwnership);
+
+    return song;
 }

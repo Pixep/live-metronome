@@ -66,9 +66,6 @@ Item {
                                     circle.animate()
                                 }
                             }
-                        }
-                        Connections {
-                            target: root
                             onBeatTotalCountChanged: {
                                 if (root.playing && (root.beatIndex % root.beatsPerMeasure) == index)
                                 {

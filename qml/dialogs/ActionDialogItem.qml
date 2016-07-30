@@ -1,5 +1,7 @@
 import QtQuick 2.5
 
+import "../controls"
+
 Item {
     height: appStyle.controlHeight
     width: parent.width

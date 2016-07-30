@@ -1,5 +1,7 @@
 import QtQuick 2.5
 
+import "../controls"
+
 BaseDialog {
     width: parent.width
     height: parent.height
@@ -27,6 +29,7 @@ BaseDialog {
     }
 
     Rectangle {
+        id: background
         radius: appStyle.borderRadius
         anchors.centerIn: parent
         width: 0.8 * parent.width
@@ -34,6 +37,7 @@ BaseDialog {
         color: "#333"
 
         Column {
+            id: contentColumn
             y: appStyle.borderRadius
             width: parent.width
             height: childrenRect.height
@@ -55,9 +59,17 @@ BaseDialog {
             }
 
             Rectangle {
+                id: separator
                 color: appStyle.backgroundColor2
                 width: parent.width
                 height: 1
+
+                Rectangle {
+                    color: appStyle.backgroundColor2
+                    width: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: background.height - separator.y - contentColumn.y
+                }
             }
 
             Row {

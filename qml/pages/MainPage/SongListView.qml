@@ -1,6 +1,9 @@
 import QtQuick 2.5
 import QtQml.Models 2.2
 
+import "../../controls"
+import "../../dialogs"
+
 Item {
     id: root
     width: parent.width

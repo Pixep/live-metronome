@@ -183,6 +183,28 @@ QList<const Song *> SongsListModel::songsList() const
     return songs;
 }
 
+void SongsListModel::setSongsList(QList<const Song *> songs)
+{
+    beginResetModel();
+
+    // Clear all
+    int songsCount = m_songsList.count();
+    for(int i = 0; i < songsCount; ++i)
+    {
+        Song * song = m_songsList.takeAt(0);
+        song->deleteLater();
+    }
+
+    // Set all
+    foreach(const Song* song, songs)
+    {
+        Song * newSong = new Song(*song);
+        m_songsList.append(newSong);
+    }
+
+    endResetModel();
+}
+
 Song *SongsListModel::get(int indexValue) const
 {
     Song *song = m_songsList.value(indexValue);

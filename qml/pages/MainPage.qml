@@ -1,5 +1,9 @@
 import QtQuick 2.5
 
+import "../components"
+import "../controls"
+import "MainPage"
+
 Page {
     x: 0
     visible: true

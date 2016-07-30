@@ -2,3 +2,12 @@ syntax: glob
 .qmake.winrt_uuid_Metronome
 debug/
 release/
+translations/*
+QtQuick/*
+QtQuick.2/*
+QtMultimedia/*
+resource.h
+Metronome.vcxproj*
+Metronome.windeployqt*
+Package.*
+Makefile

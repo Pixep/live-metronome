@@ -9,6 +9,14 @@ Song::Song(QObject *parent) : QObject(parent),
 {
 }
 
+Song::Song(const Song &other) : QObject(other.parent())
+{
+    setArtist(other.artist());
+    setTitle(other.title());
+    setTempo(other.tempo());
+    setBeatsPerMeasure(other.beatsPerMeasure());
+}
+
 Song::Song(const QString &artist, const QString &title, int tempo, int beatsPerMeasure, QObject *parent) :
     QObject(parent),
     m_tempo(0),

@@ -13,6 +13,7 @@ class Song : public QObject
 
 public:
     explicit Song(QObject *parent = 0);
+    explicit Song(const Song& other);
     explicit Song(const QString &artist, const QString &title, int tempo, int beatsPerMeasure = 4, QObject *parent = 0);
 
     QString artist() const { return m_artist; }

@@ -22,7 +22,15 @@ include(deployment.pri)
 sounds.source = sounds
 DEPLOYMENTFOLDERS += sounds
 
-OTHER_FILES += qml/*.qml
+OTHER_FILES += \
+    qml/* \
+    qml/controls/* \
+    qml/components/* \
+    qml/dialogs/* \
+    qml/pages/* \
+    qml/pages/MainPage/* \
+    qml/pages/MoveSongsPage/* \
+    qml/images/*
 
 HEADERS += \
     usersettings.h \
@@ -40,8 +48,7 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/src/com/livemetronome/MainActivity.java \
-    qml/SongMoveListView.qml
+    android/src/com/livemetronome/MainActivity.java
 
 android {
     QT += androidextras

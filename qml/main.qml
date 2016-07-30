@@ -3,6 +3,11 @@ import QtQuick.Window 2.2
 import LiveMetronome 1.0
 import QtMultimedia 5.5
 
+import "pages"
+import "dialogs"
+import "components"
+import "controls"
+
 Window {
     id: window
     visible: true
@@ -141,8 +146,8 @@ Window {
 
         ApplicationHeader {
             id: appHeader
-            backVisible: addEditPage.visible
-            menuVisible: !addEditPage.visible
+            backVisible: addEditPage.visible || moveSongsPage.visible
+            menuVisible: !addEditPage.visible && !moveSongsPage.visible
             menuEnabled: !metronome.playing
 
             onBack: {
@@ -166,7 +171,9 @@ Window {
             MainPage {
                 id: mainPage
             }
-
+            MoveSongsPage {
+                id: moveSongsPage
+            }
             AddEditSongPage {
                 id: addEditPage
             }
@@ -192,6 +199,14 @@ Window {
                         addEditPage.clear()
                         addEditPage.show()
                         addEditPage.focusFirstField()
+                    }
+                }
+
+                ActionDialogItem {
+                    text: qsTr("Re-order songs")
+                    onClicked: {
+                        actionDialog.close()
+                        moveSongsPage.show()
                     }
                 }
 

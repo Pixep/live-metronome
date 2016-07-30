@@ -1,5 +1,8 @@
 import QtQuick 2.5
 
+import "../components"
+import "../controls"
+
 Page {
     id: page
     actionButtonsVisible: true
@@ -45,7 +48,7 @@ Page {
 
     function prefill()
     {
-        var song = userSettings.songsModel[songIndex]
+        var song = userSettings.songsModel.get(songIndex)
         titleEdit.text = song.title
         artistEdit.text = song.artist
         tempoEdit.text = "" + song.tempo

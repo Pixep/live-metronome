@@ -41,6 +41,7 @@ public:
     // New methods
     int count() const { return rowCount(); }
     QList<const Song*> songsList() const;
+    void setSongsList(QList<const Song *>);
 
 public slots:
     Song *get(int index) const;

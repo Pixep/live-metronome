@@ -1,5 +1,7 @@
 import QtQuick 2.5
 
+import "../controls"
+
 Item {
     id: page
     x: window.width
@@ -14,21 +16,34 @@ Item {
     property alias actionButtonsVisible: actionButtons.visible
     property alias actionButtonLeft: leftActionButton
     property alias actionButtonRight: rightActionButton
+    property alias p: p
 
     signal actionButtonLeftClicked()
     signal actionButtonRightClicked()
 
+    QtObject {
+        id: p
+
+        function __show() {
+            hideAnimation.stop()
+            x = window.width
+            visible = true
+            page.focus = true
+            showAnimation.start()
+        }
+
+        function __hide() {
+            showAnimation.stop()
+            hideAnimation.start()
+        }
+    }
+
     function show() {
-        hideAnimation.stop()
-        x = window.width
-        visible = true
-        page.focus = true
-        showAnimation.start()
+        p.__show()
     }
 
     function hide() {
-        showAnimation.stop()
-        hideAnimation.start()
+        p.__hide()
     }
 
     Rectangle {

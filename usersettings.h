@@ -11,9 +11,9 @@ class UserSettings : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(SongsListModel* songsModel READ songsModel CONSTANT)
+    Q_PROPERTY(SongsListModel* songsMoveModel READ songsMoveModel CONSTANT)
 
 signals:
-    void songListChanged();
     void settingsModified();
     void songAdded();
     void songRemoved(int removedIndex);
@@ -25,6 +25,7 @@ public:
 
     QQmlListProperty<Song> songList();
     SongsListModel* songsModel() { return &m_songsModel; }
+    SongsListModel* songsMoveModel() { return &m_songsMoveModel; }
 
 public slots:
     void resetToDefault();
@@ -36,6 +37,8 @@ public slots:
     bool removeSong(int index);
     bool removeAllSongs();
     bool moveSong(int index, int destinationIndex);
+    bool commitSongMoves();
+    bool discardSongMoves();
 
 private:
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
@@ -43,6 +46,7 @@ private:
 
 private:
     SongsListModel m_songsModel;
+    SongsListModel m_songsMoveModel;
 
     QString m_storagePath;
     const int MaxSongs = 6;

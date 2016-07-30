@@ -21,7 +21,6 @@ void UserSettings::resetToDefault()
     addSong_internal("Highway to Hell", "AC/DC", 116, 4);
     addSong_internal("So What", "Miles Davis", 136, 4);
 
-    emit songListChanged();
     emit settingsModified();
 }
 
@@ -36,7 +35,6 @@ bool UserSettings::setJsonSettings(const QString &json)
         addSong_internal(songObject.value("title").toString(), songObject.value("artist").toString(), songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4));
     }
 
-    emit songListChanged();
     emit settingsModified();
 
     return true;
@@ -105,7 +103,6 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
     if (!addSong_internal(title, artist, tempo, beatsPerMeasure))
         return false;
 
-    emit songListChanged();
     emit songAdded();
     emit settingsModified();
     return true;
@@ -116,7 +113,6 @@ bool UserSettings::removeSong(int index)
     if (!m_songsModel.removeRow(index))
         return false;
 
-    emit songListChanged();
     emit songRemoved(index);
     emit settingsModified();
 
@@ -128,7 +124,6 @@ bool UserSettings::removeAllSongs()
     if (!m_songsModel.removeRows(0, m_songsModel.rowCount()))
         return false;
 
-    emit songListChanged();
     emit allSongsRemoved();
     emit settingsModified();
 
@@ -141,11 +136,22 @@ bool UserSettings::moveSong(int index, int destinationIndex)
     if (destinationIndex > index)
         ++destinationChild;
 
-    if (!m_songsModel.moveRow(QModelIndex(), index, QModelIndex(), destinationChild))
+    if (!m_songsMoveModel.moveRow(QModelIndex(), index, QModelIndex(), destinationChild))
         return false;
 
-    emit songListChanged();
-    emit settingsModified();
+    return true;
+}
 
+bool UserSettings::commitSongMoves()
+{
+    m_songsModel.setSongsList(m_songsMoveModel.songsList());
+
+    emit settingsModified();
+    return true;
+}
+
+bool UserSettings::discardSongMoves()
+{
+    m_songsMoveModel.setSongsList(m_songsModel.songsList());
     return true;
 }

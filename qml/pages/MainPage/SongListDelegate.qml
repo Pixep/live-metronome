@@ -80,10 +80,11 @@ Item {
     MouseArea {
         id: songMouseArea
         anchors.fill: parent
-        onPressed: {
+        onClicked: {
             metronome.songIndex = index
         }
         onPressAndHold: {
+            metronome.songIndex = index
             actionDialog.show(index)
         }
     }

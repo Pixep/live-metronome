@@ -20,7 +20,7 @@ public:
     QString soundsPath() const;
 
 public slots:
-    void setKeepScreenOn(bool screenOn);
+    bool setKeepScreenOn(bool screenOn);
 
 private:
     static Platform* m_platformInstance;

@@ -11,7 +11,7 @@ Platform::Platform(QObject *parent) : QObject(parent)
     m_platformInstance = this;
 }
 
-void Platform::setKeepScreenOn(bool screenOn)
+bool Platform::setKeepScreenOn(bool screenOn)
 {
 #ifdef Q_OS_ANDROID
     if (screenOn)
@@ -22,7 +22,10 @@ void Platform::setKeepScreenOn(bool screenOn)
         QAndroidJniObject::callStaticMethod<void>("com.livemetronome.MainActivity",
                                                   "disableKeepScreenOn",
                                                   "()V");
+
+    return true;
 #else
+    Q_UNUSED(screenOn)
     return false;
 #endif
 }

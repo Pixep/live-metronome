@@ -48,7 +48,8 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/src/com/livemetronome/MainActivity.java
+    android/src/com/livemetronome/MainActivity.java \
+    android/src/com/livemetronome/PlatformControlRunnable.java
 
 android {
     QT += androidextras

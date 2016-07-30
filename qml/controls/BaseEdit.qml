@@ -50,15 +50,16 @@ FocusScope {
         verticalAlignment: TextInput.AlignVCenter
         color: appStyle.textColorDark
         anchors.centerIn: parent
-        inputMethodHints: root.isNumber ? Qt.ImhDigitsOnly : Qt.ImhNone
+        inputMethodHints: root.isNumber ? Qt.ImhDigitsOnly : Qt.ImhNoPredictiveText
         focus: true
+        maximumLength: 32
         KeyNavigation.tab: root.nextFocused
         KeyNavigation.backtab: root.previousFocused
         Keys.onPressed: {
             if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
             {
-                returnFocus()
                 event.accepted = true;
+                returnFocus()
             }
         }
 

@@ -8,6 +8,8 @@ Item {
     width: parent.width
     height: 200
 
+    property bool dragging: false
+
     signal changeMade()
 
     ListView {
@@ -15,6 +17,7 @@ Item {
         anchors.fill: parent
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
+        boundsBehavior: Flickable.OvershootBounds
 
         model: DelegateModel {
             id: visualModel
@@ -85,11 +88,13 @@ Item {
                     }
 
                     Drag.onActiveChanged: {
-                        if (Drag.active)
-                            return
+                        root.dragging = Drag.active
 
-                        userSettings.moveSong(index, dragMouseArea.visualIndex)
-                        root.changeMade()
+                        if (!Drag.active)
+                        {
+                            userSettings.moveSong(index, dragMouseArea.visualIndex)
+                            root.changeMade()
+                        }
                     }
 
                     states: [
@@ -165,6 +170,8 @@ Item {
                         height: parent.height
                         anchors.right: parent.right
                         source: "qrc:/qml/images/icon_handle.png"
+                        fillMode: Image.PreserveAspectFit
+                        visible: !root.dragging || dragMouseArea.drag.active
                     }
                 }
             }

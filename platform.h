@@ -12,11 +12,18 @@ class Platform : public QObject
 
 public:
     explicit Platform(QObject *parent = 0);
+    static Platform* get() { return m_platformInstance; }
 
     bool isWindows() const;
     bool isAndroid() const;
     bool isCompiledWithMVS() const;
     QString soundsPath() const;
+
+public slots:
+    void setKeepScreenOn(bool screenOn);
+
+private:
+    static Platform* m_platformInstance;
 };
 
 #endif // PLATFORM_H

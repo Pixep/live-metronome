@@ -9,12 +9,19 @@ Page {
     actionButtonRight.enabled: inputValid()
 
     property int songIndex
-    readonly property  bool addingNewSong: songIndex < 0
+    property bool lastFieldReached: false
+    readonly property bool addingNewSong: songIndex < 0
+    readonly property bool focusNextOnEnter: addingNewSong && !lastFieldReached
 
     function inputValid()
     {
         return titleEdit.inputValid && artistEdit.inputValid
                 && tempoEdit.inputValid && beatsPerMeasureEdit.inputValid
+    }
+
+    onActiveChanged: {
+        if (active)
+            lastFieldReached = false
     }
 
     // Cancel
@@ -84,7 +91,7 @@ Page {
             x: appStyle.width_col1
             width: appStyle.width_col5
             nextFocused: artistEdit
-            focusNextOnEnter: page.addingNewSong
+            focusNextOnEnter: page.focusNextOnEnter
             onValidateInput: {
                 if (text !== "")
                     inputValid = true
@@ -101,7 +108,7 @@ Page {
             width: appStyle.width_col5
             previousFocused: titleEdit
             nextFocused: tempoEdit
-            focusNextOnEnter: page.addingNewSong
+            focusNextOnEnter: page.focusNextOnEnter
         }
         BaseText {
             text: qsTr("Tempo")
@@ -113,7 +120,6 @@ Page {
             isNumber: true
             previousFocused: artistEdit
             nextFocused: beatsPerMeasureEdit
-            focusNextOnEnter: page.addingNewSong
             onValidateInput: {
                 if (text === "" || !isFinite(text))
                 {
@@ -130,6 +136,10 @@ Page {
 
                 inputValid = true
             }
+            onFocusChanged: {
+                if (focus)
+                    lastFieldReached = true
+            }
         }
         BaseText {
             text: qsTr("Beats per measure")
@@ -140,7 +150,6 @@ Page {
             width: appStyle.width_col5
             isNumber: true
             previousFocused: tempoEdit
-            focusNextOnEnter: page.addingNewSong
             onValidateInput: {
                 if (text === "" || !isFinite(text))
                 {

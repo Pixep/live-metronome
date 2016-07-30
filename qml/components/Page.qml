@@ -17,6 +17,7 @@ Item {
     property alias actionButtonLeft: leftActionButton
     property alias actionButtonRight: rightActionButton
     property alias p: p
+    property bool active: false
 
     signal actionButtonLeftClicked()
     signal actionButtonRightClicked()
@@ -25,14 +26,22 @@ Item {
         id: p
 
         function __show() {
+            if (page.active)
+                return
+
+            page.active = true
             hideAnimation.stop()
-            x = window.width
-            visible = true
+            page.x = window.width
+            page.visible = true
             page.focus = true
             showAnimation.start()
         }
 
         function __hide() {
+            if (!page.active)
+                return
+
+            page.active = false
             showAnimation.stop()
             hideAnimation.start()
         }

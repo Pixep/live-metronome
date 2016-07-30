@@ -15,6 +15,8 @@ Item {
 
     onCurrentIndexChanged: {
         var song = songListView.model.get(currentIndex)
+        if (!song)
+            return
 
         metronome.setTempo(song.tempo)
         metronome.beatsPerMeasure = songListView.model.get(currentIndex).beatsPerMeasure
@@ -35,6 +37,7 @@ Item {
         anchors.fill: parent
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
+        boundsBehavior: Flickable.OvershootBounds
 
         model: userSettings.songsModel
         delegate: SongListDelegate {}
@@ -82,7 +85,10 @@ Item {
     Connections {
         target: contentRoot
         onBack: {
-           actionDialog.close()
+            if (!moveSongsPage.active)
+                return
+
+            actionDialog.close()
         }
     }
 

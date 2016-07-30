@@ -1,13 +1,11 @@
 #include "metronome.h"
+#include "platform.h"
+
 #include <QDebug>
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
 #include <qmath.h>
-
-#ifdef Q_OS_ANDROID
-#include <QtAndroidExtras>
-#endif
 
 Metronome::Metronome() :
     m_tempo(80),
@@ -113,6 +111,9 @@ void Metronome::setBeatsPerMeasure(int newBeats)
 
 void Metronome::start()
 {
+    if (isPlaying())
+        return;
+
     m_stream.start();
 
     m_beatsElapsed = 0;
@@ -122,16 +123,21 @@ void Metronome::start()
     m_timer.start(tempoInterval());
     notifyTick(true);
 
+    Platform::get()->setKeepScreenOn(true);
+
     emit beatIndexChanged();
-    emit playingChanged();
+    emit playingChanged(isPlaying());
 }
 
 void Metronome::stop()
 {
-    m_timer.stop();
-    qWarning() << "Stop or Not ?";
+    if (!isPlaying())
+        return;
 
-    emit playingChanged();
+    m_timer.stop();
+    Platform::get()->setKeepScreenOn(false);
+
+    emit playingChanged(isPlaying());
 }
 
 void Metronome::resetTempoSpecificCounters()

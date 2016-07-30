@@ -33,7 +33,7 @@ void Song::setArtist(const QString& artist)
     if (m_artist == artist)
         return;
 
-    m_artist = artist.left(64);
+    m_artist = artist.left(32);
     emit artistChanged(m_artist);
 }
 
@@ -42,7 +42,7 @@ void Song::setTitle(const QString& title)
     if (m_title == title)
         return;
 
-    m_title = title.left(64);
+    m_title = title.left(32);
     emit titleChanged(m_title);
 }
 

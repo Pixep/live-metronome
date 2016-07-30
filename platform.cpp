@@ -1,7 +1,30 @@
 #include "platform.h"
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras>
+#endif
+
+Platform* Platform::m_platformInstance = nullptr;
+
 Platform::Platform(QObject *parent) : QObject(parent)
 {
+    m_platformInstance = this;
+}
+
+void Platform::setKeepScreenOn(bool screenOn)
+{
+#ifdef Q_OS_ANDROID
+    if (screenOn)
+        QAndroidJniObject::callStaticMethod<void>("com.livemetronome.MainActivity",
+                                                  "enableKeepScreenOn",
+                                                  "()V");
+    else
+        QAndroidJniObject::callStaticMethod<void>("com.livemetronome.MainActivity",
+                                                  "disableKeepScreenOn",
+                                                  "()V");
+#else
+    return false;
+#endif
 }
 
 bool Platform::isWindows() const

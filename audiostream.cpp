@@ -46,11 +46,17 @@ void AudioStream::setBufferSizeInMillisec(int ms)
 
 void AudioStream::start()
 {
+    if (isActive())
+        return;
+
     m_audioStream = m_audioOutput->start();
 }
 
 void AudioStream::stop()
 {
+    if (!isActive())
+        return;
+
     m_audioStream = NULL;
     m_audioOutput->stop();
 }

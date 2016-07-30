@@ -43,6 +43,9 @@ Page {
         Connections {
             target: contentRoot
             onBack: {
+                if (!active)
+                    return
+
                 if (!page.changesMade)
                 {
                     discardChanges()

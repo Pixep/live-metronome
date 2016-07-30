@@ -12,7 +12,7 @@
 class Metronome : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
+    Q_PROPERTY(bool playing READ isPlaying WRITE setPlaying NOTIFY playingChanged)
     Q_PROPERTY(int tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
     Q_PROPERTY(int beatsPerMeasure READ beatsPerMeasure WRITE setBeatsPerMeasure NOTIFY beatsPerMeasureChanged)
 
@@ -27,7 +27,7 @@ class Metronome : public QObject
 public:
     Metronome();
 
-    bool playing() const { return m_timer.isActive(); }
+    bool isPlaying() const { return m_timer.isActive(); }
     int tempo() const { return m_tempo; }
     int tempoInterval() const { return 1000 * 60 / m_tempo; }
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
@@ -45,7 +45,7 @@ public:
     void setBeatsPerMeasure(int newBeats);
 
 signals:
-    void playingChanged();
+    void playingChanged(bool isPlaying);
     void tempoChanged();
     void beatsPerMeasureChanged();
     void beatIndexChanged();

@@ -7,13 +7,22 @@ Item {
     signal closed()
 
     default property alias dialogContent: dialogContentItem.children
+    property bool active: false
 
     function __show() {
+        if (active)
+            return
+
+        active = true
         showed()
         closeAnimation.stop()
         showAnimation.start()
     }
     function __close() {
+        if (!active)
+            return
+
+        active = false
         closed()
         showAnimation.stop()
         closeAnimation.start()

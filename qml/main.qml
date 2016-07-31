@@ -15,7 +15,9 @@ Window {
     height: 800
     color: appStyle.backgroundColor
 
-    property alias appStyle: styleObject
+    readonly property alias appStyle: styleObject
+    readonly property int currentSongTempo: mainPage.currentSongItem ? mainPage.currentSongItem.songTempo : -1
+    readonly property bool isSongSelected: mainPage.currentSongItem
 
     Connections {
         target: userSettings
@@ -43,6 +45,13 @@ Window {
             if (songIndex >= 0 && songIndex < songCount)
             {
                 mainPage.currentSongIndex = songIndex
+
+                var song = userSettings.songsModel.get(songIndex)
+                if (!song)
+                    return
+
+                metronome.setTempo(song.tempo)
+                metronome.beatsPerMeasure = song.beatsPerMeasure
             }
         }
 

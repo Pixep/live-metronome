@@ -8,10 +8,12 @@ BaseDialog {
     opacity: 0
 
     property int contextValue
+    property int contextValue2
     default property alias dialogActions: actionsColumn.children
 
-    function show(value) {
+    function show(value, value2) {
         contextValue = value !== undefined ? value : -1
+        contextValue2 = value2 !== undefined ? value2 : -1
         __show()
     }
 

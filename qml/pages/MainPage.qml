@@ -9,6 +9,7 @@ Page {
     visible: true
 
     property alias currentSongIndex: songListView.currentIndex
+    readonly property alias currentSongItem: songListView.currentItem
 
     function setTempo(tempo)
     {
@@ -31,12 +32,6 @@ Page {
         anchors.topMargin: appStyle.sidesMargin
         anchors.bottom: previousNextRow.top
         anchors.bottomMargin: appStyle.sidesMargin
-
-        onEditSong: {
-            addEditPage.songIndex = songIndex;
-            addEditPage.prefill()
-            addEditPage.show()
-        }
     }
 
     PreviousNextControls {
@@ -62,6 +57,42 @@ Page {
 
         onClicked: {
             metronome.playing = !metronome.playing
+        }
+    }
+
+    SongActionDialog {
+        id: actionDialog
+        parent: dialogContainer
+
+        onUpdateSongTempo: {
+            var song = userSettings.songsModel.get(contextValue);
+            if (!song)
+                return;
+
+            userSettings.setSong(contextValue, song.title, song.artist, metronome.tempo, song.beatsPerMeasure)
+            userSettingsDb.save()
+        }
+        onMoveSong: {
+            moveSongsPage.show()
+        }
+        onEditSong: {
+            addEditPage.songIndex = contextValue;
+            addEditPage.prefill()
+            addEditPage.show()
+        }
+        onRemoveSong: {
+            confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songsModel.get(contextValue).title),
+                               removeConfirmation)
+        }
+
+        resources: QtObject {
+            id: removeConfirmation
+            function onAccepted() {
+                userSettings.removeSong(actionDialog.contextValue)
+            }
+            function onRefused() {
+                // Do nothing
+            }
         }
     }
 }

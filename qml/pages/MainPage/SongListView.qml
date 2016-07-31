@@ -10,17 +10,7 @@ Item {
     height: 200
 
     property alias currentIndex: songListView.currentIndex
-
-    signal editSong(var songIndex)
-
-    onCurrentIndexChanged: {
-        var song = songListView.model.get(currentIndex)
-        if (!song)
-            return
-
-        metronome.setTempo(song.tempo)
-        metronome.beatsPerMeasure = songListView.model.get(currentIndex).beatsPerMeasure
-    }
+    property alias currentItem: songListView.currentItem
 
     BaseText {
         anchors.fill: songListView
@@ -89,36 +79,6 @@ Item {
                 return
 
             actionDialog.close()
-        }
-    }
-
-    SongActionDialog {
-        id: actionDialog
-        parent: dialogContainer
-
-        onUpdateSongTempo: {
-            userSettings.songsModel.get(contextValue).tempo = metronome.tempo
-            userSettingsDb.save()
-        }
-        onMoveSong: {
-            root.moveSong(contextValue)
-        }
-        onEditSong: {
-            root.editSong(contextValue)
-        }
-        onRemoveSong: {
-            confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songsModel[contextValue].title),
-                               removeConfirmation)
-        }
-    }
-
-    QtObject {
-        id: removeConfirmation
-        function onAccepted() {
-            userSettings.removeSong(actionDialog.contextValue)
-        }
-        function onRefused() {
-            // Do nothing
         }
     }
 }

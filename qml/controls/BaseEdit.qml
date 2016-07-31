@@ -25,9 +25,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: appStyle.sidesMargin
-        anchors.rightMargin: appStyle.sidesMargin
-        anchors.bottomMargin: appStyle.sidesMargin
+        anchors.margins: appStyle.sidesMargin
         anchors.leftMargin: 0
         radius: appStyle.borderRadius
         border.width: inputValid ? 0 : height / 15
@@ -46,6 +44,7 @@ FocusScope {
         id: textInput
         anchors.fill: parent
         anchors.margins: appStyle.sidesMargin
+        anchors.rightMargin: 2*appStyle.sidesMargin
         font.pixelSize: appStyle.titleFontSize
         verticalAlignment: TextInput.AlignVCenter
         color: appStyle.textColorDark

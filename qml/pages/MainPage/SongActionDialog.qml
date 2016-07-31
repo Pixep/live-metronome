@@ -11,7 +11,9 @@ ActionDialog {
     signal removeSong()
 
     ActionDialogItem {
-        text: qsTr("Update tempo")
+        text: qsTr("Set tempo to %1").arg(metronome.tempo)
+        visible: window.currentSongTempo != metronome.tempo
+        height: visible ? appStyle.controlHeight : 0
         onClicked: {
             dialog.close()
             dialog.updateSongTempo()

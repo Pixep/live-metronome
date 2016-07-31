@@ -26,6 +26,7 @@ Page {
 
     // Cancel
     onActionButtonLeftClicked: {
+        metronome.songIndex = songIndex
         hide()
     }
 
@@ -50,6 +51,7 @@ Page {
                                  parseInt(beatsPerMeasureEdit.text, 10))
         }
 
+        metronome.songIndex = songIndex
         hide()
     }
 

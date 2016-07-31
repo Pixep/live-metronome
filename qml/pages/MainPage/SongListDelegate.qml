@@ -6,6 +6,8 @@ Item {
     width: parent.width
     height: appStyle.controlHeight
 
+    readonly property int songTempo: tempo
+
     Rectangle {
         color: appStyle.headerColor
         anchors.fill: parent
@@ -22,7 +24,8 @@ Item {
     Row {
         anchors.fill: parent
         anchors.margins: appStyle.sidesMargin
-        anchors.leftMargin: 2 * appStyle.sidesMargin
+        anchors.leftMargin: 3 * appStyle.sidesMargin
+        anchors.rightMargin: 3 * appStyle.sidesMargin
         scale: songMouseArea.pressed ? 0.9 : 1
 
         Behavior on scale {
@@ -33,19 +36,14 @@ Item {
         }
 
         BaseText {
-            x: 0.15 * parent.width
+            width: 0.10 * parent.width
             height: parent.height
             verticalAlignment: Text.AlignVCenter
             text: (index+1) + "."
         }
 
         Item {
-            width: 0.05 * parent.width
-            height: parent.height
-        }
-
-        Item {
-            width: 0.65 * parent.width
+            width: 0.75 * parent.width
             height: parent.height
 
             BaseText {
@@ -73,7 +71,7 @@ Item {
             width: 0.15 * parent.width
             height: parent.height
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: Text.AlignRight
             text: tempo + ""
         }
     }
@@ -84,7 +82,6 @@ Item {
             metronome.songIndex = index
         }
         onPressAndHold: {
-            metronome.songIndex = index
             actionDialog.show(index)
         }
     }

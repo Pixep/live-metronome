@@ -18,7 +18,13 @@ Item {
         cacheBuffer: Math.max(800, 3 * height)
         clip: true
         boundsBehavior: Flickable.OvershootBounds
-
+        displaced: Transition {
+            NumberAnimation {
+                properties: "y";
+                easing.type: Easing.OutBack
+                duration: 300
+            }
+        }
         model: DelegateModel {
             id: visualModel
             model: userSettings.songsMoveModel
@@ -58,7 +64,8 @@ Item {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: appStyle.backgroundColor2
+                    color: "white"
+                    opacity: 0.33
                     visible: dragMouseArea.drag.active
                 }
 
@@ -127,19 +134,14 @@ Item {
                         }
 
                         BaseText {
-                            x: 0.15 * parent.width
+                            width: 0.10 * parent.width
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                             text: (dragMouseArea.visualIndex+1) + "."
                         }
 
                         Item {
-                            width: 0.05 * parent.width
-                            height: parent.height
-                        }
-
-                        Item {
-                            width: 0.60 * parent.width
+                            width: 0.70 * parent.width
                             height: parent.height
 
                             BaseText {
@@ -166,7 +168,7 @@ Item {
 
                     Image {
                         id: handle
-                        width: 0.20 * parent.width
+                        width: 0.25 * parent.width
                         height: parent.height
                         anchors.right: parent.right
                         source: "qrc:/qml/images/icon_handle.png"

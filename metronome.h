@@ -29,13 +29,13 @@ public:
 
     bool isPlaying() const { return m_timer.isActive(); }
     int tempo() const { return m_tempo; }
-    int tempoInterval() const { return 1000 * 60 / m_tempo; }
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
 
     int beatIndex() const { return m_beatsElapsed % m_beatsPerMeasure; }
     int beatTotalCount() const { return m_beatsElapsed; }
+    bool isFirstBeat() const { return beatIndex() == 0; }
 
-    static int minTempo() { return 20; }
+    static int minTempo() { return 30; }
     static int maxTempo() { return 400; }
     static int minBeatsPerMeasure() { return 1; }
     static int maxBeatsPerMeasure() { return 64; }
@@ -60,13 +60,18 @@ public slots:
 
 private:
     void loadSounds();
-    void generateTick(QVector<char>& audioBuffer, bool highPitch);
+    void generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
     void resetTempoSpecificCounters();
+    void generateTicks();
     void notifyTick(bool isMeasureTick);
     void playTick(bool isMeasureTick);
+    qint64 tempoSessionElapsed() const { return m_tempoSessionElapsed.elapsed() + m_tempoSessionVirtualElapsed; }
+    int timerIntervalReduction() const { return 50; }
+    int tempoInterval() const { return 1000 * 60 / m_actualTempo; }
 
 private:
     int m_tempo;
+    int m_actualTempo;
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     bool m_needTempoUpdate;
@@ -80,8 +85,9 @@ private:
     QVector<char> m_tickLowSoundBuffer;
     QVector<char> m_tickHighSoundBuffer;
 
-    int m_tempoSessionTickCount;
+    int m_tempoSessionBeatsCount;
     QElapsedTimer m_tempoSessionElapsed;
+    qint64 m_tempoSessionVirtualElapsed;
     QElapsedTimer m_lastTickElapsed;
 };
 

@@ -11,6 +11,7 @@ public:
     explicit AudioStream(QObject *parent = 0);
 
     qint64 bufferSize() const { return m_bufferSize; }
+    float bufferFillingRatio() const;
     QAudioFormat format() const;
 
     bool isActive() { return m_audioStream != NULL; }
@@ -20,6 +21,9 @@ public slots:
     void start();
     void stop();
     bool play(char *data, qint64 byteCount);
+    bool isMuted() { return m_audioOutput->volume() < 0.01; }
+    void mute() { setMuted(true); }
+    void setMuted(bool muted);
 
 private:
     QAudioOutput* m_audioOutput;

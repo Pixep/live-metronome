@@ -211,7 +211,7 @@ Window {
                 }
 
                 ActionDialogItem {
-                    text: qsTr("Re-order songs")
+                    text: qsTr("Edit set order")
                     onClicked: {
                         actionDialog.close()
                         moveSongsPage.show()

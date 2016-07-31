@@ -29,6 +29,15 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
     m_audioOutput = new QAudioOutput(format, this);
 }
 
+float AudioStream::bufferFillingRatio() const
+{
+    int currentBuffer = m_audioOutput->bufferSize();
+    if (currentBuffer == 0)
+        return 0;
+
+    return ((float)currentBuffer - m_audioOutput->bytesFree()) / currentBuffer;
+}
+
 QAudioFormat AudioStream::format() const
 {
     return m_audioOutput->format();
@@ -40,8 +49,6 @@ void AudioStream::setBufferSizeInMillisec(int ms)
         qWarning() << Q_FUNC_INFO << "Buffer size changed while playing, ignored until next call to 'play'";
 
     m_bufferSize = ms * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8 / 1000;
-    qDebug() << "Audio buffer size=" << m_bufferSize << "bytes";
-    m_audioOutput->setBufferSize(m_bufferSize);
 }
 
 void AudioStream::start()
@@ -49,6 +56,7 @@ void AudioStream::start()
     if (isActive())
         return;
 
+    m_audioOutput->setBufferSize(m_bufferSize);
     m_audioStream = m_audioOutput->start();
 }
 
@@ -66,6 +74,17 @@ bool AudioStream::play(char *data, qint64 byteCount)
     if ( ! isActive())
         return false;
 
-    qWarning() << "Write expected: " << byteCount << " | Write done: " << m_audioStream->write(data, byteCount);
+    qint64 bytesWritten = m_audioStream->write(data, byteCount);
+    if (bytesWritten < byteCount)
+        qWarning() << "Error writting !" << bytesWritten << "instead of:" << byteCount << "free:" << m_audioOutput->bytesFree();
+
     return true;
+}
+
+void AudioStream::setMuted(bool muted)
+{
+    if (muted)
+        m_audioOutput->setVolume(0.0);
+    else
+        m_audioOutput->setVolume(1.0);
 }

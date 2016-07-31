@@ -19,18 +19,18 @@ Metronome::Metronome() :
     m_lowTick2.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
     m_lowTick3.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
 
-    m_stream.setBufferSizeInMillisec(2000);
+    m_stream.setBufferSizeInMillisec(4000);
 
     loadSounds();
 }
 
 void Metronome::loadSounds()
 {
-    generateTick(m_tickLowSoundBuffer, false);
-    generateTick(m_tickHighSoundBuffer, true);
+    generateTickAudio(m_tickLowSoundBuffer, false);
+    generateTickAudio(m_tickHighSoundBuffer, true);
 }
 
-void Metronome::generateTick(QVector<char> &audioBuffer, bool highPitch)
+void Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
 {
     audioBuffer.resize(m_stream.bufferSize());
 
@@ -86,11 +86,8 @@ void Metronome::setTempo(int newTempo)
         return;
 
     m_tempo = newTempo;
-
-    if (m_timer.isActive())
+    if (isPlaying())
         m_needTempoUpdate = true;
-
-    resetTempoSpecificCounters();
 
     emit tempoChanged();
 }
@@ -116,13 +113,14 @@ void Metronome::start()
 
     m_stream.start();
 
-    m_beatsElapsed = 0;
+    m_beatsElapsed = -1;
     m_lastTickElapsed.start();
+
     resetTempoSpecificCounters();
+    m_timer.start(tempoInterval() - timerIntervalReduction());
+    generateTicks();
 
-    m_timer.start(tempoInterval());
-    notifyTick(true);
-
+    m_stream.setMuted(false);
     Platform::get()->setKeepScreenOn(true);
 
     emit beatIndexChanged();
@@ -135,6 +133,7 @@ void Metronome::stop()
         return;
 
     m_timer.stop();
+    m_stream.mute();
     Platform::get()->setKeepScreenOn(false);
 
     emit playingChanged(isPlaying());
@@ -143,40 +142,89 @@ void Metronome::stop()
 void Metronome::resetTempoSpecificCounters()
 {
     m_tempoSessionElapsed.start();
-    m_tempoSessionTickCount = 0;
+    m_tempoSessionBeatsCount = -1;
+    m_tempoSessionVirtualElapsed = 0;
     m_needTempoUpdate = false;
+    m_actualTempo = m_tempo;
+}
+
+void Metronome::generateTicks()
+{
+    int bufferedCount = 0;
+    while (bufferedCount == 0 || (bufferedCount < 1/*tempo()/60*/ && m_stream.bufferFillingRatio() < 0.7))
+    {
+        ++m_beatsElapsed;
+        //qWarning() << m_beatsElapsed;
+        ++m_tempoSessionBeatsCount;
+
+        // Pre-buffered audio adds "virtual elapsed" time
+        if (bufferedCount >= 1)
+            m_tempoSessionVirtualElapsed += tempoInterval();
+
+        playTick(isFirstBeat());
+        //qWarning() << "  #" << bufferedCount << ": " << (m_stream.bufferFillingRatio()*100);
+
+        ++bufferedCount;
+    }
+
+    notifyTick(isFirstBeat());
+    emit beatIndexChanged();
 }
 
 void Metronome::onTick()
 {
-    //qWarning() << "Tick ?" << m_lastTickElapsed.elapsed() << 1000 * 60 / m_bpm;
-    while(m_lastTickElapsed.elapsed() < tempoInterval())
+    if (m_stream.bufferFillingRatio() == 1)
     {
-        int i = 0;
-        ++i;
+        // Skip and wait for next timer tick
+        m_tempoSessionVirtualElapsed -= tempoInterval();
+    }
+    else
+    {
+        m_stream.setMuted(false);
+        /*while(m_lastTickElapsed.elapsed() < tempoInterval())
+        {
+            int i = 0;
+            ++i;
+        }*/
+
+        // Skip some beat if we were too slow
+        int beatsElapsed = qCeil((float)tempoSessionElapsed() / tempoInterval());
+        int expectedBeatsElapsed = m_tempoSessionBeatsCount+1;
+
+        //qWarning() << "Elapsed:" << beatsElapsed << " for " << tempoSessionElapsed() << " Expected:" << tempoInterval() << " beatsElapsed:" << m_tempoSessionBeatsCount;
+        if (beatsElapsed > expectedBeatsElapsed)
+        {
+            int skippedBeats = beatsElapsed - expectedBeatsElapsed;
+            qWarning() << "Missed" << skippedBeats << "timer beats ! (last tick" << m_lastTickElapsed.elapsed() << " ago)";
+
+            //if (skippedBeats > 1 || m_stream.bufferFillingRatio() == 0)
+            {
+                qWarning() << "Missed audio beats, skipping them";
+                m_beatsElapsed += skippedBeats;
+                m_tempoSessionBeatsCount += beatsElapsed;
+            }
+        }
+
+        m_lastTickElapsed.start();
+
+        if (m_needTempoUpdate)
+            resetTempoSpecificCounters();
+
+        generateTicks();
     }
 
-    m_lastTickElapsed.start();
-    ++m_tempoSessionTickCount;
-    ++m_beatsElapsed;
-    emit beatIndexChanged();
-    notifyTick(m_beatsElapsed % m_beatsPerMeasure == 0);
+    int correctedInterval = tempoInterval() * (m_tempoSessionBeatsCount+1) - tempoSessionElapsed() - m_lastTickElapsed.elapsed() - timerIntervalReduction();
 
-    if (m_needTempoUpdate)
-        resetTempoSpecificCounters();
-
-    //qWarning() << "Tick!" << m_lastTickElapsed.elapsed() << ((1 + m_tempoSessionTickCount) * 1000 * 60 / m_bpm) << m_tempoSessionElapsed.elapsed();
-    int correctedInterval = tempoInterval() * (1 + m_tempoSessionTickCount) - m_tempoSessionElapsed.elapsed() - m_lastTickElapsed.elapsed() - 20;
-    if (correctedInterval <= 0)
-        correctedInterval = tempoInterval();
+    if (correctedInterval <= 0) {
+        qWarning() << "Incorrect timer interval, setting to 0";
+        correctedInterval = 0;
+    }
 
     m_timer.start(correctedInterval);
 }
 
 void Metronome::notifyTick(bool isMeasureTick)
 {
-    playTick(isMeasureTick);
-
     if (isMeasureTick)
         emit measureTick();
     else

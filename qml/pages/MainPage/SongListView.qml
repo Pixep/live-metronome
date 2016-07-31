@@ -97,7 +97,7 @@ Item {
         parent: dialogContainer
 
         onUpdateSongTempo: {
-            userSettings.songsModel[contextValue].tempo = metronome.tempo
+            userSettings.songsModel.get(contextValue).tempo = metronome.tempo
             userSettingsDb.save()
         }
         onMoveSong: {

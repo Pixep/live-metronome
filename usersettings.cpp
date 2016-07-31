@@ -20,6 +20,12 @@ void UserSettings::resetToDefault()
     removeAllSongs();
     addSong_internal("Highway to Hell", "AC/DC", 116, 4);
     addSong_internal("So What", "Miles Davis", 136, 4);
+    addSong_internal("Sweet home Alabama", "Mc dewy", 120, 4);
+    addSong_internal("Sweet valentine", "", 90, 3);
+    addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
+    addSong_internal("Roger that!", "Willy Smith", 105, 4);
+    addSong_internal("Make me cry", "Stevie Wonder", 130, 4);
+    addSong_internal("Shofukan", "Snarky Puppy", 120, 5);
 
     emit settingsModified();
 }

@@ -71,14 +71,4 @@ Item {
             y: (songListView.contentY / (metronome.songCount * appStyle.controlHeight - songListView.height)) * (parent.height - height)
         }
     }
-
-    Connections {
-        target: contentRoot
-        onBack: {
-            if (!moveSongsPage.active)
-                return
-
-            actionDialog.close()
-        }
-    }
 }

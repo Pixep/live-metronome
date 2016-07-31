@@ -49,7 +49,6 @@ private:
     SongsListModel m_songsMoveModel;
 
     QString m_storagePath;
-    const int MaxSongs = 6;
 };
 
 #endif // USERSETTINGS_H

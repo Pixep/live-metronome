@@ -1,4 +1,5 @@
 #include "usersettings.h"
+#include "application.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -92,7 +93,7 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
 
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    if (m_songsModel.rowCount() >= MaxSongs)
+    if (m_songsModel.rowCount() >= Application::maximumSongsPerPlaylist())
         return false;
 
     int newSongIndex = m_songsModel.rowCount();

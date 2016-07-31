@@ -85,14 +85,25 @@ Page {
                                removeConfirmation)
         }
 
-        resources: QtObject {
-            id: removeConfirmation
-            function onAccepted() {
-                userSettings.removeSong(actionDialog.contextValue)
+        resources: [
+            QtObject {
+                id: removeConfirmation
+                function onAccepted() {
+                    userSettings.removeSong(actionDialog.contextValue)
+                }
+                function onRefused() {
+                    // Do nothing
+                }
+            },
+            Connections {
+                target: contentRoot
+                onBack: {
+                    if (!actionDialog.active)
+                        return
+
+                    actionDialog.close()
+                }
             }
-            function onRefused() {
-                // Do nothing
-            }
-        }
+        ]
     }
 }

@@ -1,5 +1,8 @@
 TEMPLATE = app
 
+DEFINES += \
+    COMMERCIAL_VERSION
+
 QT += qml quick multimedia
 CONFIG += c++11
 
@@ -9,7 +12,8 @@ SOURCES += main.cpp \
     platform.cpp \
     metronome.cpp \
     audiostream.cpp \
-    songslistmodel.cpp
+    songslistmodel.cpp \
+    application.cpp
 
 RESOURCES += qml.qrc
 
@@ -38,7 +42,8 @@ HEADERS += \
     platform.h \
     metronome.h \
     audiostream.h \
-    songslistmodel.h
+    songslistmodel.h \
+    application.h
 
 DISTFILES += \
     android/AndroidManifest.xml \

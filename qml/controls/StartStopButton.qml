@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.1
 
 Item {
     id: root
-    height: appStyle.controlHeight
+    height: appStyle.controlHeight * 1.25
     width: parent.width
 
     property bool playing: false

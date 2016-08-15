@@ -3,12 +3,13 @@ import QtQuick 2.6
 import "../controls"
 
 Item {
+    id: header
     width: parent.width
     height: appStyle.controlHeight
 
     property alias backVisible: backButton.visible
     property alias menuVisible: menuButton.visible
-    property alias menuEnabled: menuButton.enabled
+    property bool menuEnabled: true
 
     signal back()
     signal showMenu()
@@ -46,6 +47,12 @@ Item {
         anchors.right: parent.right
         radius: 0
         color: "transparent"
-        onClicked: parent.showMenu()
+        opacity: header.menuEnabled ? 1 : 0.3
+        onClicked: {
+            if (header.menuEnabled)
+                parent.showMenu()
+            else
+                toast.show("Menu disabled during play")
+        }
     }
 }

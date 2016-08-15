@@ -189,6 +189,70 @@ Window {
             MenuDialog {
                 id: menuDialog
             }
+
+            Item {
+                id: toast
+                height: parent.height
+                x: 0.1 * parent.width
+                width: 0.8 * parent.width
+                opacity: 0
+
+                function show(text) {
+                    toastText.text = text
+                    enabled = true
+                    opacity = 1
+                    hideTimer.start()
+                }
+
+                Rectangle {
+                    anchors.fill: toastText
+                    anchors.margins: -appStyle.sidesMargin
+                    radius: appStyle.borderRadius
+                    color: "black"
+                    opacity: 0.9
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            hideAnimation.start()
+                            hideTimer.stop()
+                        }
+                    }
+                }
+
+                BaseText {
+                    id: toastText
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    wrapMode: Text.Wrap
+                }
+
+                Timer {
+                    id: hideTimer
+                    interval: 2000
+                    onTriggered: {
+                        hideAnimation.start()
+                            toast.enabled = false
+                    }
+                }
+
+                SequentialAnimation {
+                    id: hideAnimation
+                    PropertyAction {
+                        target: toast
+                        property: "enabled"
+                        value: false
+                    }
+
+                    NumberAnimation {
+                        target: toast
+                        property: "opacity"
+                        to: 0
+                        duration: 250
+                    }
+                }
+            }
         }
     }
 }

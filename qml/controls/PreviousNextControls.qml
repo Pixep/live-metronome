@@ -1,7 +1,7 @@
 import QtQuick 2.5
 
 Item {
-    height: appStyle.controlHeight
+    height: appStyle.controlHeight * 1.25
     width: parent.width
 
     signal previous()

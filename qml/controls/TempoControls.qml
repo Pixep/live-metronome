@@ -52,9 +52,11 @@ RowLayout {
 
         TextInput {
             id: tempoTextItem
+            anchors.fill: parent
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: appStyle.titleFontSize
             color: appStyle.textColor
-            anchors.centerIn: parent
             inputMethodHints: Qt.ImhDigitsOnly
 
             property int tempo
@@ -81,7 +83,9 @@ RowLayout {
                 }
             }
             onFocusChanged: {
-                if (!focus)
+                if (focus)
+                    text = ""
+                else
                     validate()
             }
 

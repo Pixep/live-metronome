@@ -3,7 +3,7 @@ import QtQuick 2.5
 import "../controls"
 
 Item {
-    height: appStyle.controlHeight
+    height: visible ? appStyle.controlHeight : 0
     width: parent.width
 
     property alias text: textItem.text

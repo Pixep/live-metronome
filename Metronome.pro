@@ -54,7 +54,9 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     android/src/com/livemetronome/MainActivity.java \
-    android/src/com/livemetronome/PlatformControlRunnable.java
+    android/src/com/livemetronome/PlatformControlRunnable.java \
+    qml/MenuDialog.qml \
+    qml/ApplicationStyle.qml
 
 android {
     QT += androidextras

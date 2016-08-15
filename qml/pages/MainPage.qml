@@ -5,6 +5,7 @@ import "../controls"
 import "MainPage"
 
 Page {
+    id: page
     x: 0
     visible: true
 
@@ -76,9 +77,7 @@ Page {
             moveSongsPage.show()
         }
         onEditSong: {
-            addEditPage.songIndex = contextValue;
-            addEditPage.prefill()
-            addEditPage.show()
+            controller.editSong(contextValue)
         }
         onRemoveSong: {
             confirmDialog.show(qsTr("Do you confirm removing '%1' ?").arg(userSettings.songsModel.get(contextValue).title),

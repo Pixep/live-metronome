@@ -38,5 +38,7 @@
         <file>qml/images/icon_check.png</file>
         <file>qml/images/icon_clear.png</file>
         <file>qml/images/icon_handle.png</file>
+        <file>qml/ApplicationStyle.qml</file>
+        <file>qml/MenuDialog.qml</file>
     </qresource>
 </RCC>

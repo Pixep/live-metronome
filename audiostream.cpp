@@ -27,6 +27,9 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
     }
 
     m_audioOutput = new QAudioOutput(format, this);
+
+    //m_audioOutput->setNotifyInterval(10);
+    //connect(m_audioOutput, &QAudioOutput::notify, this, &AudioStream::onOutputNotify);
 }
 
 float AudioStream::bufferFillingRatio() const
@@ -88,3 +91,8 @@ void AudioStream::setMuted(bool muted)
     else
         m_audioOutput->setVolume(1.0);
 }
+
+/*void AudioStream::onOutputNotify()
+{
+    qWarning() << m_audioOutput->elapsedUSecs()/1000;
+}*/

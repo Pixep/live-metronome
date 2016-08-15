@@ -58,12 +58,15 @@ public slots:
     void stop();
     void onTick();
 
+private slots:
+    void onTickPlayed();
+
 private:
     void loadSounds();
+    void notifyTick(bool isMeasureTick);
     void generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
     void resetTempoSpecificCounters();
     void generateTicks();
-    void notifyTick(bool isMeasureTick);
     void playTick(bool isMeasureTick);
     qint64 tempoSessionElapsed() const { return m_tempoSessionElapsed.elapsed() + m_tempoSessionVirtualElapsed; }
     int timerIntervalReduction() const { return 50; }

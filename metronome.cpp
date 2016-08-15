@@ -20,6 +20,7 @@ Metronome::Metronome() :
     m_lowTick3.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
 
     m_stream.setBufferSizeInMillisec(4000);
+    //connect(&m_stream, &AudioStream::tickPlayed, this, &Metronome::onTickPlayed);
 
     loadSounds();
 }
@@ -167,7 +168,7 @@ void Metronome::generateTicks()
         ++bufferedCount;
     }
 
-    notifyTick(isFirstBeat());
+    //notifyTick(isFirstBeat());
     emit beatIndexChanged();
 }
 
@@ -221,6 +222,11 @@ void Metronome::onTick()
     }
 
     m_timer.start(correctedInterval);
+}
+
+void Metronome::onTickPlayed()
+{
+    notifyTick(false);
 }
 
 void Metronome::notifyTick(bool isMeasureTick)

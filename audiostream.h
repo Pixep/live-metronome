@@ -25,6 +25,9 @@ public slots:
     void mute() { setMuted(true); }
     void setMuted(bool muted);
 
+private slots:
+    //void onOutputNotify();
+
 private:
     QAudioOutput* m_audioOutput;
     QIODevice* m_audioStream;

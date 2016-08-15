@@ -17,7 +17,7 @@ Item {
     Button {
         id: playButton
         anchors.fill: parent
-        text: root.playing ? "" : "Play"
+        text: root.playing ? qsTr("Stop") : qsTr("Play")
         color: pressed ? appStyle.headerColorDark : appStyle.headerColor
         opacity: 1
 
@@ -25,7 +25,7 @@ Item {
             root.clicked()
         }
 
-        Item {
+        /*Item {
             width: parent.width
             height: parent.height
             visible: root.playing
@@ -93,6 +93,6 @@ Item {
                     }
                 }
             }
-        }
+        }*/
     }
 }

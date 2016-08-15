@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+// Qt
 import org.qtproject.qt5.android.bindings.QtActivity;
+
+// Crashlytics
+import io.fabric.sdk.android.Fabric;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
 
 public class MainActivity extends QtActivity
 {
@@ -13,7 +19,7 @@ public class MainActivity extends QtActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         m_instance = this;
     }
 

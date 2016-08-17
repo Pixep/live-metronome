@@ -17,6 +17,7 @@ Rectangle {
     property alias imageSource: imageItem.source
     property alias pressed: mouseArea.pressed
 
+    signal buttonPressed()
     signal clicked()
     signal pressAndHold()
     signal released()
@@ -37,6 +38,7 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        onPressed: root.buttonPressed()
         onClicked: root.clicked()
         onPressAndHold: root.pressAndHold()
         onReleased: root.released()

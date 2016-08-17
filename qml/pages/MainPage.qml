@@ -19,6 +19,7 @@ Page {
 
     TempoControls {
         id: tempoControls
+        z: 100
 
         onTempoChanged: {
            metronome.tempo = tempo

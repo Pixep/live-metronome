@@ -128,6 +128,10 @@ Window {
         Keys.onBackPressed: {
             onBack()
         }
+        Keys.onEscapePressed: {
+            if (platform.isWindows)
+                onBack()
+        }
 
         signal back()
 
@@ -140,6 +144,10 @@ Window {
                 menuDialog.close()
 
             back()
+        }
+
+        function resetFocus() {
+            contentRoot.focus = true
         }
 
         ApplicationHeader {

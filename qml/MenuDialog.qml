@@ -27,6 +27,7 @@ ActionDialog {
 
     ActionDialogItem {
         text: qsTr("Change songs order")
+        visible: userSettings.songsModel.count >= 2
         onClicked: {
             dialog.close()
             moveSongsPage.show()

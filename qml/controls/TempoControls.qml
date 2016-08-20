@@ -1,10 +1,9 @@
 import QtQuick 2.5
-import QtQuick.Layouts 1.1
 
-RowLayout {
+Row {
     id: root
     height: appStyle.controlHeight
-    width: parent.width
+    spacing: appStyle.sidesMargin
 
     readonly property alias tempo: tempoTextItem.tempo
 
@@ -29,7 +28,7 @@ RowLayout {
 
     Button {
         height: parent.height
-        Layout.fillWidth: true
+        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
         imageSource: "qrc:/qml/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
         onPressAndHold: decreaseButtonHoldTimer.start()
@@ -49,7 +48,7 @@ RowLayout {
     Item {
         id: tempoTextElement
         height: parent.height
-        Layout.fillWidth: true
+        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
 
         Item {
             visible: tempoTextItem.focus
@@ -68,6 +67,7 @@ RowLayout {
                 width: tempoTextElement.width
                 height: appStyle.controlHeight
                 text: qsTr("Tap tempo")
+                wrapMode: Text.Wrap
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 property double tapTime1: 0
@@ -128,6 +128,7 @@ RowLayout {
                 inputMethodHints: Qt.ImhDigitsOnly
 
                 property int tempo
+                property int previousTempo
 
                 onTempoChanged: {
                     text = tempo.toString()
@@ -153,12 +154,13 @@ RowLayout {
                 onFocusChanged: {
                     if (focus)
                     {
+                        previousTempo = tempo
                         text = ""
                     }
                     else
                     {
                         validate()
-                        enabled: false
+                        enabled = false
                     }
                 }
 
@@ -182,13 +184,24 @@ RowLayout {
                         return
                     }
                 }
+
+                Connections {
+                    target: contentRoot
+                    onBack: {
+                        if (!tempoTextItem.focus)
+                            return
+
+                        contentRoot.resetFocus()
+                        tempoTextItem.tempo = tempoTextItem.previousTempo
+                    }
+                }
             }
         }
     }
 
     Button {
         height: parent.height
-        Layout.fillWidth: true
+        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
         imageSource: "qrc:/qml/images/icon_plus.png"
         onClicked: root.increaseTempo()
         onPressAndHold: increaseButtonHoldTimer.start()

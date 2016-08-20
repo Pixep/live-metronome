@@ -3,6 +3,7 @@ import QtQuick 2.5
 Rectangle {
     id: root
     color: appStyle.backgroundColor2
+    radius: appStyle.borderRadius
     opacity: {
         if (!enabled)
             return 0.3
@@ -11,11 +12,11 @@ Rectangle {
 
         return 1
     }
-    radius: appStyle.borderRadius
 
     property alias text: textItem.text
     property alias imageSource: imageItem.source
     property alias pressed: mouseArea.pressed
+    property alias wrapMode: textItem.wrapMode
 
     signal buttonPressed()
     signal clicked()
@@ -24,7 +25,9 @@ Rectangle {
 
     BaseText {
         id: textItem
-        anchors.centerIn: parent
+        anchors.fill: parent
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
     }
 
     Image {

@@ -19,6 +19,7 @@ Page {
 
     TempoControls {
         id: tempoControls
+        width: parent.width
         z: 100
 
         onTempoChanged: {

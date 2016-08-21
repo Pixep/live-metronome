@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include <QObject>
+#include <QTranslator>
 
 class Application : public QObject
 {
@@ -16,6 +17,8 @@ public:
     explicit Application(QObject *parent = 0);
     static Application* get() { return m_instance; }
 
+    void initialize();
+
     static bool isCommercialVersion() { return CommercialVersion; }
     static bool isFreeVersion() { return !isCommercialVersion(); }
 
@@ -26,6 +29,8 @@ public:
 private:
     static Application* m_instance;
     static const bool CommercialVersion;
+
+    QTranslator m_translator;
 };
 
 #endif // APPLICATION_H

@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     songslistmodel.cpp \
     application.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    translations.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -61,6 +62,16 @@ DISTFILES += \
 
 android {
     QT += androidextras
+}
+
+# Translations
+TRANSLATIONS = \
+    translations/en-US.ts \
+    translations/fr-FR.ts \
+    translations/es-ES.ts
+
+lupdate-only {
+    SOURCES += $$OTHER_FILES
 }
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

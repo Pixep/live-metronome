@@ -16,8 +16,6 @@ public class PlatformControlRunnable implements Runnable
     // this method is called on Android Ui Thread
     @Override
     public void run() {
-        Log.v("PlatformControlRunnable", "Set FLAG_KEEP_SCREEN_ON to " + m_keepScreenOn);
-
         if (m_keepScreenOn)
             m_activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         else

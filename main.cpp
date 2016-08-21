@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
     Platform platform;
     Application application;
+    application.initialize();
 
     UserSettings userSettings(engine.offlineStoragePath());
     engine.rootContext()->setContextProperty("platform", &platform);

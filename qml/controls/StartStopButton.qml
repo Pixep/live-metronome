@@ -17,7 +17,12 @@ Item {
         id: playButton
         anchors.fill: parent
         text: root.playing ? qsTr("Stop") : qsTr("Play")
-        color: pressed ? appStyle.headerColorDark : appStyle.headerColor
+        color: {
+            if (root.playing)
+                return (pressed ? Qt.darker(appStyle.highlightColor2) : appStyle.highlightColor2)
+            else
+                return (pressed ? Qt.darker(appStyle.highlightColor1) : appStyle.highlightColor1)
+        }
         opacity: 1
         textItem.font.pixelSize: appStyle.titleFontSize
 

@@ -34,7 +34,7 @@ Item {
         anchors.right: menuButton.left
         height: parent.height
         font.pixelSize: appStyle.titleFontSize
-        text: "Live Metronome"
+        text: qsTr("Live Metronome")
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
@@ -52,7 +52,7 @@ Item {
             if (header.menuEnabled)
                 parent.showMenu()
             else
-                toast.show("Menu disabled during play")
+                toast.show(qsTr("Menu disabled during play"))
         }
     }
 }

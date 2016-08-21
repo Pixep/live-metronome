@@ -1,5 +1,6 @@
 TEMPLATE = app
 
+# Application type
 DEFINES += \
     COMMERCIAL_VERSION
 

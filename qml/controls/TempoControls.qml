@@ -61,6 +61,13 @@ Row {
                 anchors.fill: parent
                 color: appStyle.backgroundColor
                 opacity: 0.9
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        contentRoot.resetFocus()
+                    }
+                }
             }
 
             Button {

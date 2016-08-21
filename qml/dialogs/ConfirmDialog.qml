@@ -77,7 +77,7 @@ BaseDialog {
                 width: parent.width
 
                 ActionDialogItem {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
@@ -86,7 +86,7 @@ BaseDialog {
                     }
                 }
                 ActionDialogItem {
-                    text: "Ok"
+                    text: qsTr("Ok")
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {

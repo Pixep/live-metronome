@@ -11,7 +11,7 @@ Item {
         height: parent.height
         width: parent.width / 2 - 5
         color: appStyle.headerColor
-        imageSource: "qrc:/qml/images/icon_clear.png"
+        iconSource: "qrc:/qml/images/icon_clear.png"
 
         onClicked: {
             parent.refused()
@@ -23,7 +23,7 @@ Item {
         width: parent.width / 2 - 5
         anchors.right: parent.right
         color: appStyle.headerColor
-        imageSource: "qrc:/qml/images/icon_check.png"
+        iconSource: "qrc:/qml/images/icon_check.png"
 
         onClicked: {
             parent.accepted()

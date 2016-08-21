@@ -14,9 +14,10 @@ Rectangle {
     }
 
     property alias text: textItem.text
-    property alias imageSource: imageItem.source
+    property alias iconSource: imageItem.source
+    property real iconScale: 1
     property alias pressed: mouseArea.pressed
-    property alias wrapMode: textItem.wrapMode
+    property alias textItem: textItem
 
     signal buttonPressed()
     signal clicked()
@@ -26,6 +27,7 @@ Rectangle {
     BaseText {
         id: textItem
         anchors.fill: parent
+        anchors.margins: 4
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }
@@ -33,8 +35,8 @@ Rectangle {
     Image {
         id: imageItem
         anchors.centerIn: parent
-        height: 0.6 * parent.height
-        width: 0.6 * parent.width
+        height: iconScale * parent.height
+        width: iconScale * parent.width
         fillMode: Image.PreserveAspectFit
     }
 

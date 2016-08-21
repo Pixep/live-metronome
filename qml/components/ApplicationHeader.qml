@@ -23,7 +23,8 @@ Item {
         id: backButton
         height: parent.height
         width: height
-        imageSource: "qrc:/qml/images/icon_back.png"
+        iconSource: "qrc:/qml/images/icon_back.png"
+        iconScale: 0.8
         radius: 0
         color: "transparent"
         onClicked: parent.back()
@@ -43,7 +44,8 @@ Item {
         id: menuButton
         height: parent.height
         width: height
-        imageSource: "qrc:/qml/images/icon_menu.png"
+        iconSource: "qrc:/qml/images/icon_menu.png"
+        iconScale: 0.8
         anchors.right: parent.right
         radius: 0
         color: "transparent"

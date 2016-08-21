@@ -19,9 +19,17 @@ Item {
         text: root.playing ? qsTr("Stop") : qsTr("Play")
         color: pressed ? appStyle.headerColorDark : appStyle.headerColor
         opacity: 1
+        textItem.font.pixelSize: appStyle.titleFontSize
 
         onClicked: {
             root.clicked()
+        }
+
+        Image {
+            height: parent.height
+            fillMode: Image.PreserveAspectFit
+            source: "qrc:/qml/images/icon_stop.png"
+            visible: root.playing
         }
 
         /*Item {

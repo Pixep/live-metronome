@@ -40,5 +40,6 @@
         <file>qml/images/icon_handle.png</file>
         <file>qml/ApplicationStyle.qml</file>
         <file>qml/MenuDialog.qml</file>
+        <file>qml/images/icon_stop.png</file>
     </qresource>
 </RCC>

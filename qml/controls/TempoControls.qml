@@ -29,7 +29,7 @@ Row {
     Button {
         height: parent.height
         width: parent.width / 3 - 2/3 * appStyle.sidesMargin
-        imageSource: "qrc:/qml/images/icon_minus.png"
+        iconSource: "qrc:/qml/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
         onPressAndHold: decreaseButtonHoldTimer.start()
         onReleased: decreaseButtonHoldTimer.stop()
@@ -74,7 +74,7 @@ Row {
                 width: tempoTextElement.width
                 height: appStyle.controlHeight
                 text: qsTr("Tap tempo")
-                wrapMode: Text.Wrap
+                textItem.wrapMode: Text.Wrap
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 property double tapTime1: 0
@@ -209,7 +209,7 @@ Row {
     Button {
         height: parent.height
         width: parent.width / 3 - 2/3 * appStyle.sidesMargin
-        imageSource: "qrc:/qml/images/icon_plus.png"
+        iconSource: "qrc:/qml/images/icon_plus.png"
         onClicked: root.increaseTempo()
         onPressAndHold: increaseButtonHoldTimer.start()
         onReleased: increaseButtonHoldTimer.stop()

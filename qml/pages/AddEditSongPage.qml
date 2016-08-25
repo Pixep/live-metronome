@@ -5,7 +5,8 @@ import "../controls"
 
 Page {
     id: page
-    actionButtonsVisible: true
+    //actionButtonsVisible: true
+    saveButtonsVisible: true
     actionButtonRight.enabled: inputValid()
 
     property int songIndex
@@ -25,13 +26,13 @@ Page {
     }
 
     // Cancel
-    onActionButtonLeftClicked: {
+    onDiscard: {
         metronome.songIndex = songIndex
         hide()
     }
 
     // Save
-    onActionButtonRightClicked: {
+    onSave: {
         titleEdit.validate()
         artistEdit.validate()
         tempoEdit.validate()

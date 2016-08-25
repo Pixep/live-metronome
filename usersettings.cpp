@@ -1,5 +1,6 @@
 #include "usersettings.h"
 #include "application.h"
+#include "setlist.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -11,9 +12,27 @@
 #include <QtAndroidExtras/QAndroidJniObject>
 #endif
 
-UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent)
+UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent),
+    m_currentSetlist(nullptr)
 {
     m_storagePath = path;
+    m_currentSetlist = new Setlist();
+}
+
+SongsListModel *UserSettings::songsModel()
+{
+    if (m_currentSetlist)
+        return m_currentSetlist->model();
+
+    return nullptr;
+}
+
+const SongsListModel *UserSettings::songsModelConst() const
+{
+    if (m_currentSetlist)
+        return m_currentSetlist->model();
+
+    return nullptr;
 }
 
 void UserSettings::resetToDefault()
@@ -33,7 +52,7 @@ void UserSettings::resetToDefault()
 
 bool UserSettings::setJsonSettings(const QString &json)
 {
-    m_songsModel.removeRows(0, m_songsModel.rowCount());
+    songsModel()->removeRows(0, songsModel()->rowCount());
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
     QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
@@ -53,7 +72,7 @@ QString UserSettings::jsonSettings() const
     QJsonObject jsonDocObject;
 
     QJsonArray jsonArraySongs;
-    foreach(const Song* song, m_songsModel.songsList())
+    foreach(const Song* song, songsModelConst()->songsList())
     {
         QJsonObject songObject;
         songObject["title"] = song->title();
@@ -80,24 +99,24 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
 
 bool UserSettings::setSong_internal(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    QModelIndex songModelIndex = m_songsModel.index(index);
+    QModelIndex songModelIndex = songsModel()->index(index);
     if (!songModelIndex.isValid())
         return false;
 
-    m_songsModel.setData(songModelIndex, title, SongsListModel::TitleRole);
-    m_songsModel.setData(songModelIndex, artist, SongsListModel::ArtistRole);
-    m_songsModel.setData(songModelIndex, tempo, SongsListModel::TempoRole);
-    m_songsModel.setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
+    songsModel()->setData(songModelIndex, title, SongsListModel::TitleRole);
+    songsModel()->setData(songModelIndex, artist, SongsListModel::ArtistRole);
+    songsModel()->setData(songModelIndex, tempo, SongsListModel::TempoRole);
+    songsModel()->setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
     return true;
 }
 
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
-    if (m_songsModel.rowCount() >= Application::maximumSongsPerPlaylist())
+    if (songsModel()->rowCount() >= Application::maximumSongsPerPlaylist())
         return false;
 
-    int newSongIndex = m_songsModel.rowCount();
-    if ( ! m_songsModel.insertRow(newSongIndex))
+    int newSongIndex = songsModel()->rowCount();
+    if ( ! songsModel()->insertRow(newSongIndex))
         return false;
 
     setSong(newSongIndex, title, artist, tempo, beatsPerMeasure);
@@ -117,7 +136,7 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
 
 bool UserSettings::removeSong(int index)
 {
-    if (!m_songsModel.removeRow(index))
+    if (!songsModel()->removeRow(index))
         return false;
 
     emit songRemoved(index);
@@ -128,7 +147,7 @@ bool UserSettings::removeSong(int index)
 
 bool UserSettings::removeAllSongs()
 {
-    if (!m_songsModel.removeRows(0, m_songsModel.rowCount()))
+    if (!songsModel()->removeRows(0, songsModel()->rowCount()))
         return false;
 
     emit allSongsRemoved();
@@ -151,7 +170,7 @@ bool UserSettings::moveSong(int index, int destinationIndex)
 
 bool UserSettings::commitSongMoves()
 {
-    m_songsModel.setSongsList(m_songsMoveModel.songsList());
+    songsModel()->setSongsList(m_songsMoveModel.songsList());
 
     emit settingsModified();
     return true;
@@ -159,6 +178,6 @@ bool UserSettings::commitSongMoves()
 
 bool UserSettings::discardSongMoves()
 {
-    m_songsMoveModel.setSongsList(m_songsModel.songsList());
+    m_songsMoveModel.setSongsList(songsModel()->songsList());
     return true;
 }

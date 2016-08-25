@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     metronome.cpp \
     audiostream.cpp \
     songslistmodel.cpp \
-    application.cpp
+    application.cpp \
+    setlist.cpp
 
 RESOURCES += qml.qrc \
     translations.qrc
@@ -45,7 +46,8 @@ HEADERS += \
     metronome.h \
     audiostream.h \
     songslistmodel.h \
-    application.h
+    application.h \
+    setlist.h
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -68,7 +70,9 @@ android {
 TRANSLATIONS = \
     translations/en-US.ts \
     translations/fr-FR.ts \
-    translations/es-ES.ts
+    translations/es-ES.ts \
+    translations/zn-CN.ts \
+    translations/de-DE.ts
 
 lupdate-only {
     SOURCES += $$OTHER_FILES

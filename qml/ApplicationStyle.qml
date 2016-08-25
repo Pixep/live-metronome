@@ -4,6 +4,7 @@ import QtQuick.Window 2.2
 QtObject {
     property int borderRadius: 5 * sizeFactor
     property int sidesMargin: 10 * sizeFactor
+
     property string textColor: "#f0f0f0"
     property string textColor2: "#c0c0c0"
     property string textColorDark: "#202020"
@@ -14,9 +15,11 @@ QtObject {
     property string backgroundColor3: "#353535"
     property color highlightColor1: "#267255"
     property color highlightColor2: "#492D72"
+
     property int baseFontSize: 30 * sizeFactor
     property int titleFontSize: 35 * sizeFactor
     property int smallFontSize: 20 * sizeFactor
+
     property int controlHeight: 80 * sizeFactor
     property int colMargin: sidesMargin
     property int width_col1: 1 * pageContainer.width / 6 - 0.5*sidesMargin

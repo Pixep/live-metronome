@@ -7,6 +7,7 @@ Item {
     width: parent.width
 
     property alias text: textItem.text
+    property alias iconSource: iconItem.source
     property alias showSeparator: separator.visible
 
     signal clicked
@@ -20,6 +21,14 @@ Item {
     BaseText {
         id: textItem
         anchors.centerIn: parent
+    }
+
+    Image {
+        id: iconItem
+        height: parent.height
+        width: height
+        fillMode: Image.PreserveAspectFit
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     MouseArea {

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR" sourcelanguage="en">
+<TS version="2.1" language="zh" sourcelanguage="en">
 <context>
     <name>AddEditSongPage</name>
     <message>
         <location filename="../qml/pages/AddEditSongPage.qml" line="90"/>
         <source>Title</source>
-        <translation>Titre</translation>
+        <translation>标题</translation>
     </message>
     <message>
         <location filename="../qml/pages/AddEditSongPage.qml" line="106"/>
         <source>Artist</source>
-        <translation>Artiste</translation>
+        <translation>艺术家</translation>
     </message>
     <message>
         <location filename="../qml/pages/AddEditSongPage.qml" line="117"/>
         <source>Tempo</source>
-        <translation>Tempo</translation>
+        <translation>时间</translation>
     </message>
     <message>
         <location filename="../qml/pages/AddEditSongPage.qml" line="148"/>
         <source>Beats per measure</source>
-        <translation>Temps par mesure</translation>
+        <translation>每小节拍</translation>
     </message>
 </context>
 <context>
@@ -29,12 +29,12 @@
     <message>
         <location filename="../qml/components/ApplicationHeader.qml" line="38"/>
         <source>Live Metronome</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/components/ApplicationHeader.qml" line="57"/>
         <source>Menu disabled during play</source>
-        <translation>Menu désactivé pendant la lecture</translation>
+        <translation>关闭播放过程中</translation>
     </message>
 </context>
 <context>
@@ -42,12 +42,12 @@
     <message>
         <location filename="../qml/dialogs/ConfirmDialog.qml" line="80"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/dialogs/ConfirmDialog.qml" line="89"/>
         <source>Ok</source>
-        <translation>Valider</translation>
+        <translation>好</translation>
     </message>
 </context>
 <context>
@@ -55,7 +55,7 @@
     <message>
         <location filename="../qml/pages/MainPage.qml" line="85"/>
         <source>Do you confirm removing &apos;%1&apos; ?</source>
-        <translation>Est-ce que vous confirmez la suppression de &apos;%1&apos; ?</translation>
+        <translation>你确定要删除%1？ </translation>
     </message>
 </context>
 <context>
@@ -63,42 +63,42 @@
     <message>
         <location filename="../qml/MenuDialog.qml" line="10"/>
         <source>Edit song</source>
-        <translation>Modifier la musique</translation>
+        <translation>编辑音乐</translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="18"/>
         <source>Add new song</source>
-        <translation>Ajouter une musique</translation>
+        <translation>添加音乐</translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="29"/>
         <source>Change songs order</source>
-        <translation>Modifier l&apos;ordre</translation>
+        <translation>更改顺序</translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="38"/>
         <source>Clear all</source>
-        <translation>Tout effacer</translation>
+        <translation>清除所有</translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="41"/>
         <source>Do you confirm removing all songs from the set ?</source>
-        <translation>Confirmez-vous la suppression de toutes les musiques de cette liste ?</translation>
+        <translation>你确定要删除所有的音乐？</translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="57"/>
         <source>Reset all</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="60"/>
         <source>Do you confirm resetting all set content ?</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/MenuDialog.qml" line="75"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -106,18 +106,7 @@
     <message>
         <location filename="../qml/pages/MoveSongsPage.qml" line="58"/>
         <source>Discard your modifications ?</source>
-        <translation>Annuler vos modifications ?</translation>
-    </message>
-</context>
-<context>
-    <name>Page</name>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Annuler</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Sauver</translation>
+        <translation>放弃您的修改？</translation>
     </message>
 </context>
 <context>
@@ -125,27 +114,27 @@
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="14"/>
         <source>Set tempo to %1</source>
-        <translation>Régler le tempo à %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="23"/>
         <source>Edit</source>
-        <translation>Editer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="30"/>
         <source>Move song</source>
-        <translation>Déplacer la musique</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="37"/>
         <source>Delete</source>
-        <translation>Supprimer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="44"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -153,7 +142,7 @@
     <message>
         <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -161,12 +150,12 @@
     <message>
         <location filename="../qml/controls/StartStopButton.qml" line="19"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/controls/StartStopButton.qml" line="19"/>
         <source>Play</source>
-        <translation>Démarrer</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -174,7 +163,7 @@
     <message>
         <location filename="../qml/controls/TempoControls.qml" line="76"/>
         <source>Tap tempo</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

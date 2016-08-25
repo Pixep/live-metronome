@@ -7,10 +7,13 @@
 #include <QObject>
 #include <QQmlListProperty>
 
+class Setlist;
+
 class UserSettings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(SongsListModel* songsModel READ songsModel CONSTANT)
+    Q_PROPERTY(Setlist* setlist READ setlist NOTIFY setlistChanged)
+    Q_PROPERTY(SongsListModel* songsModel READ songsModel NOTIFY setlistChanged)
     Q_PROPERTY(SongsListModel* songsMoveModel READ songsMoveModel CONSTANT)
 
 signals:
@@ -24,8 +27,13 @@ public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
 
     QQmlListProperty<Song> songList();
-    SongsListModel* songsModel() { return &m_songsModel; }
+    Setlist* setlist() { return m_currentSetlist; }
+    SongsListModel* songsModel();
+    const SongsListModel *songsModelConst() const;
     SongsListModel* songsMoveModel() { return &m_songsMoveModel; }
+
+signals:
+    void setlistChanged();
 
 public slots:
     void resetToDefault();
@@ -45,9 +53,10 @@ private:
     bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
 
 private:
-    SongsListModel m_songsModel;
-    SongsListModel m_songsMoveModel;
+    Setlist* m_currentSetlist;
+    QVector<Setlist*> m_setlists;
 
+    SongsListModel m_songsMoveModel;
     QString m_storagePath;
 };
 

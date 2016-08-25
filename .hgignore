@@ -2,7 +2,7 @@ syntax: glob
 .qmake.winrt_uuid_Metronome
 debug/
 release/
-translations/*
+translations/qt_*
 QtQuick/*
 QtQuick.2/*
 QtMultimedia/*
@@ -11,3 +11,7 @@ Metronome.vcxproj*
 Metronome.windeployqt*
 Package.*
 Makefile
+android/local.properties
+*.autosave
+syntax: regexp
+~$

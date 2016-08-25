@@ -4,22 +4,22 @@
 <context>
     <name>AddEditSongPage</name>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="89"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="90"/>
         <source>Title</source>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="105"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="106"/>
         <source>Artist</source>
         <translation>Artista</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="116"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="117"/>
         <source>Tempo</source>
         <translation>Tiempo</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="147"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="148"/>
         <source>Beats per measure</source>
         <translation>Pulsaciones por compás</translation>
     </message>
@@ -112,14 +112,12 @@
 <context>
     <name>Page</name>
     <message>
-        <location filename="../qml/components/Page.qml" line="111"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation type="vanished">Cancelar</translation>
     </message>
     <message>
-        <location filename="../qml/components/Page.qml" line="120"/>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation type="vanished">Salvar</translation>
     </message>
 </context>
 <context>

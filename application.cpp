@@ -24,6 +24,9 @@ void Application::initialize()
     QString defaultLanguage = "en-US";
     switch(QLocale::system().language())
     {
+    case QLocale::Chinese:
+        translationFile = "zn-CN";
+        break;
     case QLocale::French:
         translationFile = "fr-FR";
         break;

@@ -77,7 +77,7 @@ BaseDialog {
                 width: parent.width
 
                 ActionDialogItem {
-                    text: qsTr("Cancel")
+                    iconSource: "qrc:/qml/images/icon_clear.png"
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
@@ -86,7 +86,7 @@ BaseDialog {
                     }
                 }
                 ActionDialogItem {
-                    text: qsTr("Ok")
+                    iconSource: "qrc:/qml/images/icon_check.png"
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {

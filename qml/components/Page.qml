@@ -14,6 +14,7 @@ Item {
 
     default property alias pageContent: pageContentItem.children
     property alias actionButtonsVisible: actionButtons.visible
+    property alias saveButtonsVisible: saveButtons.visible
     property alias actionButtonLeft: leftActionButton
     property alias actionButtonRight: rightActionButton
     property alias p: p
@@ -21,6 +22,8 @@ Item {
 
     signal actionButtonLeftClicked()
     signal actionButtonRightClicked()
+    signal save()
+    signal discard()
 
     QtObject {
         id: p
@@ -108,7 +111,6 @@ Item {
 
         Button {
             id: leftActionButton
-            text: qsTr("Cancel")
             width: appStyle.width_col3
             height: appStyle.controlHeight
             onClicked: {
@@ -117,12 +119,24 @@ Item {
         }
         Button {
             id: rightActionButton
-            text: qsTr("Save")
             width: appStyle.width_col3
             height: appStyle.controlHeight
             onClicked: {
                 page.actionButtonRightClicked();
             }
+        }
+    }
+
+    ButtonsOkCancel {
+        id: saveButtons
+        anchors.bottom: parent.bottom
+        visible: false
+
+        onAccepted: {
+            page.save()
+        }
+        onRefused: {
+            page.discard()
         }
     }
 }

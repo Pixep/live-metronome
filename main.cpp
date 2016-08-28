@@ -7,6 +7,7 @@
 #include "usersettings.h"
 #include "metronome.h"
 #include "application.h"
+#include "setlist.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     qmlRegisterType<Song>("LiveMetronome", 1, 0, "Song");
+    qmlRegisterType<Setlist>("LiveMetronome", 1, 0, "Setlist");
     qmlRegisterType<Metronome>("LiveMetronome", 1, 0, "Metronome");
 
     Platform platform;

@@ -1,6 +1,7 @@
 #include "setlist.h"
 
-Setlist::Setlist(QObject *parent) : QObject(parent)
+Setlist::Setlist(QObject *parent) : QObject(parent),
+    m_name(tr("New setlist"))
 {
     connect(model(), &SongsListModel::countChanged, this, &Setlist::countChanged);
 }

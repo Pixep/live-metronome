@@ -65,7 +65,6 @@ Page {
 
     SongActionDialog {
         id: actionDialog
-        parent: dialogContainer
 
         onUpdateSongTempo: {
             var song = userSettings.songsModel.get(contextValue);

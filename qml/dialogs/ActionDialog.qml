@@ -4,6 +4,7 @@ BaseDialog {
     id: dialog
     width: parent.width
     height: parent.height
+    parent: dialogContainer
 
     property int contextValue
     property int contextValue2

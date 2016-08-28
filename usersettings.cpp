@@ -16,7 +16,7 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
     m_currentSetlist(nullptr)
 {
     m_storagePath = path;
-    m_currentSetlist = new Setlist();
+    addSetlist_internal("New setlist");
 }
 
 SongsListModel *UserSettings::songsModel()
@@ -110,6 +110,39 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
     return true;
 }
 
+bool UserSettings::addSetlist_internal(const QString &name)
+{
+    if ( ! Application::allowPlaylists())
+    {
+        qWarning() << "Adding a playlist is not allowed with free version";
+        return false;
+    }
+
+    Setlist* setlist = new Setlist();
+    setlist->setName(name);
+    m_setlists.append(setlist);
+
+    if (m_currentSetlist == nullptr)
+        m_currentSetlist = setlist;
+
+    return true;
+}
+
+QQmlListProperty<Setlist> UserSettings::setlistsProperty()
+{
+    return QQmlListProperty<Setlist>(this, &m_setlists, &UserSettings::setlistsProperty_count, &UserSettings::setlistsProperty_at);
+}
+
+int UserSettings::setlistsProperty_count(QQmlListProperty<Setlist> *listProperty)
+{
+    return static_cast<QVector<Setlist* >* >(listProperty->data)->count();
+}
+
+Setlist *UserSettings::setlistsProperty_at(QQmlListProperty<Setlist> *listProperty, int index)
+{
+    return static_cast<QVector<Setlist* >* >(listProperty->data)->value(index);
+}
+
 bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
 {
     if (songsModel()->rowCount() >= Application::maximumSongsPerPlaylist())
@@ -164,6 +197,44 @@ bool UserSettings::moveSong(int index, int destinationIndex)
 
     if (!m_songsMoveModel.moveRow(QModelIndex(), index, QModelIndex(), destinationChild))
         return false;
+
+    return true;
+}
+
+bool UserSettings::addSetlist(const QString &name)
+{
+    if (!addSetlist_internal(name))
+        return false;
+
+    emit setlistsChanged();
+
+    setCurrentSetlist(setlistsCount()-1);
+
+    return true;
+}
+
+bool UserSettings::removeSetlist()
+{
+    int removed = m_setlists.removeAll(m_currentSetlist);
+
+    if (removed == 0)
+        return false;
+
+    emit setlistsChanged();
+    return true;
+}
+
+bool UserSettings::setCurrentSetlist(int index)
+{
+    Setlist* newSetlist = m_setlists.value(index);
+    if (newSetlist == nullptr)
+        return false;
+
+    if (m_currentSetlist == newSetlist)
+        return true;
+
+    m_currentSetlist = newSetlist;
+    emit setlistChanged();
 
     return true;
 }

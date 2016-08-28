@@ -43,5 +43,7 @@
         <file>qml/components/ApplicationMenu.qml</file>
         <file>qml/controls/MenuItem.qml</file>
         <file>qml/MainMenu.qml</file>
+        <file>qml/pages/SetlistPage.qml</file>
+        <file>qml/pages/SetlistPage/SetlistListView.qml</file>
     </qresource>
 </RCC>

@@ -5,7 +5,7 @@ Item {
     id: root
     height: visible ? appStyle.controlHeight : 0
     Layout.fillWidth: true
-    Layout.minimumWidth: iconItem.width + textItem.width + 2*appStyle.margin + 4*appStyle.margin
+    Layout.minimumWidth: iconItem.width + textItem.width + 2*appStyle.margin + 6*appStyle.margin
 
     property alias text: textItem.text
     property alias iconSource: iconItem.source
@@ -23,17 +23,26 @@ Item {
         id: contentItem
         x: appStyle.margin
 
+        Rectangle {
+            anchors.fill: iconItem
+            anchors.margins: - 0.05 * appStyle.controlHeight
+            radius: width / 2
+            color: appStyle.headerColor
+        }
+
         Image {
             id: iconItem
-            height: appStyle.controlHeight
-            width: appStyle.controlHeight
+            y: 0.25 * appStyle.controlHeight
+            x: 0.15 * appStyle.controlHeight
+            height: 0.5 * appStyle.controlHeight
+            width: 0.5 * appStyle.controlHeight
             fillMode: Image.PreserveAspectFit
         }
         BaseText {
             id: textItem
             height: appStyle.controlHeight
             anchors.left: iconItem.right
-            anchors.leftMargin: appStyle.margin
+            anchors.leftMargin: appStyle.margin + 0.1 * appStyle.controlHeight
             verticalAlignment: Text.AlignVCenter
         }
     }

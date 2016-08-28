@@ -7,9 +7,9 @@ Item {
     x: window.width
     width: parent.width
     anchors.top: parent.top
-    anchors.topMargin: 2 * appStyle.sidesMargin
+    anchors.topMargin: 2 * appStyle.margin
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: appStyle.sidesMargin
+    anchors.bottomMargin: appStyle.margin
     visible: false
 
     default property alias pageContent: pageContentItem.children
@@ -59,7 +59,7 @@ Item {
     }
 
     Rectangle {
-        x: -appStyle.sidesMargin
+        x: -appStyle.margin
         width: 1.5 * pageContainer.backgroundWidth // Larger than page for animation overshoot
         height: pageContainer.backgroundHeight
         color: appStyle.backgroundColor
@@ -75,7 +75,7 @@ Item {
         width: parent.width
         anchors.top: parent.top
         anchors.bottom: actionButtons.visible ? actionButtons.top : parent.bottom
-        anchors.bottomMargin: actionButtons.visible ? appStyle.sidesMargin : 0
+        anchors.bottomMargin: actionButtons.visible ? appStyle.margin : 0
     }
 
     NumberAnimation on x {
@@ -106,7 +106,7 @@ Item {
         id: actionButtons
         anchors.bottom: parent.bottom
         width: parent.width
-        spacing: appStyle.sidesMargin
+        spacing: appStyle.margin
         visible: false
 
         Button {

@@ -122,8 +122,8 @@ Item {
 
                     Row {
                         anchors.fill: parent
-                        anchors.margins: appStyle.sidesMargin
-                        anchors.leftMargin: 2 * appStyle.sidesMargin
+                        anchors.margins: appStyle.margin
+                        anchors.leftMargin: 2 * appStyle.margin
                         scale: Drag.active ? 0.9 : 1
 
                         Behavior on scale {

@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 
 QtObject {
     property int borderRadius: 5 * sizeFactor
-    property int sidesMargin: 10 * sizeFactor
+    property int margin: 10 * sizeFactor
 
     property string textColor: "#f0f0f0"
     property string textColor2: "#c0c0c0"
@@ -21,12 +21,12 @@ QtObject {
     property int smallFontSize: 20 * sizeFactor
 
     property int controlHeight: 80 * sizeFactor
-    property int colMargin: sidesMargin
-    property int width_col1: 1 * pageContainer.width / 6 - 0.5*sidesMargin
-    property int width_col2: 2 * pageContainer.width / 6 - 0.5*sidesMargin
-    property int width_col3: 3 * pageContainer.width / 6 - 0.5*sidesMargin
-    property int width_col4: 4 * pageContainer.width / 6 - 0.5*sidesMargin
-    property int width_col5: 5 * pageContainer.width / 6 - 0.5*sidesMargin
+    property int colMargin: margin
+    property int width_col1: 1 * pageContainer.width / 6 - 0.5*margin
+    property int width_col2: 2 * pageContainer.width / 6 - 0.5*margin
+    property int width_col3: 3 * pageContainer.width / 6 - 0.5*margin
+    property int width_col4: 4 * pageContainer.width / 6 - 0.5*margin
+    property int width_col5: 5 * pageContainer.width / 6 - 0.5*margin
     property int width_col6: pageContainer.width
     property real sizeFactor: {
         if (Screen.pixelDensity < 5)

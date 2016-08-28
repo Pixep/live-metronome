@@ -4,8 +4,6 @@ BaseDialog {
     id: dialog
     width: parent.width
     height: parent.height
-    visible: false
-    opacity: 0
 
     property int contextValue
     property int contextValue2

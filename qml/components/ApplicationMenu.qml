@@ -1,14 +1,16 @@
 import QtQuick 2.5
+import QtQuick.Layouts 1.1
 
 Item {
-    id: dialog
+    id: menu
+    height: parent.height
+    width: parent.width
     visible: false
-    opacity: 0
 
     signal showed()
     signal closed()
 
-    default property alias dialogContent: dialogContentItem.children
+    default property alias menuContent: menuContentItem.children
     property bool active: false
 
     property var showAnimation: null
@@ -63,38 +65,33 @@ Item {
         id: defaultShowAnimation
 
         PropertyAction {
-            target: dialog
+            target: menuBackground
+            property: "x"
+            value: -menuBackground.width
+        }
+        PropertyAction {
+            target: menu
             property: "visible"
             value: true
         }
-        PropertyAction {
-            target: dialog
-            property: "opacity"
-            value: 0
-        }
-        PropertyAction {
-            target: dialogContentItem
-            property: "scale"
-            value: 0.8
-        }
         ParallelAnimation {
             NumberAnimation {
-                target: dialog
-                property: "opacity"
-                to: 1
+                target: menuBackground
+                property: "x"
+                to: 0
                 duration: 250
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
-                target: dialogContentItem
-                property: "scale"
-                to: 1
+                target: backgroundOverlay
+                property: "opacity"
+                to: 0.7
                 duration: 250
-                easing.type: Easing.OutBack
+                easing.type: Easing.OutCubic
             }
         }
         PropertyAction {
-            target: dialog
+            target: menuBackground
             property: "enabled"
             value: true
         }
@@ -104,47 +101,63 @@ Item {
         id: defaultHideAnimation
 
         PropertyAction {
-            target: dialog
+            target: menuBackground
             property: "enabled"
             value: false
         }
         ParallelAnimation {
             NumberAnimation {
-                target: dialog
+                target: menuBackground
+                property: "x"
+                to: -menuBackground.width
+                duration: 250
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: backgroundOverlay
                 property: "opacity"
                 to: 0
                 duration: 250
                 easing.type: Easing.OutCubic
             }
-            NumberAnimation {
-                target: dialogContentItem
-                property: "scale"
-                to: 0.8
-                duration: 200
-                easing.type: Easing.OutCubic
-            }
         }
         PropertyAction {
-            target: dialog
+            target: menu
             property: "visible"
             value: false
         }
     }
 
     Rectangle {
-        opacity: 0.7
-        anchors.fill: parent
+        id: backgroundOverlay
+        opacity: 0
+        height: window.height
+        width: window.width
         color: "black"
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                menu.close()
+            }
+        }
+    }
+
+    Rectangle {
+        id: menuBackground
+        height: parent.height
+        width: menuContentItem.width
+        color: "#333"
+
         MouseArea {
             anchors.fill: parent
             onClicked: {
                 //Catch signal
             }
         }
-    }
 
-    Item {
-        id: dialogContentItem
-        anchors.fill: parent
+        ColumnLayout {
+            id: menuContentItem
+            spacing: 0
+        }
     }
 }

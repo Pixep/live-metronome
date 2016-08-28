@@ -140,8 +140,8 @@ Window {
                 addEditPage.hide()
             else if (confirmDialog.visible)
                 confirmDialog.close(false)
-            else if (menuDialog.visible)
-                menuDialog.close()
+            else if (mainMenu.visible)
+                mainMenu.close()
 
             back()
         }
@@ -160,14 +160,14 @@ Window {
                 contentRoot.onBack()
             }
             onShowMenu: {
-                menuDialog.show()
+                mainMenu.show()
             }
         }
 
         Item {
             id: pageContainer
-            x: appStyle.sidesMargin
-            width: parent.width - 2 * appStyle.sidesMargin
+            x: appStyle.margin
+            width: parent.width - 2 * appStyle.margin
             anchors.top: appHeader.bottom
             anchors.bottom: parent.bottom
 
@@ -194,8 +194,8 @@ Window {
                 id: confirmDialog
             }
 
-            MenuDialog {
-                id: menuDialog
+            MainMenu {
+                id: mainMenu
             }
 
             Item {
@@ -214,7 +214,7 @@ Window {
 
                 Rectangle {
                     anchors.fill: toastText
-                    anchors.margins: -appStyle.sidesMargin
+                    anchors.margins: -appStyle.margin
                     radius: appStyle.borderRadius
                     color: "black"
                     opacity: 0.9

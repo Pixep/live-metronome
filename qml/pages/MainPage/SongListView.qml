@@ -14,7 +14,7 @@ Item {
 
     BaseText {
         anchors.fill: songListView
-        anchors.margins: appStyle.sidesMargin
+        anchors.margins: appStyle.margin
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         text: qsTr("No song present your set<br>Add one with the %1 button").arg("<img src='qrc:/qml/images/icon_menu.png'></img>")

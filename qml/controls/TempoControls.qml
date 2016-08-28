@@ -3,7 +3,7 @@ import QtQuick 2.5
 Row {
     id: root
     height: appStyle.controlHeight
-    spacing: appStyle.sidesMargin
+    spacing: appStyle.margin
 
     readonly property alias tempo: tempoTextItem.tempo
 
@@ -28,7 +28,7 @@ Row {
 
     Button {
         height: parent.height
-        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
+        width: parent.width / 3 - 2/3 * appStyle.margin
         iconSource: "qrc:/qml/images/icon_minus.png"
         onClicked: parent.decreaseTempo()
         onPressAndHold: decreaseButtonHoldTimer.start()
@@ -48,13 +48,13 @@ Row {
     Item {
         id: tempoTextElement
         height: parent.height
-        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
+        width: parent.width / 3 - 2/3 * appStyle.margin
 
         Item {
             visible: tempoTextItem.focus
-            x: -tempoTextElement.x - appStyle.sidesMargin
-            y: parent.height + appStyle.sidesMargin
-            width: root.width + appStyle.sidesMargin * 2
+            x: -tempoTextElement.x - appStyle.margin
+            y: parent.height + appStyle.margin
+            width: root.width + appStyle.margin * 2
             height: window.height
 
             Rectangle {
@@ -119,7 +119,7 @@ Row {
             Rectangle {
                 color: appStyle.backgroundColor
                 anchors.fill: parent
-                anchors.margins: appStyle.sidesMargin / 2
+                anchors.margins: appStyle.margin / 2
                 radius: appStyle.borderRadius
                 visible: tempoTextItem.focus
             }
@@ -208,7 +208,7 @@ Row {
 
     Button {
         height: parent.height
-        width: parent.width / 3 - 2/3 * appStyle.sidesMargin
+        width: parent.width / 3 - 2/3 * appStyle.margin
         iconSource: "qrc:/qml/images/icon_plus.png"
         onClicked: root.increaseTempo()
         onPressAndHold: increaseButtonHoldTimer.start()

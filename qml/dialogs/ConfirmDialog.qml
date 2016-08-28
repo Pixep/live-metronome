@@ -5,7 +5,6 @@ import "../controls"
 BaseDialog {
     width: parent.width
     height: parent.height
-    visible: false
 
     property QtObject target
 
@@ -41,17 +40,17 @@ BaseDialog {
             y: appStyle.borderRadius
             width: parent.width
             height: childrenRect.height
-            spacing: appStyle.sidesMargin
+            spacing: appStyle.margin
 
             Item {
                 width: parent.width
-                height: titleText.height + 2 * appStyle.sidesMargin
+                height: titleText.height + 2 * appStyle.margin
 
                 BaseText {
                     id: titleText
-                    x: appStyle.sidesMargin
-                    y: appStyle.sidesMargin
-                    width: parent.width - 2 * appStyle.sidesMargin
+                    x: appStyle.margin
+                    y: appStyle.margin
+                    width: parent.width - 2 * appStyle.margin
 
                     wrapMode: Text.Wrap
                     horizontalAlignment: Text.AlignHCenter

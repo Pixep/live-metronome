@@ -1,23 +1,44 @@
 import QtQuick 2.5
+import QtQuick.Layouts 1.1
 
-import "dialogs"
+import "controls"
+import "components"
 
-ActionDialog {
-    id: dialog
+ApplicationMenu {
+    id: menu
 
-    ActionDialogItem {
+    Item {
+        Layout.fillWidth: true
+        height: appStyle.controlHeight
+
+        BaseText {
+            anchors.centerIn: parent
+            text: "Live Metronome"
+            color: appStyle.textColor2
+        }
+
+        Rectangle {
+            id: separator
+            width: parent.width
+            height: 1
+            anchors.bottom: parent.bottom
+            color: appStyle.backgroundColor2
+        }
+    }
+
+    MenuItem {
         visible: metronome.isCurrentSongValid
         text: qsTr("Edit song")
         onClicked: {
-            dialog.close()
+            menu.close()
             controller.editSong(metronome.songIndex)
         }
     }
 
-    ActionDialogItem {
+    MenuItem {
         text: qsTr("Add new song")
         onClicked: {
-            dialog.close()
+            menu.close()
             addEditPage.songIndex = -1;
             addEditPage.clear()
             addEditPage.show()
@@ -25,19 +46,19 @@ ActionDialog {
         }
     }
 
-    ActionDialogItem {
+    MenuItem {
         text: qsTr("Change songs order")
         visible: userSettings.songsModel.count >= 2
         onClicked: {
-            dialog.close()
+            menu.close()
             moveSongsPage.show()
         }
     }
 
-    ActionDialogItem {
+    MenuItem {
         text: qsTr("Clear all")
         onClicked: {
-            dialog.close()
+            menu.close()
             confirmDialog.show(qsTr("Do you confirm removing all songs from the set ?"),
                                clearConfirmation)
         }
@@ -52,11 +73,11 @@ ActionDialog {
         }
     }
 
-    ActionDialogItem {
+    MenuItem {
         visible: platform.isWindows
         text: qsTr("Reset all")
         onClicked: {
-            dialog.close()
+            menu.close()
             confirmDialog.show(qsTr("Do you confirm resetting all set content ?"),
                                resetConfirmation)
         }
@@ -71,11 +92,10 @@ ActionDialog {
         }
     }
 
-    ActionDialogItem {
+    MenuItem {
         text: qsTr("Cancel")
-        showSeparator: false
         onClicked: {
-            dialog.close()
+            menu.close()
         }
     }
 }

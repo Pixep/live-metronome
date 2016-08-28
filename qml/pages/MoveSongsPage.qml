@@ -29,12 +29,12 @@ Page {
 
     MoveSongListView {
         id: songMoveListView
-        x: - appStyle.sidesMargin
-        width: parent.width + 2 * appStyle.sidesMargin
+        x: - appStyle.margin
+        width: parent.width + 2 * appStyle.margin
         anchors.top: parent.top
-        //anchors.topMargin: appStyle.sidesMargin
+        //anchors.topMargin: appStyle.margin
         anchors.bottom: previousNextRow.top
-        anchors.bottomMargin: appStyle.sidesMargin
+        anchors.bottomMargin: appStyle.margin
 
         onChangeMade: {
             page.changesMade = true

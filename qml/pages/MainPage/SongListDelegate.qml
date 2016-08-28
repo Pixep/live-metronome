@@ -23,9 +23,9 @@ Item {
 
     Row {
         anchors.fill: parent
-        anchors.margins: appStyle.sidesMargin
-        anchors.leftMargin: 3 * appStyle.sidesMargin
-        anchors.rightMargin: 3 * appStyle.sidesMargin
+        anchors.margins: appStyle.margin
+        anchors.leftMargin: 3 * appStyle.margin
+        anchors.rightMargin: 3 * appStyle.margin
         scale: songMouseArea.pressed ? 0.9 : 1
 
         Behavior on scale {

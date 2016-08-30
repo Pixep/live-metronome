@@ -33,6 +33,8 @@ public:
     SongsListModel* songsModel();
     const SongsListModel *songsModelConst() const;
     SongsListModel* songsMoveModel() { return &m_songsMoveModel; }
+    QVector<Setlist*> setlists() { return m_setlists; }
+    QVector<const Setlist*> setlistsConst() const;
 
 signals:
     void setlistChanged();
@@ -46,10 +48,11 @@ public slots:
     bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool removeSong(int index);
     bool removeAllSongs();
+
     bool moveSong(int index, int destinationIndex);
 
     bool addSetlist(const QString& name);
-    bool removeSetlist();
+    bool removeSetlist(int index);
     bool setCurrentSetlist(int index);
     int setlistsCount() const { return m_setlists.count(); }
 
@@ -57,9 +60,10 @@ public slots:
     bool discardSongMoves();
 
 private:
-    bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
-    bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
-    bool addSetlist_internal(const QString& name);
+    bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
+    bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
+    Setlist *addSetlist_internal(const QString& name);
+    bool removeAllPlaylists_internal();
 
     QQmlListProperty<Setlist> setlistsProperty();
     static int setlistsProperty_count(QQmlListProperty<Setlist> *listProperty);

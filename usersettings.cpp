@@ -35,32 +35,67 @@ const SongsListModel *UserSettings::songsModelConst() const
     return nullptr;
 }
 
+QVector<const Setlist *> UserSettings::setlistsConst() const
+{
+    QVector<const Setlist *> setlistsConstant;
+    foreach(Setlist* setlist, m_setlists)
+        setlistsConstant << setlist;
+
+    return setlistsConstant;
+}
+
 void UserSettings::resetToDefault()
 {
-    removeAllSongs();
+    removeAllPlaylists_internal();
+
+    addSetlist_internal("Live Rock");
     addSong_internal("Highway to Hell", "AC/DC", 116, 4);
-    addSong_internal("So What", "Miles Davis", 136, 4);
     addSong_internal("Sweet home Alabama", "Mc dewy", 120, 4);
-    addSong_internal("Sweet valentine", "", 90, 3);
-    addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
     addSong_internal("Roger that!", "Willy Smith", 105, 4);
     addSong_internal("Make me cry", "Stevie Wonder", 130, 4);
+    addSetlist_internal("Jazz");
+    setCurrentSetlist(1);
+    addSong_internal("So What", "Miles Davis", 136, 4);
+    addSong_internal("Sweet valentine", "", 90, 3);
+    addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
     addSong_internal("Shofukan", "Snarky Puppy", 120, 5);
+    addSong_internal("So What", "Miles Davis", 136, 4);
+    addSong_internal("Sweet valentine", "", 90, 3);
+    addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
+    addSong_internal("Shofukan", "Snarky Puppy", 120, 5);
+    setCurrentSetlist(0);
 
+    emit setlistsChanged();
+    emit setlistChanged();
     emit settingsModified();
 }
 
 bool UserSettings::setJsonSettings(const QString &json)
 {
-    songsModel()->removeRows(0, songsModel()->rowCount());
+    removeAllPlaylists_internal();
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
-    QJsonArray userSongs = jsonDoc.object().value("songs").toArray();
-    for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex) {
-        QJsonObject songObject = userSongs.at(songIndex).toObject();
-        addSong_internal(songObject.value("title").toString(), songObject.value("artist").toString(), songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4));
+    QJsonArray userSetlists = jsonDoc.object().value("setlists").toArray();
+    for(int setlistIndex = 0; setlistIndex < userSetlists.size(); ++setlistIndex)
+    {
+        QJsonObject setlistObject = userSetlists.at(setlistIndex).toObject();
+        QString setlistName = setlistObject.value("name").toString();
+        Setlist *setlist = addSetlist_internal(setlistName);
+        if (!setlist)
+            continue;
+
+        QJsonArray userSongs = setlistObject.value("songs").toArray();
+        for(int songIndex = 0; songIndex < userSongs.size(); ++songIndex)
+        {
+            QJsonObject songObject = userSongs.at(songIndex).toObject();
+            addSong_internal(songObject.value("title").toString(), songObject.value("artist").toString(),
+                             songObject.value("tempo").toInt(80), songObject.value("beatsPerMeasure").toInt(4),
+                             setlist);
+        }
     }
 
+    emit setlistsChanged();
+    emit setlistChanged();
     emit settingsModified();
 
     return true;
@@ -71,19 +106,31 @@ QString UserSettings::jsonSettings() const
     QJsonDocument jsonDoc;
     QJsonObject jsonDocObject;
 
-    QJsonArray jsonArraySongs;
-    foreach(const Song* song, songsModelConst()->songsList())
+    QJsonArray jsonArraySetlists;
+    foreach(const Setlist* setlist, setlistsConst())
     {
-        QJsonObject songObject;
-        songObject["title"] = song->title();
-        songObject["artist"] = song->artist();
-        songObject["tempo"] = song->tempo();
-        songObject["beatsPerMeasure"] = song->beatsPerMeasure();
-        jsonArraySongs.append(songObject);
+        QJsonObject setlistObject;
+        setlistObject["name"] = setlist->name();
+
+        QJsonArray jsonArraySongs;
+        foreach(const Song* song, setlist->modelConst()->songsList())
+        {
+            QJsonObject songObject;
+            songObject["title"] = song->title();
+            songObject["artist"] = song->artist();
+            songObject["tempo"] = song->tempo();
+            songObject["beatsPerMeasure"] = song->beatsPerMeasure();
+            jsonArraySongs.append(songObject);
+        }
+
+        setlistObject["songs"] = jsonArraySongs;
+        jsonArraySetlists.append(setlistObject);
     }
 
-    jsonDocObject["songs"] = jsonArraySongs;
+    jsonDocObject["setlists"] = jsonArraySetlists;
     jsonDoc.setObject(jsonDocObject);
+
+    //qWarning() << jsonDoc.toJson(QJsonDocument::Indented);
 
     return jsonDoc.toJson(QJsonDocument::Compact);
 }
@@ -97,25 +144,31 @@ bool UserSettings::setSong(int index, const QString &title, const QString &artis
     return true;
 }
 
-bool UserSettings::setSong_internal(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
+bool UserSettings::setSong_internal(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure, Setlist* setlist)
 {
-    QModelIndex songModelIndex = songsModel()->index(index);
+    SongsListModel* model = nullptr;
+    if (setlist)
+        model = setlist->model();
+    else
+        model = songsModel();
+
+    QModelIndex songModelIndex = model->index(index);
     if (!songModelIndex.isValid())
         return false;
 
-    songsModel()->setData(songModelIndex, title, SongsListModel::TitleRole);
-    songsModel()->setData(songModelIndex, artist, SongsListModel::ArtistRole);
-    songsModel()->setData(songModelIndex, tempo, SongsListModel::TempoRole);
-    songsModel()->setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
+    model->setData(songModelIndex, title, SongsListModel::TitleRole);
+    model->setData(songModelIndex, artist, SongsListModel::ArtistRole);
+    model->setData(songModelIndex, tempo, SongsListModel::TempoRole);
+    model->setData(songModelIndex, beatsPerMeasure, SongsListModel::BeatsPerMeasureRole);
     return true;
 }
 
-bool UserSettings::addSetlist_internal(const QString &name)
+Setlist* UserSettings::addSetlist_internal(const QString &name)
 {
     if ( ! Application::allowPlaylists())
     {
         qWarning() << "Adding a playlist is not allowed with free version";
-        return false;
+        return nullptr;
     }
 
     Setlist* setlist = new Setlist();
@@ -124,6 +177,19 @@ bool UserSettings::addSetlist_internal(const QString &name)
 
     if (m_currentSetlist == nullptr)
         m_currentSetlist = setlist;
+
+    return setlist;
+}
+
+bool UserSettings::removeAllPlaylists_internal()
+{
+    foreach(Setlist* setlist, m_setlists)
+    {
+        setlist->model()->removeRows(0, setlist->model()->rowCount());
+        setlist->deleteLater();
+    }
+    m_setlists.clear();
+    m_currentSetlist = nullptr;
 
     return true;
 }
@@ -143,16 +209,22 @@ Setlist *UserSettings::setlistsProperty_at(QQmlListProperty<Setlist> *listProper
     return static_cast<QVector<Setlist* >* >(listProperty->data)->value(index);
 }
 
-bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure)
+bool UserSettings::addSong_internal(const QString &title, const QString &artist, int tempo, int beatsPerMeasure, Setlist* setlist)
 {
-    if (songsModel()->rowCount() >= Application::maximumSongsPerPlaylist())
+    SongsListModel* model = nullptr;
+    if (setlist)
+        model = setlist->model();
+    else
+        model = songsModel();
+
+    if (model->rowCount() >= Application::maximumSongsPerPlaylist())
         return false;
 
-    int newSongIndex = songsModel()->rowCount();
-    if ( ! songsModel()->insertRow(newSongIndex))
+    int newSongIndex = model->rowCount();
+    if ( ! model->insertRow(newSongIndex))
         return false;
 
-    setSong(newSongIndex, title, artist, tempo, beatsPerMeasure);
+    setSong_internal(newSongIndex, title, artist, tempo, beatsPerMeasure, setlist);
 
     return true;
 }
@@ -213,12 +285,23 @@ bool UserSettings::addSetlist(const QString &name)
     return true;
 }
 
-bool UserSettings::removeSetlist()
+bool UserSettings::removeSetlist(int index)
 {
-    int removed = m_setlists.removeAll(m_currentSetlist);
-
-    if (removed == 0)
+    Setlist* setlistToDelete = m_setlists.value(index);
+    if (!setlistToDelete)
+    {
+        qWarning() << "Setlist at index " << index << " not found";
         return false;
+    }
+
+    m_setlists.removeAll(setlistToDelete);
+    setlistToDelete->deleteLater();
+
+    if (setlistsCount() == 0)
+        addSetlist_internal(tr("New setlist"));
+
+    if (m_currentSetlist == setlistToDelete)
+        setCurrentSetlist(0);
 
     emit setlistsChanged();
     return true;

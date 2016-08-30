@@ -7,6 +7,7 @@ import "dialogs"
 
 ApplicationMenu {
     id: menu
+    property Item lastMenuClicked
 
     Item {
         Layout.fillWidth: true
@@ -33,10 +34,12 @@ ApplicationMenu {
     }
 
     MenuItem {
+        id: selectSetlist
         text: qsTr("Select setlist")
         iconSource: "qrc:/qml/images/icon_check.png"
         visible: userSettings.setlists.length >= 2
         onClicked: {
+            lastMenuClicked = selectSetlist
             menu.close()
             setlistDialog.show()
         }
@@ -52,11 +55,13 @@ ApplicationMenu {
     }
 
     MenuItem {
+        id: deleteSetlist
         text: qsTr("Delete setlist")
         iconSource: "qrc:/qml/images/icon_minus.png"
-        visible: userSettings.setlists.length >= 2
         onClicked: {
+            lastMenuClicked = deleteSetlist
             menu.close()
+            setlistDialog.show()
         }
     }
 
@@ -146,12 +151,28 @@ ApplicationMenu {
             model: userSettings.setlists
 
             ActionDialogItem {
+                id: dialogItem
                 text: modelData.name
                 showSeparator: (index !== setlistsRepeater.count-1)
                 onClicked: {
-                    userSettings.setCurrentSetlist(index);
+                    if (lastMenuClicked == selectSetlist)
+                    {
+                        userSettings.setCurrentSetlist(index);
+                    }
+                    else if (lastMenuClicked == deleteSetlist)
+                    {
+                        confirmDialog.show(qsTr("Do you confirm completly removing the setlist '%1' ?").arg(text),
+                                           dialogItem)
+                    }
+
                     setlistDialog.close()
                 }
+
+                function onAccepted() {
+                    if (lastMenuClicked == deleteSetlist)
+                        userSettings.removeSetlist(index)
+                }
+                function onRefused() {}
             }
         }
 
@@ -166,5 +187,9 @@ ApplicationMenu {
                 }
             }
         ]
+    }
+
+    ConfirmDialog {
+        id: d
     }
 }

@@ -17,6 +17,9 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
 {
     m_storagePath = path;
     addSetlist_internal("New setlist");
+
+    connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
+    connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);
 }
 
 SongsListModel *UserSettings::songsModel()
@@ -320,6 +323,17 @@ bool UserSettings::setCurrentSetlist(int index)
     emit setlistChanged();
 
     return true;
+}
+
+int UserSettings::setlistIndex() const
+{
+    for(int index = 0; index < setlistsCount(); ++index)
+    {
+        if (m_setlists[index] == m_currentSetlist)
+            return index;
+    }
+
+    return -1;
 }
 
 bool UserSettings::commitSongMoves()

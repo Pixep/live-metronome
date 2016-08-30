@@ -152,7 +152,7 @@ ApplicationMenu {
 
             ActionDialogItem {
                 id: dialogItem
-                text: modelData.name
+                text: (index === userSettings.setlistIndex) ? modelData.name + " " + qsTr("(current)"): modelData.name
                 showSeparator: (index !== setlistsRepeater.count-1)
                 onClicked: {
                     if (lastMenuClicked == selectSetlist)

@@ -16,6 +16,7 @@ class UserSettings : public QObject
     Q_PROPERTY(SongsListModel* songsModel READ songsModel NOTIFY setlistChanged)
     Q_PROPERTY(SongsListModel* songsMoveModel READ songsMoveModel CONSTANT)
     Q_PROPERTY(QQmlListProperty<Setlist> setlists READ setlistsProperty NOTIFY setlistsChanged)
+    Q_PROPERTY(int setlistIndex READ setlistIndex NOTIFY setlistIndexChanged)
 
 signals:
     void settingsModified();
@@ -23,7 +24,9 @@ signals:
     void songRemoved(int removedIndex);
     void allSongsRemoved();
     void songModified();
+    void setlistChanged();
     void setlistsChanged();
+    void setlistIndexChanged();
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
@@ -35,9 +38,6 @@ public:
     SongsListModel* songsMoveModel() { return &m_songsMoveModel; }
     QVector<Setlist*> setlists() { return m_setlists; }
     QVector<const Setlist*> setlistsConst() const;
-
-signals:
-    void setlistChanged();
 
 public slots:
     void resetToDefault();
@@ -55,6 +55,7 @@ public slots:
     bool removeSetlist(int index);
     bool setCurrentSetlist(int index);
     int setlistsCount() const { return m_setlists.count(); }
+    int setlistIndex() const;
 
     bool commitSongMoves();
     bool discardSongMoves();

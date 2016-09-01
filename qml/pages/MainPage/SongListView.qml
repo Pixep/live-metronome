@@ -30,7 +30,42 @@ Item {
         boundsBehavior: Flickable.OvershootBounds
 
         model: userSettings.songsModel
-        delegate: SongListDelegate {}
+        delegate: SongListDelegate {
+            titleText: title
+            artistText: artist
+            onClicked: {
+                metronome.songIndex = index
+            }
+            onPressAndHold: {
+                actionDialog.show(index)
+            }
+        }
+        footer: SongListDelegate {
+            id: addNewSongDelegate
+            titleText: qsTr("Add new song")
+            showNumber: false
+            onClicked: {
+                addEditPage.addNewSong()
+            }
+            onPressAndHold: {
+                addEditPage.addNewSong()
+            }
+
+            Rectangle {
+                width: parent.width
+                height: width
+                radius: width/2
+                color:  appStyle.backgroundColor2
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenterOffset: -0.2*width
+                parent: addNewSongDelegate.songNumberItem
+                Image {
+                    anchors.fill: parent
+                    source: "qrc:/qml/images/icon_plus.png"
+                }
+            }
+        }
 
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)

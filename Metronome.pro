@@ -62,7 +62,8 @@ DISTFILES += \
     qml/ApplicationStyle.qml \
     qml/components/ApplicationMenu.qml \
     qml/controls/MenuItem.qml \
-    qml/MainMenu.qml
+    qml/MainMenu.qml \
+    qml/dialogs/EditDialog.qml
 
 android {
     QT += androidextras

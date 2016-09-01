@@ -3,10 +3,19 @@ import QtQuick 2.5
 import "../../controls"
 
 Item {
+    id: delegate
     width: parent.width
     height: appStyle.controlHeight
 
-    readonly property int songTempo: tempo
+    readonly property string songNumber: (typeof index !== 'undefined') ? (index+1).toString() : ""
+    readonly property int songTempo: (typeof tempo !== 'undefined') ? tempo : -1
+    property alias titleText: titleItem.text
+    property alias artistText: artistItem.text
+    property bool showNumber: true
+    property alias songNumberItem: numberItem
+
+    signal clicked()
+    signal pressAndHold()
 
     Rectangle {
         color: appStyle.headerColor
@@ -36,10 +45,11 @@ Item {
         }
 
         BaseText {
+            id: numberItem
             width: 0.10 * parent.width
             height: parent.height
             verticalAlignment: Text.AlignVCenter
-            text: (index+1) + "."
+            text: delegate.showNumber ? delegate.songNumber + "." : ""
         }
 
         Item {
@@ -47,23 +57,22 @@ Item {
             height: parent.height
 
             BaseText {
+                id: titleItem
                 width: parent.width
                 height: parent.height
-                verticalAlignment: artistText.visible ? Text.AlignTop : Text.AlignVCenter
-                text: title
+                verticalAlignment: artistItem.visible ? Text.AlignTop : Text.AlignVCenter
                 elide: Text.ElideRight
             }
 
             BaseText {
-                id: artistText
+                id: artistItem
                 width: parent.width
                 height: parent.height
                 verticalAlignment: Text.AlignBottom
                 color: appStyle.textColor2
                 font.pixelSize: appStyle.smallFontSize
-                text: artist
                 elide: Text.ElideRight
-                visible: artist !== ""
+                visible: text !== ""
             }
         }
 
@@ -72,17 +81,17 @@ Item {
             height: parent.height
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
-            text: tempo + ""
+            text: songTempo > 0 ? tempo.toString() : ""
         }
     }
     MouseArea {
         id: songMouseArea
         anchors.fill: parent
         onClicked: {
-            metronome.songIndex = index
+            delegate.clicked();
         }
         onPressAndHold: {
-            actionDialog.show(index)
+            delegate.pressAndHold()
         }
     }
 }

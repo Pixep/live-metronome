@@ -50,7 +50,7 @@ ApplicationMenu {
         iconSource: "qrc:/qml/images/icon_plus.png"
         onClicked: {
             menu.close()
-            userSettings.addSetlist("Toto")
+
         }
     }
 
@@ -85,10 +85,7 @@ ApplicationMenu {
         iconSource: "qrc:/qml/images/icon_plus.png"
         onClicked: {
             menu.close()
-            addEditPage.songIndex = -1;
-            addEditPage.clear()
-            addEditPage.show()
-            addEditPage.focusFirstField()
+            addEditPage.addNewSong()
         }
     }
 

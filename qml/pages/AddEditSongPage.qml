@@ -14,6 +14,14 @@ Page {
     readonly property bool addingNewSong: songIndex < 0
     readonly property bool focusNextOnEnter: addingNewSong && !lastFieldReached
 
+    function addNewSong()
+    {
+        songIndex = -1;
+        clear()
+        show()
+        focusFirstField()
+    }
+
     function inputValid()
     {
         return titleEdit.inputValid && artistEdit.inputValid

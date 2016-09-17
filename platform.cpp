@@ -44,7 +44,7 @@ bool Platform::isAndroid() const
 #ifdef Q_OS_ANDROID
     return true;
 #else
-    return false;
+    return true;
 #endif
 }
 

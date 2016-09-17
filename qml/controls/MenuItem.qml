@@ -9,6 +9,7 @@ Item {
 
     property alias text: textItem.text
     property alias iconSource: iconItem.source
+    property real iconScale: 1
     property alias showSeparator: separator.visible
 
     signal clicked
@@ -24,7 +25,11 @@ Item {
         x: appStyle.margin
 
         Rectangle {
-            anchors.fill: iconItem
+            id: circle
+            y: 0.25 * appStyle.controlHeight
+            x: 0.15 * appStyle.controlHeight
+            height: 0.55 * appStyle.controlHeight
+            width: 0.55 * appStyle.controlHeight
             anchors.margins: - 0.05 * appStyle.controlHeight
             radius: width / 2
             color: appStyle.headerColor
@@ -32,10 +37,9 @@ Item {
 
         Image {
             id: iconItem
-            y: 0.25 * appStyle.controlHeight
-            x: 0.15 * appStyle.controlHeight
-            height: 0.5 * appStyle.controlHeight
-            width: 0.5 * appStyle.controlHeight
+            anchors.centerIn: circle
+            height: iconScale * 0.5 * appStyle.controlHeight
+            width: iconScale * 0.5 * appStyle.controlHeight
             fillMode: Image.PreserveAspectFit
         }
         BaseText {
@@ -58,7 +62,7 @@ Item {
     Rectangle {
         id: separator
         width: parent.width
-        height: 1
+        height: 0
         anchors.bottom: parent.bottom
         color: appStyle.backgroundColor2
     }

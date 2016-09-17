@@ -30,7 +30,7 @@ ApplicationMenu {
     Rectangle {
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: appStyle.margin
+        height: 2//appStyle.margin
     }
 
     MenuItem {
@@ -68,16 +68,26 @@ ApplicationMenu {
     Rectangle {
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: appStyle.margin
+        height: 2//appStyle.margin
     }
 
     MenuItem {
+        id: editCurrentSong
         visible: metronome.isCurrentSongValid
-        text: qsTr("Edit song")
+        text: qsTr("Edit current song")
+        iconSource: "qrc:/qml/images/icon_edit.png"
+        iconScale: 0.8
         onClicked: {
             menu.close()
             controller.editSong(metronome.songIndex)
         }
+    }
+
+    Rectangle {
+        visible: editCurrentSong
+        Layout.fillWidth: true
+        color: appStyle.backgroundColor2
+        height: 2//appStyle.margin
     }
 
     MenuItem {
@@ -92,6 +102,7 @@ ApplicationMenu {
     MenuItem {
         text: qsTr("Change songs order")
         visible: userSettings.songsModel.count >= 2
+        iconSource: "qrc:/qml/images/icon_move.png"
         onClicked: {
             menu.close()
             moveSongsPage.show()
@@ -149,7 +160,12 @@ ApplicationMenu {
 
             ActionDialogItem {
                 id: dialogItem
-                text: (index === userSettings.setlistIndex) ? modelData.name + " " + qsTr("(current)"): modelData.name
+                text: {
+                    if (index === userSettings.setlistIndex)
+                        return "<b>" + modelData.name + "</b> " + qsTr("(current)")
+                    else
+                        return modelData.name
+                }
                 showSeparator: (index !== setlistsRepeater.count-1)
                 onClicked: {
                     if (lastMenuClicked == selectSetlist)

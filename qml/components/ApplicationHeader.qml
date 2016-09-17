@@ -30,9 +30,16 @@ Item {
         onClicked: parent.back()
     }
 
+    Item {
+        id: menuLeftAnchor
+        height: parent.height
+        width: height
+        x: appStyle.margin
+    }
+
     BaseText {
-        anchors.left: backButton.right
-        anchors.right: menuButton.left
+        anchors.left: menuLeftAnchor.right
+        anchors.right: menuRightAnchor.left
         height: parent.height
         font.pixelSize: appStyle.titleFontSize
         text: userSettings.setlist ? userSettings.setlist.name : "Live Metronome"
@@ -40,19 +47,25 @@ Item {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    Button {
-        id: menuButton
+    Item {
+        id: menuRightAnchor
+        anchors.right: parent.right
         height: parent.height
         width: height
+    }
+
+    Button {
+        id: menuButton
+        anchors.fill: parent
+        parent: platform.isAndroid ? menuLeftAnchor : menuRightAnchor
         iconSource: "qrc:/qml/images/icon_menu.png"
         iconScale: 0.8
-        anchors.right: parent.right
         radius: 0
         color: "transparent"
         opacity: header.menuEnabled ? 1 : 0.3
         onClicked: {
             if (header.menuEnabled)
-                parent.showMenu()
+                header.showMenu()
             else
                 toast.show(qsTr("Menu disabled during play"))
         }

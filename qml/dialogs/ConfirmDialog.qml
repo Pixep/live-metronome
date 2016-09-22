@@ -3,6 +3,7 @@ import QtQuick 2.5
 import "../controls"
 
 BaseDialog {
+    id: dialog
     width: parent.width
     height: parent.height
 
@@ -22,9 +23,9 @@ BaseDialog {
         __close()
 
         if (accepted)
-            confirmDialog.target.onAccepted()
+            dialog.target.onAccepted()
         else
-            confirmDialog.target.onRefused()
+            dialog.target.onRefused()
     }
 
     Rectangle {
@@ -80,8 +81,7 @@ BaseDialog {
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
-                        confirmDialog.close(false)
-
+                        dialog.close(false)
                     }
                 }
                 ActionDialogItem {
@@ -89,7 +89,7 @@ BaseDialog {
                     width: parent.width / 2
                     showSeparator: false
                     onClicked: {
-                        confirmDialog.close(true)
+                        dialog.close(true)
                     }
                 }
             }

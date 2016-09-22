@@ -3,6 +3,7 @@ import QtQuick 2.5
 import "../controls"
 
 BaseDialog {
+    id: dialog
     width: parent.width
     height: parent.height
 
@@ -22,9 +23,9 @@ BaseDialog {
         __close()
 
         if (accepted)
-            confirmDialog.target.onAccepted()
+            dialog.target.onAccepted()
         else
-            confirmDialog.target.onRefused()
+            dialog.target.onRefused()
     }
 
     Rectangle {
@@ -59,12 +60,34 @@ BaseDialog {
 
             BaseEdit {
                 id: editItem
-
-                Rectangle {
+                width: parent.width
+                /*Rectangle {
                     color: appStyle.backgroundColor2
                     width: 1
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: background.height - separator.y - contentColumn.y
+                    height:
+                }*/
+            }
+
+            Row {
+                height: childrenRect.height
+                width: parent.width
+
+                ActionDialogItem {
+                    iconSource: "qrc:/qml/images/icon_clear.png"
+                    width: parent.width / 2
+                    showSeparator: false
+                    onClicked: {
+                        dialog.close(false)
+                    }
+                }
+                ActionDialogItem {
+                    iconSource: "qrc:/qml/images/icon_check.png"
+                    width: parent.width / 2
+                    showSeparator: false
+                    onClicked: {
+                        dialog.close(true)
+                    }
                 }
             }
         }

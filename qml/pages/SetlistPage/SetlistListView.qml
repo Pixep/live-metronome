@@ -29,29 +29,15 @@ Item {
         clip: true
         boundsBehavior: Flickable.OvershootBounds
 
-        model: userSettings.songsModel
-        delegate: SongListDelegate {}
-
-        preferredHighlightBegin: appStyle.controlHeight
-        preferredHighlightEnd: height - (2 * appStyle.controlHeight)
-        highlightRangeMode: ListView.ApplyRange
-        visible: count > 0
-
-        highlight: Rectangle {
-            width: songListView.width
-            height: appStyle.controlHeight
-            color: appStyle.backgroundColor2
-
-            Image {
-                y: 0.15 * parent.height
-                height: 0.7 * parent.height
-                width: parent.width
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/qml/images/track_indicator.png"
-                horizontalAlignment: Image.AlignLeft
+        model: userSettings.setlists
+        delegate: SetlistDelegate {
+            nameText: modelData.name
+            subtitleText: modelData.count === 0 ? qsTr("emtpy") : qsTr("%n song(s)", "", modelData.count)
+            onClicked: {
+                userSettings.setCurrentSetlist(index)
+                gui.showSongs()
             }
         }
-        highlightMoveDuration: 300
     }
 
     Item {

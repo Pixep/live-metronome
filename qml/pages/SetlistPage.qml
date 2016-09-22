@@ -9,21 +9,28 @@ Page {
     x: 0
     visible: true
 
-    property alias currentSongIndex: songListView.currentIndex
-    readonly property alias currentSongItem: songListView.currentItem
-
     function setTempo(tempo)
     {
         tempoControls.setTempo(tempo)
     }
 
+    resources: [
+        SequentialAnimation {
+            id: newShowAnimation
+        },
+
+        SequentialAnimation {
+            id: newHideAnimation
+        }
+    ]
+
     SetlistListView {
         id: songListView
         x: - appStyle.margin
         width: parent.width + 2 * appStyle.margin
-        anchors.top: tempoControls.bottom
+        anchors.top: parent.top
         anchors.topMargin: appStyle.margin
-        anchors.bottom: previousNextRow.top
+        anchors.bottom: parent.bottom
         anchors.bottomMargin: appStyle.margin
     }
 }

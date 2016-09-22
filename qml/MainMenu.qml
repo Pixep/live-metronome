@@ -35,29 +35,36 @@ ApplicationMenu {
 
     MenuItem {
         id: selectSetlist
-        text: qsTr("Select setlist")
+        text: qsTr("Setlists")
         iconSource: "qrc:/qml/images/icon_check.png"
         visible: userSettings.setlists.length >= 2
         onClicked: {
-            lastMenuClicked = selectSetlist
             menu.close()
-            setlistDialog.show()
+            gui.showSetlists()
         }
     }
 
     MenuItem {
+        id: newSetlist
         text: qsTr("New setlist")
         iconSource: "qrc:/qml/images/icon_plus.png"
+        visible: gui.setlistsShown
         onClicked: {
             menu.close()
-
+            editDialog.show("Setlist name", newSetlist)
         }
+
+        function onAccepted() {
+            console.log("ooo")
+        }
+        function onRefused() {}
     }
 
     MenuItem {
         id: deleteSetlist
         text: qsTr("Delete setlist")
         iconSource: "qrc:/qml/images/icon_minus.png"
+        visible: gui.setlistsShown
         onClicked: {
             lastMenuClicked = deleteSetlist
             menu.close()
@@ -73,7 +80,7 @@ ApplicationMenu {
 
     MenuItem {
         id: editCurrentSong
-        visible: metronome.isCurrentSongValid
+        visible: gui.songsShown && metronome.isCurrentSongValid
         text: qsTr("Edit current song")
         iconSource: "qrc:/qml/images/icon_edit.png"
         iconScale: 0.8
@@ -93,6 +100,7 @@ ApplicationMenu {
     MenuItem {
         text: qsTr("Add new song")
         iconSource: "qrc:/qml/images/icon_plus.png"
+        visible: gui.songsShown
         onClicked: {
             menu.close()
             addEditPage.addNewSong()
@@ -101,7 +109,7 @@ ApplicationMenu {
 
     MenuItem {
         text: qsTr("Change songs order")
-        visible: userSettings.songsModel.count >= 2
+        visible: gui.songsShown && userSettings.songsModel.count >= 2
         iconSource: "qrc:/qml/images/icon_move.png"
         onClicked: {
             menu.close()
@@ -113,6 +121,7 @@ ApplicationMenu {
         id: clearAll
         text: qsTr("Clear all")
         iconSource: "qrc:/qml/images/icon_clear.png"
+        visible: gui.songsShown
         onClicked: {
             menu.close()
             confirmDialog.show(qsTr("Do you confirm removing all songs from the set ?"),
@@ -128,7 +137,7 @@ ApplicationMenu {
 
     MenuItem {
         id: resetAll
-        visible: platform.isWindows
+        visible: gui.songsShown && platform.isWindows
         text: qsTr("Reset all")
         onClicked: {
             menu.close()
@@ -200,9 +209,5 @@ ApplicationMenu {
                 }
             }
         ]
-    }
-
-    ConfirmDialog {
-        id: d
     }
 }

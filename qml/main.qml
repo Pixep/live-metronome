@@ -19,10 +19,30 @@ Window {
     readonly property int currentSongTempo: mainPage.currentSongItem ? mainPage.currentSongItem.songTempo : -1
     readonly property bool isSongSelected: mainPage.currentSongItem
 
+
     Connections {
         target: userSettings
         onSettingsModified: {
             metronome.updateFromSong()
+        }
+    }
+
+    Item {
+        id: gui
+        readonly property bool setlistsShown: p.currentPage == 0
+        readonly property bool songsShown: p.currentPage == 1
+        readonly property int currentPage: p.currentPage
+
+        QtObject {
+            id: p
+            property int currentPage: 0
+        }
+
+        function showSetlists() {
+            p.currentPage = 0
+        }
+        function showSongs() {
+            p.currentPage = 1
         }
     }
 
@@ -174,9 +194,38 @@ Window {
             property int backgroundWidth: parent.width
             property int backgroundHeight: height
 
-            MainPage {
-                id: mainPage
+            Row {
+                x: -gui.currentPage * (pageContainer.width + spacing)
+                height: parent.height
+                width: childrenRect.width
+                spacing: 2 * appStyle.margin
+
+                Behavior on x {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutQuad
+                    }
+                }
+
+                Item {
+                    height: parent.height
+                    width: pageContainer.width
+
+                    SetlistPage {
+                        id: setlistPage
+                    }
+                }
+
+                Item {
+                    height: parent.height
+                    width: pageContainer.width
+
+                    MainPage {
+                        id: mainPage
+                    }
+                }
             }
+
             MoveSongsPage {
                 id: moveSongsPage
             }
@@ -196,6 +245,10 @@ Window {
 
             MainMenu {
                 id: mainMenu
+            }
+
+            EditDialog {
+                id: editDialog
             }
 
             Item {

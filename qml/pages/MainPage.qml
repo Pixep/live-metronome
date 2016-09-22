@@ -8,6 +8,8 @@ Page {
     id: page
     x: 0
     visible: true
+    showAnimation: newShowAnimation
+    hideAnimation: newHideAnimation
 
     property alias currentSongIndex: songListView.currentIndex
     readonly property alias currentSongItem: songListView.currentItem
@@ -16,6 +18,16 @@ Page {
     {
         tempoControls.setTempo(tempo)
     }
+
+    resources: [
+        SequentialAnimation {
+            id: newShowAnimation
+        },
+
+        SequentialAnimation {
+            id: newHideAnimation
+        }
+    ]
 
     TempoControls {
         id: tempoControls

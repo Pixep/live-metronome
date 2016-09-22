@@ -5,9 +5,11 @@ import "../controls"
 
 Page {
     id: page
-    //actionButtonsVisible: true
+    y: page.bottomY
     saveButtonsVisible: true
     actionButtonRight.enabled: inputValid()
+    showAnimation: newShowAnimation
+    hideAnimation: newHideAnimation
 
     property int songIndex
     property bool lastFieldReached: false
@@ -90,6 +92,35 @@ Page {
     {
         titleEdit.forceActiveFocus()
     }
+
+    resources: [
+        NumberAnimation {
+            id: newShowAnimation
+            target: page
+            property: "y"
+            easing.overshoot: 1.200
+            to: page.topY
+            duration: 300
+            easing.type: Easing.OutCubic
+        },
+
+        SequentialAnimation {
+            id: newHideAnimation
+
+            PropertyAnimation {
+                target: page
+                property: "y"
+                to: window.height
+                duration: 300
+                easing.type: Easing.InCubic
+            }
+            PropertyAction {
+                target: page
+                property: "visible"
+                value: false
+            }
+        }
+    ]
 
     Column {
         anchors.fill: parent

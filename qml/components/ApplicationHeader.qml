@@ -42,7 +42,15 @@ Item {
         anchors.right: menuRightAnchor.left
         height: parent.height
         font.pixelSize: appStyle.titleFontSize
-        text: userSettings.setlist ? userSettings.setlist.name : "Live Metronome"
+        text: {
+            if (gui.setlistsShown)
+                return qsTr("Setlists");
+
+            if (userSettings.setlist)
+                return userSettings.setlist.name
+
+            return "Live Metronome"
+        }
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }

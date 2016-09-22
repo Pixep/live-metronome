@@ -4,14 +4,13 @@ import "../controls"
 
 Item {
     id: page
-    x: window.width
     width: parent.width
-    anchors.top: parent.top
-    anchors.topMargin: 2 * appStyle.margin
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: appStyle.margin
+    height: bottomY - topY
+    y: topY
     visible: false
 
+    readonly property int topY: 2 * appStyle.margin
+    readonly property int bottomY: parent.height - appStyle.margin
     default property alias pageContent: pageContentItem.children
     property alias actionButtonsVisible: actionButtons.visible
     property alias saveButtonsVisible: saveButtons.visible
@@ -19,6 +18,8 @@ Item {
     property alias actionButtonRight: rightActionButton
     property alias p: p
     property bool active: false
+    property var showAnimation: null
+    property var hideAnimation: null
 
     signal actionButtonLeftClicked()
     signal actionButtonRightClicked()
@@ -33,11 +34,19 @@ Item {
                 return
 
             page.active = true
-            hideAnimation.stop()
-            page.x = window.width
+
+            if (hideAnimation)
+                hideAnimation.stop()
+            else
+                defaultHideAnimation.stop()
+
             page.visible = true
             page.focus = true
-            showAnimation.start()
+
+            if (showAnimation)
+                showAnimation.start()
+            else
+                defaultShowAnimation.start()
         }
 
         function __hide() {
@@ -45,8 +54,16 @@ Item {
                 return
 
             page.active = false
-            showAnimation.stop()
-            hideAnimation.start()
+
+            if (showAnimation)
+                showAnimation.stop()
+            else
+                defaultShowAnimation.stop()
+
+            if (hideAnimation)
+                hideAnimation.start()
+            else
+                defaultHideAnimation.start()
         }
     }
 
@@ -78,15 +95,26 @@ Item {
         anchors.bottomMargin: actionButtons.visible ? appStyle.margin : 0
     }
 
-    NumberAnimation on x {
-        id: showAnimation
-        to: 0
-        duration: 400
-        easing.type: Easing.OutBack
+    SequentialAnimation {
+        id: defaultShowAnimation
+
+        PropertyAction {
+            target: page
+            property: "x"
+            value: page.width
+        }
+
+        NumberAnimation {
+            target: page
+            property: "x"
+            to: 0
+            duration: 400
+            easing.type: Easing.OutBack
+        }
     }
 
     SequentialAnimation {
-        id: hideAnimation
+        id: defaultHideAnimation
 
         PropertyAnimation {
             target: page

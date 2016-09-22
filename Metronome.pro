@@ -37,6 +37,7 @@ OTHER_FILES += \
     qml/pages/* \
     qml/pages/MainPage/* \
     qml/pages/MoveSongsPage/* \
+    qml/pages/SetlistPage/* \
     qml/images/*
 
 HEADERS += \
@@ -63,7 +64,8 @@ DISTFILES += \
     qml/components/ApplicationMenu.qml \
     qml/controls/MenuItem.qml \
     qml/MainMenu.qml \
-    qml/dialogs/EditDialog.qml
+    qml/dialogs/EditDialog.qml \
+    qml/pages/SetlistPage/SetlistDelegate.qml
 
 android {
     QT += androidextras

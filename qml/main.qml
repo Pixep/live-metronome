@@ -44,6 +44,13 @@ Window {
         function showSongs() {
             p.currentPage = 1
         }
+
+        Connections {
+            target: userSettings
+            onSetlistIndexChanged: {
+                metronome.songIndex = 0
+            }
+        }
     }
 
     Metronome {

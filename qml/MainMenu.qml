@@ -51,12 +51,36 @@ ApplicationMenu {
         visible: gui.setlistsShown
         onClicked: {
             menu.close()
-            editDialog.show("Setlist name", newSetlist)
+            editDialog.show(qsTr("Setlist name"), newSetlist)
         }
 
         function onAccepted() {
             userSettings.addSetlist(editDialog.value)
             gui.showSongs()
+        }
+        function onRefused() {}
+    }
+
+    MenuItem {
+        id: renameSetlist
+        text: qsTr("Rename setlist")
+        iconSource: "qrc:/qml/images/icon_plus.png"
+        visible: gui.setlistsShown
+        onClicked: {
+            lastMenuClicked = renameSetlist
+            menu.close()
+            setlistDialog.show()
+        }
+
+        property int setlistIndex
+
+        function renameSetlist(index) {
+            setlistIndex = index
+            editDialog.show(qsTr("Setlist name"), renameSetlist)
+        }
+
+        function onAccepted() {
+            userSettings.setSetlistName(setlistIndex, editDialog.value)
         }
         function onRefused() {}
     }
@@ -181,6 +205,10 @@ ApplicationMenu {
                     if (lastMenuClicked == selectSetlist)
                     {
                         userSettings.setCurrentSetlist(index);
+                    }
+                    else if (lastMenuClicked == renameSetlist)
+                    {
+                        renameSetlist.renameSetlist(index)
                     }
                     else if (lastMenuClicked == deleteSetlist)
                     {

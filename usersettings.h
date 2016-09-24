@@ -54,6 +54,7 @@ public slots:
     bool addSetlist(const QString& name);
     bool removeSetlist(int index);
     bool setCurrentSetlist(int index);
+    bool setSetlistName(int index, const QString& name);
     int setlistsCount() const { return m_setlists.count(); }
     int setlistIndex() const;
 

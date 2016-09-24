@@ -57,7 +57,7 @@ void UserSettings::resetToDefault()
     addSong_internal("Roger that!", "Willy Smith", 105, 4);
     addSong_internal("Make me cry", "Stevie Wonder", 130, 4);
     addSetlist_internal("Jazz");
-    setCurrentSetlist(1);
+    setCurrentSetlist_internal(1);
     addSong_internal("So What", "Miles Davis", 136, 4);
     addSong_internal("Sweet valentine", "", 90, 3);
     addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
@@ -66,7 +66,7 @@ void UserSettings::resetToDefault()
     addSong_internal("Sweet valentine", "", 90, 3);
     addSong_internal("Somewhere beyond the Sea", "Frank Sinatra", 98, 4);
     addSong_internal("Shofukan", "Snarky Puppy", 120, 5);
-    setCurrentSetlist(0);
+    setCurrentSetlist_internal(0);
 
     emit setlistsChanged();
     emit setlistChanged();
@@ -96,6 +96,9 @@ bool UserSettings::setJsonSettings(const QString &json)
                              setlist);
         }
     }
+
+    int currentSetlist = jsonDoc.object().value("currentSetlist").toInt();
+    setCurrentSetlist_internal(currentSetlist);
 
     emit setlistsChanged();
     emit setlistChanged();
@@ -131,6 +134,7 @@ QString UserSettings::jsonSettings() const
     }
 
     jsonDocObject["setlists"] = jsonArraySetlists;
+    jsonDocObject["currentSetlist"] = setlistIndex();
     jsonDoc.setObject(jsonDocObject);
 
     //qWarning() << jsonDoc.toJson(QJsonDocument::Indented);
@@ -282,6 +286,7 @@ bool UserSettings::addSetlist(const QString &name)
         return false;
 
     emit setlistsChanged();
+    emit settingsModified();
 
     setCurrentSetlist(setlistsCount()-1);
 
@@ -307,10 +312,19 @@ bool UserSettings::removeSetlist(int index)
         setCurrentSetlist(0);
 
     emit setlistsChanged();
+    emit settingsModified();
     return true;
 }
 
 bool UserSettings::setCurrentSetlist(int index)
+{
+    setCurrentSetlist_internal(index);
+
+    emit settingsModified();
+    return true;
+}
+
+bool UserSettings::setCurrentSetlist_internal(int index)
 {
     Setlist* newSetlist = m_setlists.value(index);
     if (newSetlist == nullptr)

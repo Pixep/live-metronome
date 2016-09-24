@@ -40,7 +40,7 @@ Item {
                 actionDialog.show(index)
             }
         }
-        footer: SongListDelegate {
+        /*footer: SongListDelegate {
             id: addNewSongDelegate
             titleText: qsTr("Add new song")
             showNumber: false
@@ -65,7 +65,7 @@ Item {
                     source: "qrc:/qml/images/icon_plus.png"
                 }
             }
-        }
+        }*/
 
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)

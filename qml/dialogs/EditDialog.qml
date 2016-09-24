@@ -8,6 +8,7 @@ BaseDialog {
     height: parent.height
 
     property QtObject target
+    property alias value: editItem.text
 
     function show(title, targetObject)
     {

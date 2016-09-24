@@ -15,7 +15,7 @@ ApplicationMenu {
 
         BaseText {
             anchors.centerIn: parent
-            text: "Live Metronome"
+            text: gui.songsShown ? qsTr("Songs") : qsTr("Setlists")
             color: appStyle.textColor2
         }
 
@@ -55,7 +55,8 @@ ApplicationMenu {
         }
 
         function onAccepted() {
-            console.log("ooo")
+            userSettings.addSetlist(editDialog.value)
+            gui.showSongs()
         }
         function onRefused() {}
     }
@@ -137,7 +138,7 @@ ApplicationMenu {
 
     MenuItem {
         id: resetAll
-        visible: gui.songsShown && platform.isWindows
+        visible: platform.isWindows
         text: qsTr("Reset all")
         onClicked: {
             menu.close()

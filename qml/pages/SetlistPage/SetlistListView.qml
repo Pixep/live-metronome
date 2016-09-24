@@ -3,6 +3,7 @@ import QtQml.Models 2.2
 
 import "../../controls"
 import "../../dialogs"
+import "../../pages/MainPage"
 
 Item {
     id: root
@@ -36,6 +37,34 @@ Item {
             onClicked: {
                 userSettings.setCurrentSetlist(index)
                 gui.showSongs()
+            }
+        }
+
+        footer: SongListDelegate {
+            id: addNewSongDelegate
+            titleText: qsTr("Add setlist")
+            visible: application.allowPlaylists
+            showNumber: false
+            onClicked: {
+                //addEditPage.addNewSong()
+            }
+            onPressAndHold: {
+                //addEditPage.addNewSong()
+            }
+
+            Rectangle {
+                width: parent.width
+                height: width
+                radius: width/2
+                color:  appStyle.backgroundColor2
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenterOffset: -0.2*width
+                parent: addNewSongDelegate.songNumberItem
+                Image {
+                    anchors.fill: parent
+                    source: "qrc:/qml/images/icon_plus.png"
+                }
             }
         }
     }

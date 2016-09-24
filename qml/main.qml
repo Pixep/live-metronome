@@ -35,7 +35,7 @@ Window {
 
         QtObject {
             id: p
-            property int currentPage: 0
+            property int currentPage: 1
         }
 
         function showSetlists() {

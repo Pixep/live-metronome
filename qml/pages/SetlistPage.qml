@@ -21,6 +21,16 @@ Page {
 
         SequentialAnimation {
             id: newHideAnimation
+        },
+
+        Connections {
+            target: contentRoot
+            onBack: {
+                if (!page.visible)
+                    return
+
+                gui.showSongs()
+            }
         }
     ]
 

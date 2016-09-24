@@ -30,14 +30,14 @@ ApplicationMenu {
     Rectangle {
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2//appStyle.margin
+        height: 2
     }
 
     MenuItem {
         id: selectSetlist
         text: qsTr("Setlists")
         iconSource: "qrc:/qml/images/icon_check.png"
-        visible: userSettings.setlists.length >= 2
+        visible: gui.songsShown
         onClicked: {
             menu.close()
             gui.showSetlists()
@@ -75,7 +75,7 @@ ApplicationMenu {
     Rectangle {
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2//appStyle.margin
+        height: 2
     }
 
     MenuItem {
@@ -94,7 +94,7 @@ ApplicationMenu {
         visible: editCurrentSong
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2//appStyle.margin
+        height: 2
     }
 
     MenuItem {

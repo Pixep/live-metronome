@@ -84,7 +84,6 @@ Page {
                 return;
 
             userSettings.setSong(contextValue, song.title, song.artist, metronome.tempo, song.beatsPerMeasure)
-            userSettingsDb.save()
         }
         onMoveSong: {
             moveSongsPage.show()

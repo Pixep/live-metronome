@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 
 import "../controls"
 
@@ -15,8 +16,19 @@ Item {
     signal showMenu()
 
     Rectangle {
+        id: background
         anchors.fill: parent
         color: appStyle.headerColor
+    }
+
+    DropShadow {
+        anchors.fill: background
+        horizontalOffset: 0
+        verticalOffset:0
+        radius: 6
+        samples: 4
+        color: "#80000000"
+        source: background
     }
 
     Button {

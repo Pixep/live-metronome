@@ -208,9 +208,20 @@ Window {
                 spacing: 2 * appStyle.margin
 
                 Behavior on x {
+                    id: behaviorAnimation
+                    enabled: false
                     NumberAnimation {
                         duration: 300
                         easing.type: Easing.OutQuad
+                    }
+                }
+
+                Timer {
+                    running: true
+                    interval: 500
+                    repeat: false
+                    onTriggered: {
+                        behaviorAnimation.enabled = true
                     }
                 }
 
@@ -252,6 +263,9 @@ Window {
 
             MainMenu {
                 id: mainMenu
+                onNewSetlist: setlistPage.newSetlist()
+                onRenameSetlist: setlistPage.renameSetlist()
+                onDeleteSetlist: setlistPage.deleteSetlist()
             }
 
             EditDialog {

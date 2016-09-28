@@ -13,6 +13,8 @@ Item {
     property alias currentIndex: songListView.currentIndex
     property alias currentItem: songListView.currentItem
 
+    signal setlistPressAndHold(var index, var name)
+
     BaseText {
         anchors.fill: songListView
         anchors.margins: appStyle.margin
@@ -37,6 +39,9 @@ Item {
             onClicked: {
                 userSettings.setCurrentSetlist(index)
                 gui.showSongs()
+            }
+            onPressAndHold: {
+                root.setlistPressAndHold(index, modelData.name)
             }
         }
 

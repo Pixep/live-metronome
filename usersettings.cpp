@@ -170,12 +170,17 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
     return true;
 }
 
-Setlist* UserSettings::addSetlist_internal(const QString &name)
+Setlist* UserSettings::addSetlist_internal(QString name)
 {
     if ( ! Application::allowPlaylists())
     {
         qWarning() << "Adding a playlist is not allowed with free version";
         return nullptr;
+    }
+
+    if (name.isEmpty()) {
+        qWarning() << "Empty setlist name";
+        name = tr("New setlist");
     }
 
     Setlist* setlist = new Setlist();
@@ -328,6 +333,9 @@ bool UserSettings::setSetlistName(int index, const QString &name)
 {
     Setlist* newSetlist = m_setlists.value(index);
     if (newSetlist == nullptr)
+        return false;
+
+    if (name.isEmpty())
         return false;
 
     newSetlist->setName(name);

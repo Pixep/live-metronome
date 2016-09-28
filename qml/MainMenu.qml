@@ -9,28 +9,31 @@ ApplicationMenu {
     id: menu
     property Item lastMenuClicked
 
+    signal newSetlist()
+    signal renameSetlist()
+    signal deleteSetlist()
+
     Item {
         Layout.fillWidth: true
         height: appStyle.controlHeight
 
         BaseText {
+            id: title
             anchors.centerIn: parent
             text: gui.songsShown ? qsTr("Songs") : qsTr("Setlists")
             color: appStyle.textColor2
-        }
-
-        Rectangle {
-            width: parent.width
-            height: 1
-            anchors.bottom: parent.bottom
-            color: appStyle.backgroundColor2
         }
     }
 
     Rectangle {
         Layout.fillWidth: true
+        color: appStyle.backgroundColor
+        height: 1
+    }
+    Rectangle {
+        Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2
+        height: 1
     }
 
     MenuItem {
@@ -51,38 +54,20 @@ ApplicationMenu {
         visible: gui.setlistsShown
         onClicked: {
             menu.close()
-            editDialog.show(qsTr("Setlist name"), newSetlist)
+            menu.newSetlist()
         }
-
-        function onAccepted() {
-            userSettings.addSetlist(editDialog.value)
-            gui.showSongs()
-        }
-        function onRefused() {}
     }
 
     MenuItem {
         id: renameSetlist
         text: qsTr("Rename setlist")
-        iconSource: "qrc:/qml/images/icon_plus.png"
+        iconSource: "qrc:/qml/images/icon_edit.png"
+        iconScale: 0.8
         visible: gui.setlistsShown
         onClicked: {
-            lastMenuClicked = renameSetlist
             menu.close()
-            setlistDialog.show()
+            menu.renameSetlist()
         }
-
-        property int setlistIndex
-
-        function renameSetlist(index) {
-            setlistIndex = index
-            editDialog.show(qsTr("Setlist name"), renameSetlist)
-        }
-
-        function onAccepted() {
-            userSettings.setSetlistName(setlistIndex, editDialog.value)
-        }
-        function onRefused() {}
     }
 
     MenuItem {
@@ -91,16 +76,20 @@ ApplicationMenu {
         iconSource: "qrc:/qml/images/icon_minus.png"
         visible: gui.setlistsShown
         onClicked: {
-            lastMenuClicked = deleteSetlist
             menu.close()
-            setlistDialog.show()
+            menu.deleteSetlist()
         }
     }
 
     Rectangle {
         Layout.fillWidth: true
+        color: appStyle.backgroundColor
+        height: 1
+    }
+    Rectangle {
+        Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2
+        height: 1
     }
 
     MenuItem {
@@ -116,10 +105,16 @@ ApplicationMenu {
     }
 
     Rectangle {
-        visible: editCurrentSong
+        Layout.fillWidth: true
+        color: appStyle.backgroundColor
+        visible: editCurrentSong.visible
+        height: 1
+    }
+    Rectangle {
         Layout.fillWidth: true
         color: appStyle.backgroundColor2
-        height: 2
+        visible: editCurrentSong.visible
+        height: 1
     }
 
     MenuItem {
@@ -183,60 +178,5 @@ ApplicationMenu {
         onClicked: {
             menu.close()
         }
-    }
-
-    ActionDialog {
-        id: setlistDialog
-
-        Repeater {
-            id: setlistsRepeater
-            model: userSettings.setlists
-
-            ActionDialogItem {
-                id: dialogItem
-                text: {
-                    if (index === userSettings.setlistIndex)
-                        return "<b>" + modelData.name + "</b> " + qsTr("(current)")
-                    else
-                        return modelData.name
-                }
-                showSeparator: (index !== setlistsRepeater.count-1)
-                onClicked: {
-                    if (lastMenuClicked == selectSetlist)
-                    {
-                        userSettings.setCurrentSetlist(index);
-                    }
-                    else if (lastMenuClicked == renameSetlist)
-                    {
-                        renameSetlist.renameSetlist(index)
-                    }
-                    else if (lastMenuClicked == deleteSetlist)
-                    {
-                        confirmDialog.show(qsTr("Do you confirm completly removing the setlist '%1' ?").arg(text),
-                                           dialogItem)
-                    }
-
-                    setlistDialog.close()
-                }
-
-                function onAccepted() {
-                    if (lastMenuClicked == deleteSetlist)
-                        userSettings.removeSetlist(index)
-                }
-                function onRefused() {}
-            }
-        }
-
-        resources: [
-            Connections {
-                target: contentRoot
-                onBack: {
-                    if (!setlistDialog.active)
-                        return
-
-                    setlistDialog.close()
-                }
-            }
-        ]
     }
 }

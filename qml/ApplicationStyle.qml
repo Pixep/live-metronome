@@ -11,7 +11,7 @@ QtObject {
     property string headerColor: "#2D4271"
     property string headerColorDark: "#2D4271"
     property string backgroundColor: "#202020"
-    property string backgroundColor2: "#656565"
+    property string backgroundColor2: "#505050"
     property string backgroundColor3: "#353535"
     property color highlightColor1: "#267255"
     property color highlightColor2: "#492D72"

@@ -64,7 +64,7 @@ public slots:
 private:
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
     bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
-    Setlist *addSetlist_internal(const QString& name);
+    Setlist *addSetlist_internal(QString name);
     bool removeAllPlaylists_internal();
     bool setCurrentSetlist_internal(int index);
 

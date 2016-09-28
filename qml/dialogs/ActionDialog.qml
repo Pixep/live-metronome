@@ -6,8 +6,8 @@ BaseDialog {
     height: parent.height
     parent: dialogContainer
 
-    property int contextValue
-    property int contextValue2
+    property var contextValue
+    property var contextValue2
     default property alias dialogActions: actionsColumn.children
 
     function show(value, value2) {

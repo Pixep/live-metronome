@@ -49,5 +49,6 @@
         <file>qml/images/icon_move.png</file>
         <file>qml/dialogs/EditDialog.qml</file>
         <file>qml/pages/SetlistPage/SetlistDelegate.qml</file>
+        <file>qml/pages/SetlistPage/SetlistActionDialog.qml</file>
     </qresource>
 </RCC>

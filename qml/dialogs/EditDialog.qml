@@ -16,6 +16,7 @@ BaseDialog {
         titleText.text = title
         target = targetObject
         visible = true
+        editItem.focus = true
 
         __show()
     }

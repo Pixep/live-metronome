@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 
 Item {
     id: menu
@@ -140,6 +141,16 @@ Item {
                 menu.close()
             }
         }
+    }
+
+    DropShadow {
+        anchors.fill: menuBackground
+        horizontalOffset: 0
+        verticalOffset:0
+        radius: 6
+        samples: 4
+        color: "#80000000"
+        source: menuBackground
     }
 
     Rectangle {

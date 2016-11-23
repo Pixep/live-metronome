@@ -126,7 +126,7 @@ Page {
         anchors.fill: parent
 
         BaseText {
-            text: qsTr("Title")
+            text: qsTr("Title") + application.trBind
         }
         BaseEdit {
             id: titleEdit
@@ -142,7 +142,7 @@ Page {
             }
         }
         BaseText {
-            text: qsTr("Artist")
+            text: qsTr("Artist") + application.trBind
         }
         BaseEdit {
             id: artistEdit
@@ -153,7 +153,7 @@ Page {
             focusNextOnEnter: page.focusNextOnEnter
         }
         BaseText {
-            text: qsTr("Tempo")
+            text: qsTr("Tempo") + application.trBind
         }
         BaseEdit {
             id: tempoEdit
@@ -184,7 +184,7 @@ Page {
             }
         }
         BaseText {
-            text: qsTr("Beats per measure")
+            text: qsTr("Beats per measure") + application.trBind
         }
         BaseEdit {
             id: beatsPerMeasureEdit

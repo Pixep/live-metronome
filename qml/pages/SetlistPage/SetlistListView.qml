@@ -20,7 +20,7 @@ Item {
         anchors.margins: appStyle.margin
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: qsTr("No song present your set<br>Add one with the %1 button").arg("<img src='qrc:/qml/images/icon_menu.png'></img>")
+        text: qsTr("No song present your set<br>Add one with the %1 button").arg("<img src='qrc:/qml/images/icon_menu.png'></img>") + application.trBind
         wrapMode: Text.WordWrap
         visible: !songListView.visible
     }
@@ -35,7 +35,7 @@ Item {
         model: userSettings.setlists
         delegate: SetlistDelegate {
             nameText: modelData.name
-            subtitleText: modelData.count === 0 ? qsTr("emtpy") : qsTr("%n song(s)", "", modelData.count)
+            subtitleText: modelData.count === 0 ? qsTr("emtpy") : qsTr("%n song(s)", "", modelData.count) + application.trBind
             onClicked: {
                 userSettings.setCurrentSetlist(index)
                 gui.showSongs()
@@ -47,7 +47,7 @@ Item {
 
         footer: SongListDelegate {
             id: addNewSongDelegate
-            titleText: qsTr("Add setlist")
+            titleText: qsTr("Add setlist") + application.trBind
             visible: application.allowPlaylists
             showNumber: false
             onClicked: {

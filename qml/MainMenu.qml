@@ -20,7 +20,7 @@ ApplicationMenu {
         BaseText {
             id: title
             anchors.centerIn: parent
-            text: gui.songsShown ? qsTr("Songs") : qsTr("Setlists")
+            text: gui.songsShown ? qsTr("Songs") : qsTr("Setlists") + application.trBind
             color: appStyle.textColor2
         }
     }
@@ -38,7 +38,7 @@ ApplicationMenu {
 
     MenuItem {
         id: selectSetlist
-        text: qsTr("Setlists")
+        text: qsTr("Setlists") + application.trBind
         iconSource: "qrc:/qml/images/icon_check.png"
         visible: gui.songsShown
         onClicked: {
@@ -49,7 +49,7 @@ ApplicationMenu {
 
     MenuItem {
         id: newSetlist
-        text: qsTr("New setlist")
+        text: qsTr("New setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
         visible: gui.setlistsShown
         onClicked: {
@@ -60,7 +60,7 @@ ApplicationMenu {
 
     MenuItem {
         id: renameSetlist
-        text: qsTr("Rename setlist")
+        text: qsTr("Rename setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_edit.png"
         iconScale: 0.8
         visible: gui.setlistsShown
@@ -72,7 +72,7 @@ ApplicationMenu {
 
     MenuItem {
         id: deleteSetlist
-        text: qsTr("Delete setlist")
+        text: qsTr("Delete setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_minus.png"
         visible: gui.setlistsShown
         onClicked: {
@@ -95,7 +95,7 @@ ApplicationMenu {
     MenuItem {
         id: editCurrentSong
         visible: gui.songsShown && metronome.isCurrentSongValid
-        text: qsTr("Edit current song")
+        text: qsTr("Edit current song") + application.trBind
         iconSource: "qrc:/qml/images/icon_edit.png"
         iconScale: 0.8
         onClicked: {
@@ -118,7 +118,7 @@ ApplicationMenu {
     }
 
     MenuItem {
-        text: qsTr("Add new song")
+        text: qsTr("Add new song") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
         visible: gui.songsShown
         onClicked: {
@@ -128,7 +128,7 @@ ApplicationMenu {
     }
 
     MenuItem {
-        text: qsTr("Change songs order")
+        text: qsTr("Change songs order") + application.trBind
         visible: gui.songsShown && userSettings.songsModel.count >= 2
         iconSource: "qrc:/qml/images/icon_move.png"
         onClicked: {
@@ -139,7 +139,7 @@ ApplicationMenu {
 
     MenuItem {
         id: clearAll
-        text: qsTr("Clear all")
+        text: qsTr("Clear all") + application.trBind
         iconSource: "qrc:/qml/images/icon_clear.png"
         visible: gui.songsShown
         onClicked: {
@@ -158,7 +158,7 @@ ApplicationMenu {
     MenuItem {
         id: resetAll
         visible: platform.isWindows
-        text: qsTr("Reset all")
+        text: qsTr("Reset all") + application.trBind
         onClicked: {
             menu.close()
             confirmDialog.show(qsTr("Do you confirm resetting all set content ?"),
@@ -173,8 +173,17 @@ ApplicationMenu {
     }
 
     MenuItem {
+        id: settings
+        text: qsTr("Settings") + application.trBind
+        onClicked: {
+            menu.close()
+            settingsPage.show()
+        }
+    }
+
+    MenuItem {
         iconSource: "qrc:/qml/images/icon_back.png"
-        text: qsTr("Cancel")
+        text: qsTr("Cancel") + application.trBind
         onClicked: {
             menu.close()
         }

@@ -131,7 +131,7 @@ Page {
                     id: dialogItem
                     text: {
                         if (index === userSettings.setlistIndex)
-                            return "<b>" + modelData.name + "</b> " + qsTr("(current)")
+                            return "<b>" + modelData.name + "</b> (" + qsTr("current") +")" + application.trBind
                         else
                             return modelData.name
                     }

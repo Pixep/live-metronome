@@ -66,7 +66,8 @@ DISTFILES += \
     qml/MainMenu.qml \
     qml/dialogs/EditDialog.qml \
     qml/pages/SetlistPage/SetlistDelegate.qml \
-    qml/pages/SetlistPage/SetlistActionDialog.qml
+    qml/pages/SetlistPage/SetlistActionDialog.qml \
+    qml/pages/SettingsPage.qml
 
 android {
     QT += androidextras

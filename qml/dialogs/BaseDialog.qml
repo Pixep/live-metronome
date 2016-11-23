@@ -113,14 +113,14 @@ Item {
                 target: dialog
                 property: "opacity"
                 to: 0
-                duration: 250
+                duration: 150
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: dialogContentItem
                 property: "scale"
                 to: 0.8
-                duration: 200
+                duration: 150
                 easing.type: Easing.OutCubic
             }
         }

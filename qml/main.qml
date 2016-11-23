@@ -250,6 +250,9 @@ Window {
             AddEditSongPage {
                 id: addEditPage
             }
+            SettingsPage {
+                id: settingsPage
+            }
         }
 
         Item {

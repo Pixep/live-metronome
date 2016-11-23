@@ -50,5 +50,6 @@
         <file>qml/dialogs/EditDialog.qml</file>
         <file>qml/pages/SetlistPage/SetlistDelegate.qml</file>
         <file>qml/pages/SetlistPage/SetlistActionDialog.qml</file>
+        <file>qml/pages/SettingsPage.qml</file>
     </qresource>
 </RCC>

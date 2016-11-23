@@ -20,21 +20,33 @@ Application::Application(QObject *parent) : QObject(parent)
 
 void Application::initialize()
 {
+    setLanguage(QLocale::system().language());
+}
+
+
+
+void Application::setLanguage(int languageCode)
+{
     QString translationFile;
+    QString languageString;
     QString defaultLanguage = "en-US";
-    switch(QLocale::system().language())
+    switch(languageCode)
     {
     case QLocale::Chinese:
         translationFile = "zn-CN";
+        languageString = "中国";
         break;
     case QLocale::French:
         translationFile = "fr-FR";
+        languageString = "Français";
         break;
     case QLocale::Spanish:
         translationFile = "es-ES";
+        languageString = "Spanish";
         break;
     default:
         translationFile = defaultLanguage;
+        languageString = "English";
         break;
     }
 
@@ -50,6 +62,10 @@ void Application::initialize()
 
     m_translator.load(translationFile);
     qApp->installTranslator(&m_translator);
+
+    m_languageCode = languageCode;
+    m_language = languageString;
+    emit languageChanged();
 }
 
 int Application::maximumSongsPerPlaylist()

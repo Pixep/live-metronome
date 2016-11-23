@@ -73,7 +73,7 @@ Row {
             Button {
                 width: tempoTextElement.width
                 height: appStyle.controlHeight
-                text: qsTr("Tap tempo")
+                text: qsTr("Tap tempo") + application.trBind
                 textItem.wrapMode: Text.Wrap
                 anchors.horizontalCenter: parent.horizontalCenter
 

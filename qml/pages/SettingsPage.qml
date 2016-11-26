@@ -1,5 +1,4 @@
 import QtQuick 2.5
-import QtQuick.Controls 2.0
 
 import "../components"
 import "../controls"
@@ -133,10 +132,10 @@ Page {
             Connections {
                 target: contentRoot
                 onBack: {
-                    if (!setlistDialog.active)
+                    if (!languagesDialog.active)
                         return
 
-                    setlistDialog.close()
+                    languagesDialog.close()
                 }
             }
         ]

@@ -20,7 +20,7 @@ ApplicationMenu {
         BaseText {
             id: title
             anchors.centerIn: parent
-            text: gui.songsShown ? qsTr("Songs") : qsTr("Setlists") + application.trBind
+            text: gui.songsShown ? qsTr("Songs") + application.trBind : qsTr("Setlists") + application.trBind
             color: appStyle.textColor2
         }
     }

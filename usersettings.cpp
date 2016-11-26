@@ -331,6 +331,23 @@ bool UserSettings::setCurrentSetlist(int index)
     return true;
 }
 
+int UserSettings::currentSetlistIndex()
+{
+    if (setlist() == nullptr)
+        return -1;
+
+    int index = 0;
+    foreach(Setlist* testSetlist, setlists())
+    {
+        if (testSetlist == setlist())
+            return index;
+
+        ++index;
+    }
+
+    return -1;
+}
+
 bool UserSettings::setSetlistName(int index, const QString &name)
 {
     Setlist* newSetlist = m_setlists.value(index);
@@ -344,6 +361,11 @@ bool UserSettings::setSetlistName(int index, const QString &name)
 
     emit settingsModified();
     return true;
+}
+
+bool UserSettings::setCurrentSetlistName(const QString &name)
+{
+    return setSetlistName(currentSetlistIndex(), name);
 }
 
 bool UserSettings::setCurrentSetlist_internal(int index)

@@ -54,6 +54,8 @@ Item {
         anchors.right: menuRightAnchor.left
         height: parent.height
         font.pixelSize: appStyle.titleFontSize
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
         text: {
             if (gui.setlistsShown)
                 return qsTr("Setlists");
@@ -63,8 +65,20 @@ Item {
 
             return "Live Metronome"
         }
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
+
+        MouseArea {
+            id: titleMouseArea
+            anchors.fill: parent
+            onClicked: {
+                if (gui.songsShown)
+                    editDialog.show(qsTr("Setlist name"), titleMouseArea)
+            }
+
+            function onAccepted() {
+                userSettings.setCurrentSetlistName(editDialog.value)
+            }
+            function onRefused() {}
+        }
     }
 
     Item {

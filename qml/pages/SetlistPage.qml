@@ -62,8 +62,7 @@ Page {
             function deleteSetlist(index, name) {
                 action = _ActionDeleteSetlist
                 actionSetlistIndex = index
-                confirmDialog.show(qsTr("Do you confirm completly removing the setlist '%1' ?").arg(name),
-                                   p)
+                confirmDialog.show(qsTr("Do you confirm completly removing the setlist '%1' ?").arg(name), p)
             }
 
             function onAccepted() {
@@ -72,7 +71,7 @@ Page {
                     gui.showSongs()
                 }
                 else if (action === _ActionRenameSetlist) {
-                    userSettings.setSetlistName(actionSetlistIndex, editDialog.value)
+                   userSettings.setSetlistName(actionSetlistIndex, editDialog.value)
                 }
                 else if (action === _ActionDeleteSetlist) {
                     userSettings.removeSetlist(actionSetlistIndex)

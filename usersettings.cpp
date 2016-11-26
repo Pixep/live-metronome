@@ -16,7 +16,6 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
     m_currentSetlist(nullptr)
 {
     m_storagePath = path;
-    addSetlist_internal("New setlist");
 
     connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
     connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);
@@ -97,7 +96,10 @@ bool UserSettings::setJsonSettings(const QString &json)
         }
     }
 
-    int currentSetlist = jsonDoc.object().value("currentSetlist").toInt();
+    if (setlistsCount() == 0)
+        addSetlist_internal(tr("New setlist"));
+
+    int currentSetlist = jsonDoc.object().value("currentSetlist").toInt(0);
     setCurrentSetlist_internal(currentSetlist);
 
     emit setlistsChanged();

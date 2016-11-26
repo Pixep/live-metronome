@@ -14,6 +14,7 @@ Item {
     property alias currentItem: songListView.currentItem
 
     signal setlistPressAndHold(var index, var name)
+    signal newSetlist()
 
     BaseText {
         anchors.fill: songListView
@@ -51,7 +52,7 @@ Item {
             visible: application.allowPlaylists
             showNumber: false
             onClicked: {
-                //addEditPage.addNewSong()
+                root.newSetlist()
             }
             onPressAndHold: {
                 //addEditPage.addNewSong()

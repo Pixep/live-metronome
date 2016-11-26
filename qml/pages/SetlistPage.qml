@@ -94,6 +94,9 @@ Page {
             onSetlistPressAndHold: {
                 actionDialog.show(index, name)
             }
+            onNewSetlist: {
+                page.newSetlist()
+            }
         },
 
         SetlistActionDialog {

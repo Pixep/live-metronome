@@ -158,6 +158,7 @@ ApplicationMenu {
     MenuItem {
         id: resetAll
         text: qsTr("Reset all") + application.trBind
+        iconSource: "qrc:/qml/images/icon_clear.png"
         visible: platform.isWindows && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
@@ -175,6 +176,8 @@ ApplicationMenu {
     MenuItem {
         id: settings
         text: qsTr("Settings") + application.trBind
+        iconSource: "qrc:/qml/images/icon_settings.png"
+        iconScale: 0.8
         onClicked: {
             menu.close()
             settingsPage.show()
@@ -182,8 +185,8 @@ ApplicationMenu {
     }
 
     MenuItem {
-        iconSource: "qrc:/qml/images/icon_back.png"
         text: qsTr("Cancel") + application.trBind
+        iconSource: "qrc:/qml/images/icon_back.png"
         onClicked: {
             menu.close()
         }

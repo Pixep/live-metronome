@@ -122,7 +122,7 @@ Page {
                 }
                 showSeparator: (index !== languagesRepeater.count-1)
                 onClicked: {
-                    application.setLanguage(code)
+                    userSettings.setPreferredLanguage(code)
                     languagesDialog.close()
                 }
             }

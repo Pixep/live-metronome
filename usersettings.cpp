@@ -13,10 +13,10 @@
 #endif
 
 UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent),
-    m_currentSetlist(nullptr)
+    m_currentSetlist(nullptr),
+    m_preferredLanguage(QLocale::AnyLanguage),
+    m_storagePath(path)
 {
-    m_storagePath = path;
-
     connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
     connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);
 }
@@ -77,7 +77,11 @@ bool UserSettings::setJsonSettings(const QString &json)
     removeAllPlaylists_internal();
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json.toUtf8());
-    QJsonArray userSetlists = jsonDoc.object().value("setlists").toArray();
+    QJsonObject jsonObject = jsonDoc.object();
+
+    m_preferredLanguage = static_cast<QLocale::Language>(jsonObject.value("preferredLanguage").toInt(0));
+
+    QJsonArray userSetlists = jsonObject.value("setlists").toArray();
     for(int setlistIndex = 0; setlistIndex < userSetlists.size(); ++setlistIndex)
     {
         QJsonObject setlistObject = userSetlists.at(setlistIndex).toObject();
@@ -99,9 +103,10 @@ bool UserSettings::setJsonSettings(const QString &json)
     if (setlistsCount() == 0)
         addSetlist_internal(tr("New setlist"));
 
-    int currentSetlist = jsonDoc.object().value("currentSetlist").toInt(0);
+    int currentSetlist = jsonObject.value("currentSetlist").toInt(0);
     setCurrentSetlist_internal(currentSetlist);
 
+    emit preferredLanguageChanged(preferredLanguage());
     emit setlistsChanged();
     emit setlistChanged();
     emit settingsModified();
@@ -113,6 +118,8 @@ QString UserSettings::jsonSettings() const
 {
     QJsonDocument jsonDoc;
     QJsonObject jsonDocObject;
+
+    jsonDocObject["preferredLanguage"] = preferredLanguage();
 
     QJsonArray jsonArraySetlists;
     foreach(const Setlist* setlist, setlistsConst())
@@ -142,6 +149,13 @@ QString UserSettings::jsonSettings() const
     //qWarning() << jsonDoc.toJson(QJsonDocument::Indented);
 
     return jsonDoc.toJson(QJsonDocument::Compact);
+}
+
+void UserSettings::setPreferredLanguage(int language)
+{
+    m_preferredLanguage = static_cast<QLocale::Language>(language);
+    emit settingsModified();
+    emit preferredLanguageChanged(language);
 }
 
 bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)

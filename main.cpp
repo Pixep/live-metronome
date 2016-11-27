@@ -21,13 +21,13 @@ int main(int argc, char *argv[])
 
     Platform platform;
     Application application;
-    application.initialize();
 
     UserSettings userSettings(engine.offlineStoragePath());
+    QObject::connect(&userSettings, &UserSettings::preferredLanguageChanged, &application, &Application::setLanguage);
+
     engine.rootContext()->setContextProperty("platform", &platform);
     engine.rootContext()->setContextProperty("application", &application);
     engine.rootContext()->setContextProperty("userSettings", &userSettings);
-
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
     return app.exec();

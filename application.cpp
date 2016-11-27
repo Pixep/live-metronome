@@ -18,15 +18,11 @@ Application::Application(QObject *parent) : QObject(parent)
     m_instance = this;
 }
 
-void Application::initialize()
-{
-    setLanguage(QLocale::system().language());
-}
-
-
-
 void Application::setLanguage(int languageCode)
 {
+    if (languageCode == static_cast<int>(QLocale::AnyLanguage))
+        languageCode = static_cast<int>(QLocale::system().language());
+
     QString translationFile;
     QString languageString;
     QString defaultLanguage = "en-US";
@@ -46,6 +42,7 @@ void Application::setLanguage(int languageCode)
         break;
     default:
         translationFile = defaultLanguage;
+        languageCode = QLocale::English;
         languageString = "English";
         break;
     }

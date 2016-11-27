@@ -6,6 +6,7 @@
 
 #include <QObject>
 #include <QQmlListProperty>
+#include <QLocale>
 
 class Setlist;
 
@@ -27,6 +28,7 @@ signals:
     void setlistChanged();
     void setlistsChanged();
     void setlistIndexChanged();
+    void preferredLanguageChanged(int language);
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
@@ -38,6 +40,8 @@ public:
     SongsListModel* songsMoveModel() { return &m_songsMoveModel; }
     QVector<Setlist*> setlists() { return m_setlists; }
     QVector<const Setlist*> setlistsConst() const;
+
+    QLocale::Language preferredLanguage() const { return m_preferredLanguage; }
 
 public slots:
     void resetToDefault();
@@ -63,6 +67,8 @@ public slots:
     bool commitSongMoves();
     bool discardSongMoves();
 
+    void setPreferredLanguage(int language);
+
 private:
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
     bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
@@ -77,6 +83,7 @@ private:
 private:
     Setlist* m_currentSetlist;
     QVector<Setlist*> m_setlists;
+    QLocale::Language m_preferredLanguage;
 
     SongsListModel m_songsMoveModel;
     QString m_storagePath;

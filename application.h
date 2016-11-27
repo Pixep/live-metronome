@@ -34,6 +34,7 @@ public:
     static bool allowPlaylists();
 
 public slots:
+    void loadingFinished(QObject *object);
     void setLanguage(int languageCode);
 
 signals:

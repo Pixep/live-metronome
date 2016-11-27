@@ -85,3 +85,9 @@ bool Application::allowPlaylists()
 {
     return isCommercialVersion();
 }
+
+void Application::loadingFinished(QObject *object)
+{
+    if (object == nullptr)
+        qFatal("Failed to load application");
+}

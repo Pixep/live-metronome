@@ -105,15 +105,6 @@ Page {
                 function onRefused() {
                     // Do nothing
                 }
-            },
-            Connections {
-                target: contentRoot
-                onBack: {
-                    if (!actionDialog.active)
-                        return
-
-                    actionDialog.close()
-                }
             }
         ]
     }

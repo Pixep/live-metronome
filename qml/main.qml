@@ -33,10 +33,12 @@ Window {
         readonly property bool songsShown: p.currentPage == 1
         readonly property int currentPage: p.currentPage
         readonly property bool secondaryPageVisible: settingsPage.visible
+        readonly property bool dialogVisible: p.dialog !== null
 
         QtObject {
             id: p
             property int currentPage: 1
+            property BaseDialog dialog
         }
 
         function showSetlists() {
@@ -49,6 +51,19 @@ Window {
         }
         function hideSecondaryPages() {
             settingsPage.hide()
+        }
+        function registerDialog(dialog) {
+            if (p.dialog !== null)
+                p.dialog.close()
+
+            p.dialog = dialog
+        }
+        function unregisterDialog(dialog) {
+            p.dialog = null
+        }
+        function hideDialog() {
+            if (dialogVisible)
+                p.dialog.close()
         }
 
         Connections {
@@ -169,12 +184,16 @@ Window {
         signal back()
 
         function onBack() {
-            if (addEditPage.visible)
-                addEditPage.hide()
-            else if (confirmDialog.visible)
-                confirmDialog.close(false)
+            if (gui.dialogVisible)
+                gui.hideDialog()
             else if (mainMenu.visible)
                 mainMenu.close()
+            else if (settingsPage.visible)
+                settingsPage.hide()
+            else if (addEditPage.visible)
+                addEditPage.hide()
+            else if (setlistPage.visible)
+                gui.showSongs()
 
             back()
         }

@@ -86,10 +86,14 @@ Page {
                 }
 
                 if (confirmDialog.visible)
+                {
                     discardChanges()
-
-                confirmDialog.show(qsTr("Discard your modifications ?"),
-                                   discardConfirmation)
+                }
+                else
+                {
+                    confirmDialog.show(qsTr("Discard your modifications ?"),
+                                       discardConfirmation)
+                }
             }
         }
 

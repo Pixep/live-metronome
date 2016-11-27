@@ -20,6 +20,9 @@ BaseDialog {
 
     function close(accepted)
     {
+        if (!active)
+            return
+
         __close()
 
         if (accepted)

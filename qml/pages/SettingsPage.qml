@@ -50,16 +50,6 @@ Page {
     }
 
     resources: [
-        Connections {
-            target: contentRoot
-            onBack: {
-                if (languagesDialog.active)
-                    return
-
-                hide()
-            }
-        },
-
         NumberAnimation {
             id: newShowAnimation
             target: page
@@ -137,17 +127,5 @@ Page {
                 }
             }
         }
-
-        resources: [
-            Connections {
-                target: contentRoot
-                onBack: {
-                    if (!languagesDialog.active)
-                        return
-
-                    languagesDialog.close()
-                }
-            }
-        ]
     }
 }

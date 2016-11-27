@@ -35,16 +35,6 @@ Page {
             id: newHideAnimation
         },
 
-        Connections {
-            target: contentRoot
-            onBack: {
-                if (!page.visible)
-                    return
-
-                gui.showSongs()
-            }
-        },
-
         QtObject {
             id: p
 
@@ -108,18 +98,6 @@ Page {
             onDeleteSetlist: {
                 p.deleteSetlist(contextValue, contextValue2)
             }
-
-            resources: [
-                Connections {
-                    target: contentRoot
-                    onBack: {
-                        if (!actionDialog.active)
-                            return
-
-                        actionDialog.close()
-                    }
-                }
-            ]
         },
 
         ActionDialog {
@@ -148,18 +126,6 @@ Page {
                     }
                 }
             }
-
-            resources: [
-                Connections {
-                    target: contentRoot
-                    onBack: {
-                        if (!setlistDialog.active)
-                            return
-
-                        setlistDialog.close()
-                    }
-                }
-            ]
         }
     ]
 }

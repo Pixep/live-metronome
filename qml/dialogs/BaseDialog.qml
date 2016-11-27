@@ -19,6 +19,8 @@ Item {
             return
 
         active = true
+        gui.registerDialog(dialog)
+
         showed()
 
         if (hideAnimation)
@@ -36,6 +38,7 @@ Item {
             return
 
         active = false
+        gui.unregisterDialog(dialog)
         closed()
 
         if (showAnimation)

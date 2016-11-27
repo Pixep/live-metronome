@@ -19,7 +19,6 @@ Window {
     readonly property int currentSongTempo: mainPage.currentSongItem ? mainPage.currentSongItem.songTempo : -1
     readonly property bool isSongSelected: mainPage.currentSongItem
 
-
     Connections {
         target: userSettings
         onSettingsModified: {

@@ -27,19 +27,12 @@
 <context>
     <name>ApplicationHeader</name>
     <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="61"/>
-        <source>Setlists</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="74"/>
         <source>Setlist name</source>
-        <translation>Nom de la setlist</translation>
+        <translation type="vanished">Nom de la setlist</translation>
     </message>
     <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="104"/>
         <source>Menu disabled during play</source>
-        <translation>Menu désactivé pendant la lecture</translation>
+        <translation type="vanished">Menu désactivé pendant la lecture</translation>
     </message>
 </context>
 <context>
@@ -107,22 +100,22 @@
         <translation>Confirmez-vous la suppression de toutes les musiques de cette setliste ?</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="161"/>
+        <location filename="../qml/MainMenu.qml" line="160"/>
         <source>Reset all</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="164"/>
+        <location filename="../qml/MainMenu.qml" line="165"/>
         <source>Do you confirm resetting all set content ?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="177"/>
+        <location filename="../qml/MainMenu.qml" line="178"/>
         <source>Settings</source>
         <translation>Réglages</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="186"/>
+        <location filename="../qml/MainMenu.qml" line="188"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -210,17 +203,21 @@
 <context>
     <name>SetlistListView</name>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="23"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+        <translation type="vanished">Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="38"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="24"/>
+        <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
+        <translation>Aucune musique&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
         <source>emtpy</source>
         <translation>vide</translation>
     </message>
     <message numerus="yes">
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="38"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
         <source>%n song(s)</source>
         <translation>
             <numerusform>%n musique</numerusform>
@@ -228,7 +225,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="50"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="51"/>
         <source>Add setlist</source>
         <translation>Ajouter une setlist</translation>
     </message>
@@ -247,7 +244,7 @@
         <translation>Confirmez-vous la suppression de la setlist &apos;%1&apos; ?</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="133"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="136"/>
         <source>current</source>
         <translation>courante</translation>
     </message>
@@ -255,7 +252,7 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="85"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="95"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
@@ -320,11 +317,29 @@
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../usersettings.cpp" line="100"/>
-        <location filename="../usersettings.cpp" line="185"/>
-        <location filename="../usersettings.cpp" line="316"/>
+        <location filename="../usersettings.cpp" line="104"/>
+        <location filename="../usersettings.cpp" line="199"/>
+        <location filename="../usersettings.cpp" line="330"/>
         <source>New setlist</source>
         <translation>Nouvelle setlist</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../qml/main.qml" line="190"/>
+        <source>Setlists</source>
+        <translation>Setlists</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="200"/>
+        <source>Menu disabled during play</source>
+        <translation>Menu désactivé pendant la lecture</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="210"/>
+        <source>Setlist name</source>
+        <translation>Nom de la setlist</translation>
     </message>
 </context>
 </TS>

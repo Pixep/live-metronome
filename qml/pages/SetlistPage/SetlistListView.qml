@@ -21,7 +21,7 @@ Item {
         anchors.margins: appStyle.margin
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: qsTr("No song present your set<br>Add one with the %1 button").arg("<img src='qrc:/qml/images/icon_menu.png'></img>") + application.trBind
+        text: qsTr("No song present in your set<br>Add one with the %1 button").arg("<img src='qrc:/qml/images/icon_menu.png'></img>") + application.trBind
         wrapMode: Text.WordWrap
         visible: !songListView.visible
     }

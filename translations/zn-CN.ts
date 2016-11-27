@@ -27,19 +27,16 @@
 <context>
     <name>ApplicationHeader</name>
     <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="61"/>
         <source>Setlists</source>
-        <translation>setlists</translation>
+        <translation type="vanished">setlists</translation>
     </message>
     <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="74"/>
         <source>Setlist name</source>
-        <translation>setlist名称</translation>
+        <translation type="vanished">setlist名称</translation>
     </message>
     <message>
-        <location filename="../qml/components/ApplicationHeader.qml" line="104"/>
         <source>Menu disabled during play</source>
-        <translation>关闭播放过程中</translation>
+        <translation type="vanished">关闭播放过程中</translation>
     </message>
 </context>
 <context>
@@ -107,22 +104,22 @@
         <translation>你确定要删除所有的音乐？</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="161"/>
+        <location filename="../qml/MainMenu.qml" line="160"/>
         <source>Reset all</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="164"/>
+        <location filename="../qml/MainMenu.qml" line="165"/>
         <source>Do you confirm resetting all set content ?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="177"/>
+        <location filename="../qml/MainMenu.qml" line="178"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="186"/>
+        <location filename="../qml/MainMenu.qml" line="188"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -199,24 +196,28 @@
 <context>
     <name>SetlistListView</name>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="23"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>没有歌。使用按钮 ％1 添加歌曲</translation>
+        <translation type="vanished">没有歌。使用按钮 ％1 添加歌曲</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="38"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="24"/>
+        <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
+        <translation>没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
         <source>emtpy</source>
         <translation>空</translation>
     </message>
     <message numerus="yes">
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="38"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
         <source>%n song(s)</source>
         <translation>
             <numerusform>%n首歌曲</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="50"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="51"/>
         <source>Add setlist</source>
         <translation>新setlist</translation>
     </message>
@@ -232,10 +233,10 @@
     <message>
         <location filename="../qml/pages/SetlistPage.qml" line="65"/>
         <source>Do you confirm completly removing the setlist &apos;%1&apos; ?</source>
-        <translation>您确认完全删除集合列表&apos;％1&apos;吗？</translation>
+        <translation>您确认完全删除集合列表&apos;%1&apos;吗？</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="133"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="136"/>
         <source>current</source>
         <translation>当前</translation>
     </message>
@@ -243,7 +244,7 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="85"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="95"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
@@ -253,7 +254,7 @@
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="14"/>
         <source>Set tempo to %1</source>
-        <translation>将速度设置为％1</translation>
+        <translation>将速度设置为%1</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainPage/SongActionDialog.qml" line="23"/>
@@ -281,7 +282,7 @@
     <message>
         <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
-        <translation type="unfinished"></translation>
+        <translation>没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
     </message>
 </context>
 <context>
@@ -308,11 +309,29 @@
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../usersettings.cpp" line="100"/>
-        <location filename="../usersettings.cpp" line="185"/>
-        <location filename="../usersettings.cpp" line="316"/>
+        <location filename="../usersettings.cpp" line="104"/>
+        <location filename="../usersettings.cpp" line="199"/>
+        <location filename="../usersettings.cpp" line="330"/>
         <source>New setlist</source>
         <translation>新setlist</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../qml/main.qml" line="190"/>
+        <source>Setlists</source>
+        <translation>Setlists</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="200"/>
+        <source>Menu disabled during play</source>
+        <translation>关闭播放过程中</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="210"/>
+        <source>Setlist name</source>
+        <translation>setlist名称</translation>
     </message>
 </context>
 </TS>

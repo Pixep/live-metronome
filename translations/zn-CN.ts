@@ -200,24 +200,23 @@
         <translation type="vanished">没有歌。使用按钮 ％1 添加歌曲</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="24"/>
         <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
+        <translation type="vanished">没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="29"/>
         <source>emtpy</source>
         <translation>空</translation>
     </message>
     <message numerus="yes">
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="29"/>
         <source>%n song(s)</source>
         <translation>
             <numerusform>%n首歌曲</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="51"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="41"/>
         <source>Add setlist</source>
         <translation>新setlist</translation>
     </message>
@@ -280,8 +279,12 @@
 <context>
     <name>SongListView</name>
     <message>
-        <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
+        <translation type="vanished">没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
+        <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
         <translation>没有歌。&lt;br&gt;使用按钮%1添加歌曲</translation>
     </message>
 </context>

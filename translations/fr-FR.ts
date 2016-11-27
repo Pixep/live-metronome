@@ -207,17 +207,16 @@
         <translation type="vanished">Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="24"/>
         <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>Aucune musique&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+        <translation type="vanished">Aucune musique&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="29"/>
         <source>emtpy</source>
         <translation>vide</translation>
     </message>
     <message numerus="yes">
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="39"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="29"/>
         <source>%n song(s)</source>
         <translation>
             <numerusform>%n musique</numerusform>
@@ -225,7 +224,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="51"/>
+        <location filename="../qml/pages/SetlistPage/SetlistListView.qml" line="41"/>
         <source>Add setlist</source>
         <translation>Ajouter une setlist</translation>
     </message>
@@ -288,9 +287,13 @@
 <context>
     <name>SongListView</name>
     <message>
-        <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
         <source>No song present your set&lt;br&gt;Add one with the %1 button</source>
-        <translation>Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+        <translation type="vanished">Aucune musique présente&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage/SongListView.qml" line="20"/>
+        <source>No song present in your set&lt;br&gt;Add one with the %1 button</source>
+        <translation>Aucune musique&lt;br&gt;Utilisez %1 pour en ajouter une</translation>
     </message>
 </context>
 <context>

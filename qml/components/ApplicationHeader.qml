@@ -10,10 +10,13 @@ Item {
 
     property alias backVisible: backButton.visible
     property alias menuVisible: menuButton.visible
+    property alias title: title.text
     property bool menuEnabled: true
+    property string menuDisabledMessage
 
     signal back()
     signal showMenu()
+    signal titleClicked()
 
     Rectangle {
         id: background
@@ -50,34 +53,19 @@ Item {
     }
 
     BaseText {
+        id: title
         anchors.left: menuLeftAnchor.right
         anchors.right: menuRightAnchor.left
         height: parent.height
         font.pixelSize: appStyle.titleFontSize
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        text: {
-            if (gui.setlistsShown)
-                return qsTr("Setlists");
-
-            if (userSettings.setlist)
-                return userSettings.setlist.name
-
-            return "Live Metronome"
-        }
+        text: header.title
 
         MouseArea {
             id: titleMouseArea
             anchors.fill: parent
-            onClicked: {
-                if (gui.songsShown)
-                    editDialog.show(qsTr("Setlist name"), titleMouseArea)
-            }
-
-            function onAccepted() {
-                userSettings.setCurrentSetlistName(editDialog.value)
-            }
-            function onRefused() {}
+            onClicked: header.titleClicked()
         }
     }
 
@@ -101,7 +89,7 @@ Item {
             if (header.menuEnabled)
                 header.showMenu()
             else
-                toast.show(qsTr("Menu disabled during play"))
+                toast.show(menuDisabledMessage)
         }
     }
 }

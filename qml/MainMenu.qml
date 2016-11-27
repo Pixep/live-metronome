@@ -37,10 +37,10 @@ ApplicationMenu {
     }
 
     MenuItem {
-        id: selectSetlist
+        id: setlistPage
         text: qsTr("Setlists") + application.trBind
         iconSource: "qrc:/qml/images/icon_check.png"
-        visible: gui.songsShown
+        visible: gui.songsShown || gui.secondaryPageVisible
         onClicked: {
             menu.close()
             gui.showSetlists()
@@ -51,7 +51,7 @@ ApplicationMenu {
         id: newSetlist
         text: qsTr("New setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
-        visible: gui.setlistsShown
+        visible: gui.setlistsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             menu.newSetlist()
@@ -63,7 +63,7 @@ ApplicationMenu {
         text: qsTr("Rename setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_edit.png"
         iconScale: 0.8
-        visible: gui.setlistsShown
+        visible: gui.setlistsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             menu.renameSetlist()
@@ -74,7 +74,7 @@ ApplicationMenu {
         id: deleteSetlist
         text: qsTr("Delete setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_minus.png"
-        visible: gui.setlistsShown
+        visible: gui.setlistsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             menu.deleteSetlist()
@@ -94,7 +94,7 @@ ApplicationMenu {
 
     MenuItem {
         id: editCurrentSong
-        visible: gui.songsShown && metronome.isCurrentSongValid
+        visible: gui.songsShown && metronome.isCurrentSongValid && !gui.secondaryPageVisible
         text: qsTr("Edit current song") + application.trBind
         iconSource: "qrc:/qml/images/icon_edit.png"
         iconScale: 0.8
@@ -120,7 +120,7 @@ ApplicationMenu {
     MenuItem {
         text: qsTr("Add new song") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
-        visible: gui.songsShown
+        visible: gui.songsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             addEditPage.addNewSong()
@@ -129,7 +129,7 @@ ApplicationMenu {
 
     MenuItem {
         text: qsTr("Change songs order") + application.trBind
-        visible: gui.songsShown && userSettings.songsModel.count >= 2
+        visible: gui.songsShown && userSettings.songsModel.count >= 2 && !gui.secondaryPageVisible
         iconSource: "qrc:/qml/images/icon_move.png"
         onClicked: {
             menu.close()
@@ -141,7 +141,7 @@ ApplicationMenu {
         id: clearAll
         text: qsTr("Clear all") + application.trBind
         iconSource: "qrc:/qml/images/icon_clear.png"
-        visible: gui.songsShown
+        visible: gui.songsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             confirmDialog.show(qsTr("Do you confirm removing all songs from the set ?"),
@@ -157,8 +157,8 @@ ApplicationMenu {
 
     MenuItem {
         id: resetAll
-        visible: platform.isWindows
         text: qsTr("Reset all") + application.trBind
+        visible: platform.isWindows && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             confirmDialog.show(qsTr("Do you confirm resetting all set content ?"),

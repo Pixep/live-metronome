@@ -7,7 +7,7 @@ import "../dialogs"
 Page {
     id: page
     y: page.bottomY
-    saveButtonsVisible: true
+    saveButtonsVisible: false
     showAnimation: newShowAnimation
     hideAnimation: newHideAnimation
 
@@ -50,6 +50,16 @@ Page {
     }
 
     resources: [
+        Connections {
+            target: contentRoot
+            onBack: {
+                if (languagesDialog.active)
+                    return
+
+                hide()
+            }
+        },
+
         NumberAnimation {
             id: newShowAnimation
             target: page

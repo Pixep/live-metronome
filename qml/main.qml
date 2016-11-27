@@ -32,6 +32,7 @@ Window {
         readonly property bool setlistsShown: p.currentPage == 0
         readonly property bool songsShown: p.currentPage == 1
         readonly property int currentPage: p.currentPage
+        readonly property bool secondaryPageVisible: settingsPage.visible
 
         QtObject {
             id: p
@@ -39,10 +40,15 @@ Window {
         }
 
         function showSetlists() {
+            hideSecondaryPages()
             p.currentPage = 0
         }
         function showSongs() {
+            hideSecondaryPages()
             p.currentPage = 1
+        }
+        function hideSecondaryPages() {
+            settingsPage.hide()
         }
 
         Connections {
@@ -179,9 +185,19 @@ Window {
 
         ApplicationHeader {
             id: appHeader
+            title: {
+                if (gui.setlistsShown)
+                    return qsTr("Setlists");
+
+                if (userSettings.setlist)
+                    return userSettings.setlist.name
+
+                return "Live Metronome"
+            }
             backVisible: addEditPage.visible || moveSongsPage.visible
             menuVisible: !addEditPage.visible && !moveSongsPage.visible
             menuEnabled: !metronome.playing
+            menuDisabledMessage: qsTr("Menu disabled during play")
 
             onBack: {
                 contentRoot.onBack()
@@ -189,6 +205,15 @@ Window {
             onShowMenu: {
                 mainMenu.show()
             }
+            onTitleClicked: {
+                if (gui.songsShown)
+                    editDialog.show(qsTr("Setlist name"), appHeader)
+            }
+
+            function onAccepted() {
+                userSettings.setCurrentSetlistName(editDialog.value)
+            }
+            function onRefused() {}
         }
 
         Item {

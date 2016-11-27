@@ -13,6 +13,7 @@ FocusScope {
     property Item nextFocused
 
     signal validateInput()
+    signal userValidated();
 
     function validate()
     {
@@ -59,6 +60,7 @@ FocusScope {
             {
                 event.accepted = true;
                 returnFocus()
+                root.userValidated()
             }
         }
 

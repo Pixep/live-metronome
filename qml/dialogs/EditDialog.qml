@@ -64,12 +64,10 @@ BaseDialog {
             BaseEdit {
                 id: editItem
                 width: parent.width
-                /*Rectangle {
-                    color: appStyle.backgroundColor2
-                    width: 1
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    height:
-                }*/
+
+                onUserValidated: {
+                    dialog.close(true)
+                }
             }
 
             Row {

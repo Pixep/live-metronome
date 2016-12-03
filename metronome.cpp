@@ -27,7 +27,6 @@ Metronome::Metronome() :
 
 void Metronome::loadSounds()
 {
-    qsrand(QDateTime::currentMSecsSinceEpoch());
     bool success = generateTickAudio(m_tickLowSoundBuffer, false);
     success &=     generateTickAudio(m_tickHighSoundBuffer, true);
 
@@ -52,11 +51,17 @@ bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
     bool signedFormat = format.sampleType() == QAudioFormat::SignedInt;
     if (format.sampleSize() == 16)
     {
-        //generateTick<qint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+        if (signedFormat)
+            generateTick<qint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+        else
+            generateTick<quint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
     }
     else if (format.sampleSize() == 8)
     {
-        generateTick<qint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+        if (signedFormat)
+            generateTick<qint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+        else
+            generateTick<quint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
     }
 
     return true;

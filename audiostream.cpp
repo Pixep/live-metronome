@@ -10,7 +10,7 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
     QAudioFormat format = info.preferredFormat();
     format.setSampleRate(8000);
-    format.setSampleSize(8);
+    format.setSampleSize(16);
     format.setChannelCount(1);
     format.setSampleType(QAudioFormat::SignedInt);
 
@@ -27,6 +27,14 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
 
         format = info.preferredFormat();
     }
+
+    qDebug() << "Audio format:";
+    qDebug() << "Byte order" << format.byteOrder();
+    qDebug() << "Channel count" << format.channelCount();
+    qDebug() << "Codec" << format.codec();
+    qDebug() << "Sample rate" << format.sampleRate();
+    qDebug() << "Sample size" << format.sampleSize();
+    qDebug() << "Sample type" << format.sampleType();
 
     m_audioOutput = new QAudioOutput(format, this);
 

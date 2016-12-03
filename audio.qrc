@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>sounds/click1_high.wav</file>
-        <file>sounds/click1_low.wav</file>
+        <file>sounds/click1_high-16-16.wav</file>
+        <file>sounds/click1_low-16-16.wav</file>
     </qresource>
 </RCC>

@@ -9,7 +9,7 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
 {
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
     QAudioFormat format = info.preferredFormat();
-    format.setSampleRate(8000);
+    format.setSampleRate(16000);
     format.setSampleSize(16);
     format.setChannelCount(1);
     format.setSampleType(QAudioFormat::SignedInt);
@@ -61,7 +61,7 @@ void AudioStream::setBufferSizeInMillisec(int ms)
     if (isActive())
         qWarning() << Q_FUNC_INFO << "Buffer size changed while playing, ignored until next call to 'play'";
 
-    m_bufferSize = ms * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8 / 1000;
+    m_bufferSize = (qint64)ms / 1000 * m_audioOutput->format().sampleRate() * m_audioOutput->format().sampleSize()/8;
 }
 
 void AudioStream::start()

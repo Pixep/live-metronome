@@ -30,7 +30,7 @@ bool Platform::setKeepScreenOn(bool screenOn)
 #endif
 }
 
-bool Platform::isWindows() const
+bool Platform::isWindows()
 {
 #ifdef Q_OS_WIN
     return true;
@@ -39,7 +39,7 @@ bool Platform::isWindows() const
 #endif
 }
 
-bool Platform::isAndroid() const
+bool Platform::isAndroid()
 {
 #ifdef Q_OS_ANDROID
     return true;
@@ -48,7 +48,7 @@ bool Platform::isAndroid() const
 #endif
 }
 
-bool Platform::isCompiledWithMVS() const
+bool Platform::isCompiledWithMVS()
 {
 #ifdef Q_CC_MSVC
     return true;
@@ -57,7 +57,7 @@ bool Platform::isCompiledWithMVS() const
 #endif
 }
 
-QString Platform::soundsPath() const
+QString Platform::soundsPath()
 {
     if (isCompiledWithMVS())
         return "ms-appx:///assets/";

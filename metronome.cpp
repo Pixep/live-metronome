@@ -3,8 +3,7 @@
 
 #include <QDebug>
 #include <QAudioFormat>
-#include <QAudioDeviceInfo>
-#include <QAudioOutput>
+#include <QFile>
 #include <qmath.h>
 
 Metronome::Metronome() :
@@ -27,11 +26,35 @@ Metronome::Metronome() :
 
 void Metronome::loadSounds()
 {
+    if (false/*Platform::isAndroid()*/)
+    {
+        m_audioDecoder.setSourceFilename(":/sounds/click1_high.wav");
+        m_audioDecoder.setAudioFormat(m_stream.format());
+        m_audioDecoder.start();
+
+        connect(&m_audioDecoder, &QAudioDecoder::finished, this, &Metronome::generateBuffers);
+        connect(&m_audioDecoder, static_cast<void(QAudioDecoder::*)(QAudioDecoder::Error)>(&QAudioDecoder::error), this, &Metronome::onSoundDecodingError);
+    }
+    else
+    {
+        generateBuffers();
+    }
+}
+
+void Metronome::generateBuffers()
+{
+    qDebug() << "Audio decoded";
+
     bool success = generateTickAudio(m_tickLowSoundBuffer, false);
     success &=     generateTickAudio(m_tickHighSoundBuffer, true);
 
     if (!success)
         qWarning() << "Failed to generate audio !";
+}
+
+void Metronome::onSoundDecodingError(QAudioDecoder::Error error)
+{
+    qWarning() << "Failed to decode audio file with error" << error;
 }
 
 bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
@@ -65,6 +88,62 @@ bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
     }
 
     return true;
+}
+
+template<typename T>
+void Metronome::generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer)
+{
+    T sample;
+    std::size_t byteCount = sizeof(sample);
+    qint64 samplesCount = 0.1 * sampleRate;
+    float sinFrequencyFactor = (float)frequency * 2 * M_PI / sampleRate;
+
+    int range = qPow(2, 8*byteCount);
+    int halfRange = range/2 - 1;
+    int offset = pSigned ? 0 : halfRange;
+
+    if (false/*Platform::isAndroid()*/)
+    {
+        int silenceByteCount = audioBuffer.size() - m_tickLowBuffer.byteCount();
+        memcpy(audioBuffer.data(), m_tickLowBuffer.data(), qMin(audioBuffer.size(), m_tickLowBuffer.byteCount()));
+
+        if (silenceByteCount > 0)
+        {
+            memset(audioBuffer.data() + m_tickLowBuffer.byteCount(), offset, silenceByteCount);
+        }
+    }
+    else
+    {
+        QFile audioFile;
+        if (frequency > 440)
+            audioFile.setFileName(":/sounds/click1_high-16-16.wav");
+        else
+            audioFile.setFileName(":/sounds/click1_low-16-16.wav");
+
+        audioFile.open(QFile::ReadOnly);
+        QByteArray audioFileWav = audioFile.readAll();
+        audioFileWav = audioFileWav.remove(0, 44);
+
+        int silenceByteCount = audioBuffer.size() - audioFileWav.size();
+        memcpy(audioBuffer.data(), audioFileWav.data(), qMin(audioBuffer.size(), audioFileWav.size()));
+
+        if (silenceByteCount > 0)
+        {
+            memset(audioBuffer.data() + audioFileWav.size(), offset, silenceByteCount);
+        }
+
+        /*for(int i = 0; i < samplesCount; ++i)
+        {
+            float scaleFactor = qMax(0.0f, (float)(sampleRate/10 - i) / (sampleRate/10));
+            sample = offset + scaleFactor * halfRange * qSin(sinFrequencyFactor * i);
+
+            qWarning() << sample;
+            memcpy(&audioBuffer[byteCount*i], &sample, byteCount);
+
+            if (scaleFactor == 0)
+                break;
+        }*/
+    }
 }
 
 void Metronome::setPlaying(bool play)
@@ -120,7 +199,7 @@ void Metronome::start()
 
     resetTempoSpecificCounters();
     m_timer.start(tempoInterval() - timerIntervalReduction());
-    generateTicks();
+    prepareTicks();
 
     m_stream.setMuted(false);
     Platform::get()->setKeepScreenOn(true);
@@ -150,7 +229,7 @@ void Metronome::resetTempoSpecificCounters()
     m_actualTempo = m_tempo;
 }
 
-void Metronome::generateTicks()
+void Metronome::prepareTicks()
 {
     int bufferedCount = 0;
     while (bufferedCount == 0 || (bufferedCount < 1/*tempo()/60*/ && m_stream.bufferFillingRatio() < 0.7))
@@ -212,7 +291,7 @@ void Metronome::onTick()
         if (m_needTempoUpdate)
             resetTempoSpecificCounters();
 
-        generateTicks();
+        prepareTicks();
     }
 
     int correctedInterval = tempoInterval() * (m_tempoSessionBeatsCount+1) - tempoSessionElapsed() - m_lastTickElapsed.elapsed() - timerIntervalReduction();
@@ -248,29 +327,4 @@ void Metronome::playTick(bool isMeasureTick)
         m_stream.play(m_tickHighSoundBuffer.data(), byteSize);
     else
         m_stream.play(m_tickLowSoundBuffer.data(), byteSize);
-}
-
-template<typename T>
-void Metronome::generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer)
-{
-    T sample;
-    std::size_t byteCount = sizeof(sample);
-    qint64 samplesCount = 0.1 * sampleRate;
-    float sinFrequencyFactor = (float)frequency * 2 * M_PI / sampleRate;
-
-    int range = qPow(2, 8*byteCount);
-    int halfRange = range/2 - 1;
-    int offset = pSigned ? 0 : halfRange;
-
-    for(int i = 0; i < samplesCount; ++i)
-    {
-        float scaleFactor = qMax(0.0f, (float)(sampleRate/10 - i) / (sampleRate/10));
-        sample = offset + scaleFactor * halfRange * qSin(sinFrequencyFactor * i);
-
-        qWarning() << sample;
-        memcpy(&audioBuffer[byteCount*i], &sample, byteCount);
-
-        if (scaleFactor == 0)
-            break;
-    }
 }

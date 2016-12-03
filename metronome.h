@@ -1,13 +1,14 @@
 #ifndef METRONOME_H
 #define METRONOME_H
 
+#include "audiostream.h"
+
 #include <QObject>
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QtMultimedia/QSoundEffect>
-
+#include <QAudioDecoder>
 #include <QVector>
-#include "audiostream.h"
 
 class Metronome : public QObject
 {
@@ -59,6 +60,8 @@ public slots:
     void onTick();
 
 private slots:
+    void generateBuffers();
+    void onSoundDecodingError(QAudioDecoder::Error error);
     void onTickPlayed();
 
 private:
@@ -66,7 +69,7 @@ private:
     void notifyTick(bool isMeasureTick);
     bool generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
     void resetTempoSpecificCounters();
-    void generateTicks();
+    void prepareTicks();
     void playTick(bool isMeasureTick);
     qint64 tempoSessionElapsed() const { return m_tempoSessionElapsed.elapsed() + m_tempoSessionVirtualElapsed; }
     int timerIntervalReduction() const { return 50; }
@@ -87,9 +90,12 @@ private:
     QSoundEffect m_lowTick3;
 
     AudioStream m_stream;
+    QAudioDecoder m_audioDecoder;
     QVector<char> m_emptySoundBuffer;
     QVector<char> m_tickLowSoundBuffer;
     QVector<char> m_tickHighSoundBuffer;
+    QAudioBuffer m_tickLowBuffer;
+    QAudioBuffer m_tickHighBuffer;
 
     int m_tempoSessionBeatsCount;
     QElapsedTimer m_tempoSessionElapsed;

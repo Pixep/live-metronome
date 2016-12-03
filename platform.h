@@ -14,10 +14,10 @@ public:
     explicit Platform(QObject *parent = 0);
     static Platform* get() { return m_platformInstance; }
 
-    bool isWindows() const;
-    bool isAndroid() const;
-    bool isCompiledWithMVS() const;
-    QString soundsPath() const;
+    static bool isWindows();
+    static bool isAndroid();
+    static bool isCompiledWithMVS();
+    static QString soundsPath();
 
 public slots:
     bool setKeepScreenOn(bool screenOn);

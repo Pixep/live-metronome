@@ -13,5 +13,12 @@ Package.*
 Makefile
 android/local.properties
 *.autosave
+private/*
+QtGraphicalEffects/*
+Makefile.Debug
+Makefile.Release
+Metronome.VC.db
+QtQml/Models.2/qmldir
+QtQml/Models.2/plugins.qmltypes
 syntax: regexp
 ~$

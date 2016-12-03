@@ -10,8 +10,10 @@ AudioStream::AudioStream(QObject *parent) : QObject(parent),
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
     QAudioFormat format = info.preferredFormat();
     format.setSampleRate(8000);
-    format.setSampleSize(16);
+    format.setSampleSize(8);
     format.setChannelCount(1);
+    format.setSampleType(QAudioFormat::SignedInt);
+
     format = info.nearestFormat(format);
 
     if (!info.isFormatSupported(format)) {

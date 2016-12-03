@@ -27,43 +27,39 @@ Metronome::Metronome() :
 
 void Metronome::loadSounds()
 {
-    generateTickAudio(m_tickLowSoundBuffer, false);
-    generateTickAudio(m_tickHighSoundBuffer, true);
+    qsrand(QDateTime::currentMSecsSinceEpoch());
+    bool success = generateTickAudio(m_tickLowSoundBuffer, false);
+    success &=     generateTickAudio(m_tickHighSoundBuffer, true);
+
+    if (!success)
+        qWarning() << "Failed to generate audio !";
 }
 
-void Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
+bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
 {
     audioBuffer.resize(m_stream.bufferSize());
 
     // 1/10s max audio "content"
     QAudioFormat format = m_stream.format();
-    qint64 samplesCount = 0.1 * format.sampleRate();
-
     int frequency = highPitch ? 659 : 440;
-    float sinFrequencyFactor = (float)frequency * 2 * M_PI / format.sampleRate();
 
-    if (format.sampleSize() == 16 && format.sampleType() == QAudioFormat::SignedInt)
+    if (format.sampleType() == QAudioFormat::Float)
     {
-        qint16 value;
-        for(int i = 0; i < samplesCount; ++i)
-        {
-            float scaleFactor = qMax(0.0f, (float)(format.sampleRate()/10 - i) / (format.sampleRate()/10));
-            value = 32000 * qSin(sinFrequencyFactor * i) * scaleFactor;
-            memcpy(&audioBuffer[2*i], &value, 2);
+        qWarning() << "Float audio format not supported!";
+        return false;
+    }
 
-            if (scaleFactor == 0)
-                break;
-        }
-    }
-    else if (format.sampleSize() == 8 && format.sampleType() == QAudioFormat::SignedInt)
+    bool signedFormat = format.sampleType() == QAudioFormat::SignedInt;
+    if (format.sampleSize() == 16)
     {
-        qint8 value;
-        for(int i = 0; i < samplesCount; ++i)
-        {
-            value = 127 * qSin((float)1000 * i / format.sampleRate());
-            memcpy(&audioBuffer[i], &value, 1);
-        }
+        //generateTick<qint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
     }
+    else if (format.sampleSize() == 8)
+    {
+        generateTick<qint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+    }
+
+    return true;
 }
 
 void Metronome::setPlaying(bool play)
@@ -247,4 +243,29 @@ void Metronome::playTick(bool isMeasureTick)
         m_stream.play(m_tickHighSoundBuffer.data(), byteSize);
     else
         m_stream.play(m_tickLowSoundBuffer.data(), byteSize);
+}
+
+template<typename T>
+void Metronome::generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer)
+{
+    T sample;
+    std::size_t byteCount = sizeof(sample);
+    qint64 samplesCount = 0.1 * sampleRate;
+    float sinFrequencyFactor = (float)frequency * 2 * M_PI / sampleRate;
+
+    int range = qPow(2, 8*byteCount);
+    int halfRange = range/2 - 1;
+    int offset = pSigned ? 0 : halfRange;
+
+    for(int i = 0; i < samplesCount; ++i)
+    {
+        float scaleFactor = qMax(0.0f, (float)(sampleRate/10 - i) / (sampleRate/10));
+        sample = offset + scaleFactor * halfRange * qSin(sinFrequencyFactor * i);
+
+        qWarning() << sample;
+        memcpy(&audioBuffer[byteCount*i], &sample, byteCount);
+
+        if (scaleFactor == 0)
+            break;
+    }
 }

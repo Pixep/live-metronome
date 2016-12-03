@@ -64,13 +64,16 @@ private slots:
 private:
     void loadSounds();
     void notifyTick(bool isMeasureTick);
-    void generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
+    bool generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
     void resetTempoSpecificCounters();
     void generateTicks();
     void playTick(bool isMeasureTick);
     qint64 tempoSessionElapsed() const { return m_tempoSessionElapsed.elapsed() + m_tempoSessionVirtualElapsed; }
     int timerIntervalReduction() const { return 50; }
     int tempoInterval() const { return 1000 * 60 / m_actualTempo; }
+
+    template<typename T>
+    void generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer);
 
 private:
     int m_tempo;

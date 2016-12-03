@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     setlist.cpp
 
 RESOURCES += qml.qrc \
-    translations.qrc
+    translations.qrc \
+    audio.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -67,7 +68,8 @@ DISTFILES += \
     qml/dialogs/EditDialog.qml \
     qml/pages/SetlistPage/SetlistDelegate.qml \
     qml/pages/SetlistPage/SetlistActionDialog.qml \
-    qml/pages/SettingsPage.qml
+    qml/pages/SettingsPage.qml \
+    android/res/values/appstyle.xml
 
 android {
     QT += androidextras

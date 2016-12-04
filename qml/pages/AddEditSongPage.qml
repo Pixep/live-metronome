@@ -5,7 +5,7 @@ import "../controls"
 
 Page {
     id: page
-    y: page.bottomY
+    y: page.bottomY / 4
     saveButtonsVisible: true
     actionButtonRight.enabled: inputValid()
     showAnimation: newShowAnimation
@@ -94,25 +94,44 @@ Page {
     }
 
     resources: [
-        NumberAnimation {
+        ParallelAnimation {
             id: newShowAnimation
-            target: page
-            property: "y"
-            easing.overshoot: 1.200
-            to: page.topY
-            duration: 300
-            easing.type: Easing.OutCubic
+
+            NumberAnimation {
+                target: page
+                property: "y"
+                easing.overshoot: 1.200
+                to: page.topY
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+            PropertyAnimation {
+                target: page
+                property: "opacity"
+                to: 1
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
         },
 
         SequentialAnimation {
             id: newHideAnimation
 
-            PropertyAnimation {
-                target: page
-                property: "y"
-                to: window.height
-                duration: 300
-                easing.type: Easing.InCubic
+            ParallelAnimation {
+                PropertyAnimation {
+                    target: page
+                    property: "y"
+                    to: window.height / 4
+                    duration: 300
+                    easing.type: Easing.OutCubic
+                }
+                PropertyAnimation {
+                    target: page
+                    property: "opacity"
+                    to: 0
+                    duration: 200
+                    easing.type: Easing.Linear
+                }
             }
             PropertyAction {
                 target: page

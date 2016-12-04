@@ -97,8 +97,24 @@ Page {
                 languagesDialog.show()
             }
         }
-    }
 
+        BaseText {
+            text: qsTr("Tick sound") + application.trBind
+        }
+
+        Button {
+            id: tickSoundButton
+            x: appStyle.width_col1
+            width: appStyle.width_col5
+            height: appStyle.controlHeight
+            text: userSettings.tickSoundName
+            anchors.right: parent.right
+
+            onClicked: {
+                tickSoundsDialog.show()
+            }
+        }
+    }
 
     ActionDialog {
         id: languagesDialog
@@ -113,7 +129,6 @@ Page {
             }
 
             ActionDialogItem {
-                id: dialogItem
                 text: {
                     if (code === application.languageCode)
                         return "<b>" + label + "</b>"
@@ -124,6 +139,29 @@ Page {
                 onClicked: {
                     userSettings.setPreferredLanguage(code)
                     languagesDialog.close()
+                }
+            }
+        }
+    }
+
+    ActionDialog {
+        id: tickSoundsDialog
+
+        Repeater {
+            id: tickSoundsRepeater
+            model: userSettings.tickSoundsAvailable
+
+            ActionDialogItem {
+                text: {
+                    if (index === userSettings.currentTickSoundIndex)
+                        return "<b>" + modelData + "</b>"
+                    else
+                        return modelData
+                }
+                showSeparator: (index !== tickSoundsRepeater.count-1)
+                onClicked: {
+                    userSettings.setTickSound(index)
+                    tickSoundsDialog.close()
                 }
             }
         }

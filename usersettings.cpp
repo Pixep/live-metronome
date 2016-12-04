@@ -18,10 +18,10 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
     m_currentTickSoundIndex(0),
     m_storagePath(path)
 {
-    addTickSound(QT_TR_NOOP("Click"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Click"), ":/sounds/click2_high-16-16.wav", ":/sounds/click2_low-16-16.wav");
     addTickSound(QT_TR_NOOP("Wooden 1"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
-    addTickSound(QT_TR_NOOP("Wooden 2"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
-    addTickSound(QT_TR_NOOP("Analog"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Wooden 2"), ":/sounds/click4_high-16-16.wav", ":/sounds/click4_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Analog"), ":/sounds/click3_high-16-16.wav", ":/sounds/click3_low-16-16.wav");
 
     connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
     connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);

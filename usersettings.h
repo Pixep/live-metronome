@@ -19,6 +19,7 @@ class UserSettings : public QObject
     Q_PROPERTY(QQmlListProperty<Setlist> setlists READ setlistsProperty NOTIFY setlistsChanged)
     Q_PROPERTY(int setlistIndex READ setlistIndex NOTIFY setlistIndexChanged)
     Q_PROPERTY(QStringList tickSoundsAvailable READ tickSoundsAvailable CONSTANT)
+    Q_PROPERTY(QString tickSoundName READ tickSoundName NOTIFY tickSoundsChanged)
 
 private:
     struct TickSoundResource {
@@ -65,6 +66,7 @@ public slots:
     void addTickSound(const QString &name, const QString &highTick, const QString &lowTick);
     void setTickSound(int index);
     int tickSoundIndex() const { return m_currentTickSoundIndex; }
+    QString tickSoundName() const { return tickSound().name; }
     const TickSoundResource tickSound() const { return m_tickSoundFiles.value(m_currentTickSoundIndex); }
 
     bool setSong(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);

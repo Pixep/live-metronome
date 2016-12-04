@@ -5,18 +5,19 @@
 #include <QAudioFormat>
 #include <QFile>
 #include <qmath.h>
-#include <QSoundEffect>
+#include <QGuiApplication>
 
 Metronome::Metronome() :
+    m_suspendedPlaying(false),
     m_tempo(80),
     m_beatsPerMeasure(4),
     m_beatsElapsed(0),
     m_needTempoUpdate(false)
 {
-    connect(&m_timer, &QTimer::timeout, this, &Metronome::onTick);
+    connect(&m_tickTimer, &QTimer::timeout, this, &Metronome::onTick);
+    connect(qApp, &QGuiApplication::applicationStateChanged, this, &Metronome::onApplicationStateChanged);
 
     m_stream.setBufferSizeInMillisec(4000);
-    //connect(&m_stream, &AudioStream::tickPlayed, this, &Metronome::onTickPlayed);
 }
 
 void Metronome::setTickSounds(const QString &highTickFile, const QString &lowTickFile)
@@ -147,7 +148,7 @@ void Metronome::start()
     m_lastTickElapsed.start();
 
     resetTempoSpecificCounters();
-    m_timer.start(tempoInterval() - timerIntervalReduction());
+    m_tickTimer.start(tempoInterval() - timerIntervalReduction());
     prepareTicks();
 
     m_stream.setMuted(false);
@@ -162,7 +163,7 @@ void Metronome::stop()
     if (!isPlaying())
         return;
 
-    m_timer.stop();
+    m_tickTimer.stop();
     m_stream.mute();
     Platform::get()->setKeepScreenOn(false);
 
@@ -254,12 +255,29 @@ void Metronome::onTick()
         correctedInterval = 0;
     }
 
-    m_timer.start(correctedInterval);
+    m_tickTimer.start(correctedInterval);
 }
 
 void Metronome::onTickPlayed()
 {
     notifyTick(false);
+}
+
+void Metronome::onApplicationStateChanged(Qt::ApplicationState state)
+{
+    if (state == Qt::ApplicationSuspended)
+    {
+        if (isPlaying())
+        {
+            m_suspendedPlaying = true;
+            stop();
+        }
+    }
+    else if (m_suspendedPlaying)
+    {
+        m_suspendedPlaying = false;
+        start();
+    }
 }
 
 void Metronome::notifyTick(bool isMeasureTick)

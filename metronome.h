@@ -27,7 +27,7 @@ class Metronome : public QObject
 public:
     Metronome();
 
-    bool isPlaying() const { return m_timer.isActive(); }
+    bool isPlaying() const { return m_tickTimer.isActive(); }
     int tempo() const { return m_tempo; }
     int beatsPerMeasure() const { return m_beatsPerMeasure; }
 
@@ -62,6 +62,7 @@ public slots:
 private slots:
     void onSoundDecodingError(QAudioDecoder::Error error);
     void onTickPlayed();
+    void onApplicationStateChanged(Qt::ApplicationState state);
 
 private:
     bool generateTickAudio(QVector<char>& audioBuffer, const QString &soundFile);
@@ -76,13 +77,14 @@ private:
     int timerIntervalReduction() const { return 50; }
     int tempoInterval() const { return 1000 * 60 / m_actualTempo; }
 
-private:    
+private:
+    bool m_suspendedPlaying;
     int m_tempo;
     int m_actualTempo;
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     bool m_needTempoUpdate;
-    QTimer m_timer;
+    QTimer m_tickTimer;
 
     AudioStream m_stream;
     QVector<char> m_tickLowSoundBuffer;

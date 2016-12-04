@@ -93,6 +93,7 @@ public slots:
     void setPreferredLanguage(int language);
 
 private:
+    bool setTickSound_internal(int index);
     bool addSong_internal(const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
     bool setSong_internal(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure, Setlist *setlist = nullptr);
     Setlist *addSetlist_internal(QString name);

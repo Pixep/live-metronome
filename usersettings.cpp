@@ -32,19 +32,6 @@ void UserSettings::addTickSound(const QString &name, const QString &highTick, co
     m_tickSoundFiles.push_back(TickSoundResource(name, highTick, lowTick));
 }
 
-void UserSettings::setTickSound(int index)
-{
-    TickSoundResource sound = m_tickSoundFiles.value(index);
-    if (sound.isNull())
-    {
-        qWarning() << "Invalid tick sound index" << index;
-        return;
-    }
-
-    m_currentTickSoundIndex = index;
-    emit tickSoundsChanged(sound.highTick, sound.lowTick);
-}
-
 SongsListModel *UserSettings::songsModel()
 {
     if (m_currentSetlist)
@@ -130,8 +117,9 @@ bool UserSettings::setJsonSettings(const QString &json)
     int currentSetlist = jsonObject.value(Setting::CurrentSetlist).toInt(0);
     setCurrentSetlist_internal(currentSetlist);
 
-    setTickSound(jsonObject.value(Setting::TickSound).toInt(0));
+    setTickSound_internal(jsonObject.value(Setting::TickSound).toInt(0));
 
+    emit tickSoundsChanged(tickSound().highTick, tickSound().lowTick);
     emit preferredLanguageChanged(preferredLanguage());
     emit setlistsChanged();
     emit setlistChanged();
@@ -183,6 +171,28 @@ void UserSettings::setPreferredLanguage(int language)
     m_preferredLanguage = static_cast<QLocale::Language>(language);
     emit settingsModified();
     emit preferredLanguageChanged(language);
+}
+
+void UserSettings::setTickSound(int index)
+{
+    if (!setTickSound_internal(index))
+        return;
+
+    emit tickSoundsChanged(tickSound().highTick, tickSound().lowTick);
+    emit settingsModified();
+}
+
+bool UserSettings::setTickSound_internal(int index)
+{
+    TickSoundResource sound = m_tickSoundFiles.value(index);
+    if (sound.isNull())
+    {
+        qWarning() << "Invalid tick sound index" << index;
+        return false;
+    }
+
+    m_currentTickSoundIndex = index;
+    return true;
 }
 
 bool UserSettings::setSong(int index, const QString &title, const QString &artist, int tempo, int beatsPerMeasure)

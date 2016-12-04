@@ -21,6 +21,7 @@ Window {
         anchors.fill: parent
         sourceComponent: mainComponent
         opacity: 0
+        focus: true
 
         onLoaded: {
             window.visible = true

@@ -158,6 +158,7 @@ Page {
         Repeater {
             id: languagesRepeater
             model: ListModel {
+                ListElement { label: "Deutsch"; code: 42 }
                 ListElement { label: "English"; code: 31 }
                 ListElement { label: "Français"; code: 37 }
                 ListElement { label: "中国"; code: 25 }

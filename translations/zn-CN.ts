@@ -4,22 +4,22 @@
 <context>
     <name>AddEditSongPage</name>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="129"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="148"/>
         <source>Title</source>
         <translation>标题</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="145"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="164"/>
         <source>Artist</source>
         <translation>艺术家</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="156"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="175"/>
         <source>Tempo</source>
         <translation>时间</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="187"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="206"/>
         <source>Beats per measure</source>
         <translation>每小节拍</translation>
     </message>
@@ -162,7 +162,7 @@
 <context>
     <name>MoveSongsPage</name>
     <message>
-        <location filename="../qml/pages/MoveSongsPage.qml" line="91"/>
+        <location filename="../qml/pages/MoveSongsPage.qml" line="94"/>
         <source>Discard your modifications ?</source>
         <translation>放弃您的修改？</translation>
     </message>
@@ -225,17 +225,17 @@
     <name>SetlistPage</name>
     <message>
         <location filename="../qml/pages/SetlistPage.qml" line="16"/>
-        <location filename="../qml/pages/SetlistPage.qml" line="60"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="50"/>
         <source>Setlist name</source>
         <translation>setlist名称</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="65"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="55"/>
         <source>Do you confirm completly removing the setlist &apos;%1&apos; ?</source>
         <translation>您确认完全删除集合列表&apos;%1&apos;吗？</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="136"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="114"/>
         <source>current</source>
         <translation>当前</translation>
     </message>
@@ -243,9 +243,14 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="95"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="111"/>
         <source>Language</source>
         <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="135"/>
+        <source>Tick sound</source>
+        <translation>声音</translation>
     </message>
 </context>
 <context>
@@ -312,9 +317,29 @@
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../usersettings.cpp" line="104"/>
-        <location filename="../usersettings.cpp" line="199"/>
-        <location filename="../usersettings.cpp" line="330"/>
+        <location filename="../usersettings.cpp" line="21"/>
+        <source>Click</source>
+        <translation>点击</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="22"/>
+        <source>Wooden 1</source>
+        <translation>木1</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="23"/>
+        <source>Wooden 2</source>
+        <translation>木2</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="24"/>
+        <source>Analog</source>
+        <translation>模拟</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="115"/>
+        <location filename="../usersettings.cpp" line="236"/>
+        <location filename="../usersettings.cpp" line="367"/>
         <source>New setlist</source>
         <translation>新setlist</translation>
     </message>
@@ -322,17 +347,22 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="190"/>
+        <location filename="../qml/main.qml" line="238"/>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="240"/>
         <source>Setlists</source>
         <translation>Setlists</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="200"/>
+        <location filename="../qml/main.qml" line="249"/>
         <source>Menu disabled during play</source>
         <translation>关闭播放过程中</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="210"/>
+        <location filename="../qml/main.qml" line="259"/>
         <source>Setlist name</source>
         <translation>setlist名称</translation>
     </message>

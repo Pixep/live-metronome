@@ -234,10 +234,11 @@ Window {
                 ApplicationHeader {
                     id: appHeader
                     title: {
-                        if (gui.setlistsShown)
+                        if (settingsPage.visible)
+                            return qsTr("Settings");
+                        else if (gui.setlistsShown)
                             return qsTr("Setlists");
-
-                        if (userSettings.setlist)
+                        else if (userSettings.setlist)
                             return userSettings.setlist.name
 
                         return "Live Metronome"

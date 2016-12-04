@@ -4,22 +4,22 @@
 <context>
     <name>AddEditSongPage</name>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="129"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="148"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="145"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="164"/>
         <source>Artist</source>
         <translation>Artiste</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="156"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="175"/>
         <source>Tempo</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AddEditSongPage.qml" line="187"/>
+        <location filename="../qml/pages/AddEditSongPage.qml" line="206"/>
         <source>Beats per measure</source>
         <translation>Temps par mesure</translation>
     </message>
@@ -158,7 +158,7 @@
 <context>
     <name>MoveSongsPage</name>
     <message>
-        <location filename="../qml/pages/MoveSongsPage.qml" line="91"/>
+        <location filename="../qml/pages/MoveSongsPage.qml" line="94"/>
         <source>Discard your modifications ?</source>
         <translation>Annuler vos modifications ?</translation>
     </message>
@@ -233,17 +233,17 @@
     <name>SetlistPage</name>
     <message>
         <location filename="../qml/pages/SetlistPage.qml" line="16"/>
-        <location filename="../qml/pages/SetlistPage.qml" line="60"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="50"/>
         <source>Setlist name</source>
         <translation>Nom de la setlist</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="65"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="55"/>
         <source>Do you confirm completly removing the setlist &apos;%1&apos; ?</source>
         <translation>Confirmez-vous la suppression de la setlist &apos;%1&apos; ?</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetlistPage.qml" line="136"/>
+        <location filename="../qml/pages/SetlistPage.qml" line="114"/>
         <source>current</source>
         <translation>courante</translation>
     </message>
@@ -251,9 +251,14 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="95"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="111"/>
         <source>Language</source>
         <translation>Langue</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="135"/>
+        <source>Tick sound</source>
+        <translation>Son du tick</translation>
     </message>
 </context>
 <context>
@@ -320,9 +325,29 @@
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../usersettings.cpp" line="104"/>
-        <location filename="../usersettings.cpp" line="199"/>
-        <location filename="../usersettings.cpp" line="330"/>
+        <location filename="../usersettings.cpp" line="21"/>
+        <source>Click</source>
+        <translation>Click</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="22"/>
+        <source>Wooden 1</source>
+        <translation>Bois 1</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="23"/>
+        <source>Wooden 2</source>
+        <translation>Bois 2</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="24"/>
+        <source>Analog</source>
+        <translation>Analogique</translation>
+    </message>
+    <message>
+        <location filename="../usersettings.cpp" line="115"/>
+        <location filename="../usersettings.cpp" line="236"/>
+        <location filename="../usersettings.cpp" line="367"/>
         <source>New setlist</source>
         <translation>Nouvelle setlist</translation>
     </message>
@@ -330,17 +355,22 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="190"/>
+        <location filename="../qml/main.qml" line="238"/>
+        <source>Settings</source>
+        <translation>Réglages</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="240"/>
         <source>Setlists</source>
         <translation>Setlists</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="200"/>
+        <location filename="../qml/main.qml" line="249"/>
         <source>Menu disabled during play</source>
         <translation>Menu désactivé pendant la lecture</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="210"/>
+        <location filename="../qml/main.qml" line="259"/>
         <source>Setlist name</source>
         <translation>Nom de la setlist</translation>
     </message>

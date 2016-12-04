@@ -36,6 +36,10 @@ void Application::setLanguage(int languageCode)
         translationFile = "fr-FR";
         languageString = "Français";
         break;
+    case QLocale::German:
+        translationFile = "de-DE";
+        languageString = "Deutsch";
+        break;
     case QLocale::Spanish:
         translationFile = "es-ES";
         languageString = "Spanish";

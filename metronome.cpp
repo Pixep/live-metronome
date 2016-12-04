@@ -14,39 +14,14 @@ Metronome::Metronome() :
 {
     connect(&m_timer, &QTimer::timeout, this, &Metronome::onTick);
 
-    m_lowTick.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
-    m_lowTick2.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
-    m_lowTick3.setSource(QUrl("qrc:/sounds/click_analog_low5.wav"));
-
     m_stream.setBufferSizeInMillisec(4000);
     //connect(&m_stream, &AudioStream::tickPlayed, this, &Metronome::onTickPlayed);
-
-    loadSounds();
 }
 
-void Metronome::loadSounds()
+void Metronome::setTickSounds(const QString &highTickFile, const QString &lowTickFile)
 {
-    if (false/*Platform::isAndroid()*/)
-    {
-        m_audioDecoder.setSourceFilename(":/sounds/click1_high.wav");
-        m_audioDecoder.setAudioFormat(m_stream.format());
-        m_audioDecoder.start();
-
-        connect(&m_audioDecoder, &QAudioDecoder::finished, this, &Metronome::generateBuffers);
-        connect(&m_audioDecoder, static_cast<void(QAudioDecoder::*)(QAudioDecoder::Error)>(&QAudioDecoder::error), this, &Metronome::onSoundDecodingError);
-    }
-    else
-    {
-        generateBuffers();
-    }
-}
-
-void Metronome::generateBuffers()
-{
-    qDebug() << "Audio decoded";
-
-    bool success = generateTickAudio(m_tickLowSoundBuffer, false);
-    success &=     generateTickAudio(m_tickHighSoundBuffer, true);
+    bool success = generateTickAudio(m_tickLowSoundBuffer, lowTickFile);
+    success &=     generateTickAudio(m_tickHighSoundBuffer, highTickFile);
 
     if (!success)
         qWarning() << "Failed to generate audio !";
@@ -57,14 +32,11 @@ void Metronome::onSoundDecodingError(QAudioDecoder::Error error)
     qWarning() << "Failed to decode audio file with error" << error;
 }
 
-bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
+bool Metronome::generateTickAudio(QVector<char> &audioBuffer, const QString &soundFile)
 {
     audioBuffer.resize(m_stream.bufferSize());
 
-    // 1/10s max audio "content"
     QAudioFormat format = m_stream.format();
-    int frequency = highPitch ? 659 : 440;
-
     if (format.sampleType() == QAudioFormat::Float)
     {
         qWarning() << "Float audio format not supported!";
@@ -75,75 +47,51 @@ bool Metronome::generateTickAudio(QVector<char> &audioBuffer, bool highPitch)
     if (format.sampleSize() == 16)
     {
         if (signedFormat)
-            generateTick<qint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+            return generateTick<qint16>(audioBuffer, signedFormat, format.sampleRate(), soundFile);
         else
-            generateTick<quint16>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+            return generateTick<quint16>(audioBuffer, signedFormat, format.sampleRate(), soundFile);
     }
     else if (format.sampleSize() == 8)
     {
         if (signedFormat)
-            generateTick<qint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+            return generateTick<qint8>(audioBuffer, signedFormat, format.sampleRate(), soundFile);
         else
-            generateTick<quint8>(signedFormat, frequency, format.sampleRate(), audioBuffer);
+            return generateTick<quint8>(audioBuffer, signedFormat, format.sampleRate(), soundFile);
     }
 
     return true;
 }
 
 template<typename T>
-void Metronome::generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer)
+bool Metronome::generateTick(QVector<char> &audioBuffer, bool pSigned, int sampleRate, const QString& soundFile)
 {
-    T sample;
-    std::size_t byteCount = sizeof(sample);
-    qint64 samplesCount = 0.1 * sampleRate;
-    float sinFrequencyFactor = (float)frequency * 2 * M_PI / sampleRate;
+    Q_UNUSED(sampleRate)
 
+    std::size_t byteCount = sizeof(T);
     int range = qPow(2, 8*byteCount);
     int halfRange = range/2 - 1;
     int offset = pSigned ? 0 : halfRange;
 
-    if (false/*Platform::isAndroid()*/)
+    QFile audioFile(soundFile);
+    if (!audioFile.open(QFile::ReadOnly))
     {
-        int silenceByteCount = audioBuffer.size() - m_tickLowBuffer.byteCount();
-        memcpy(audioBuffer.data(), m_tickLowBuffer.data(), qMin(audioBuffer.size(), m_tickLowBuffer.byteCount()));
-
-        if (silenceByteCount > 0)
-        {
-            memset(audioBuffer.data() + m_tickLowBuffer.byteCount(), offset, silenceByteCount);
-        }
+        qWarning() << "Failed to open sound file" << soundFile;
+        return false;
     }
-    else
+
+    // Read and remove WAV header
+    QByteArray audioFileWav = audioFile.readAll();
+    audioFileWav = audioFileWav.remove(0, 44);
+
+    int silenceByteCount = audioBuffer.size() - audioFileWav.size();
+    memcpy(audioBuffer.data(), audioFileWav.data(), qMin(audioBuffer.size(), audioFileWav.size()));
+
+    if (silenceByteCount > 0)
     {
-        QFile audioFile;
-        if (frequency > 440)
-            audioFile.setFileName(":/sounds/click1_high-16-16.wav");
-        else
-            audioFile.setFileName(":/sounds/click1_low-16-16.wav");
-
-        audioFile.open(QFile::ReadOnly);
-        QByteArray audioFileWav = audioFile.readAll();
-        audioFileWav = audioFileWav.remove(0, 44);
-
-        int silenceByteCount = audioBuffer.size() - audioFileWav.size();
-        memcpy(audioBuffer.data(), audioFileWav.data(), qMin(audioBuffer.size(), audioFileWav.size()));
-
-        if (silenceByteCount > 0)
-        {
-            memset(audioBuffer.data() + audioFileWav.size(), offset, silenceByteCount);
-        }
-
-        /*for(int i = 0; i < samplesCount; ++i)
-        {
-            float scaleFactor = qMax(0.0f, (float)(sampleRate/10 - i) / (sampleRate/10));
-            sample = offset + scaleFactor * halfRange * qSin(sinFrequencyFactor * i);
-
-            qWarning() << sample;
-            memcpy(&audioBuffer[byteCount*i], &sample, byteCount);
-
-            if (scaleFactor == 0)
-                break;
-        }*/
+        memset(audioBuffer.data() + audioFileWav.size(), offset, silenceByteCount);
     }
+
+    return true;
 }
 
 void Metronome::setPlaying(bool play)
@@ -322,6 +270,12 @@ void Metronome::playTick(bool isMeasureTick)
     QAudioFormat format = m_stream.format();
     qint64 samplesCount = tempoInterval() * format.sampleRate() / 1000;
     qint64 byteSize = samplesCount * format.channelCount() * format.sampleSize()/8;
+
+    if (byteSize > m_tickHighSoundBuffer.size() || byteSize > m_tickLowSoundBuffer.size())
+    {
+        qWarning() << "Audio buffer size insufficient";
+        return;
+    }
 
     if (isMeasureTick)
         m_stream.play(m_tickHighSoundBuffer.data(), byteSize);

@@ -15,10 +15,34 @@
 UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(parent),
     m_currentSetlist(nullptr),
     m_preferredLanguage(QLocale::AnyLanguage),
+    m_currentTickSoundIndex(0),
     m_storagePath(path)
 {
+    addTickSound(QT_TR_NOOP("Click"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Wooden 1"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Wooden 2"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+    addTickSound(QT_TR_NOOP("Analog"), ":/sounds/click1_high-16-16.wav", ":/sounds/click1_low-16-16.wav");
+
     connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
     connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);
+}
+
+void UserSettings::addTickSound(const QString &name, const QString &highTick, const QString &lowTick)
+{
+    m_tickSoundFiles.push_back(TickSoundResource(name, highTick, lowTick));
+}
+
+void UserSettings::setTickSound(int index)
+{
+    TickSoundResource sound = m_tickSoundFiles.value(index);
+    if (sound.isNull())
+    {
+        qWarning() << "Invalid tick sound index" << index;
+        return;
+    }
+
+    m_currentTickSoundIndex = index;
+    emit tickSoundsChanged(sound.highTick, sound.lowTick);
 }
 
 SongsListModel *UserSettings::songsModel()
@@ -103,8 +127,10 @@ bool UserSettings::setJsonSettings(const QString &json)
     if (setlistsCount() == 0)
         addSetlist_internal(tr("New setlist"));
 
-    int currentSetlist = jsonObject.value("currentSetlist").toInt(0);
+    int currentSetlist = jsonObject.value(Setting::CurrentSetlist).toInt(0);
     setCurrentSetlist_internal(currentSetlist);
+
+    setTickSound(jsonObject.value(Setting::TickSound).toInt(0));
 
     emit preferredLanguageChanged(preferredLanguage());
     emit setlistsChanged();
@@ -143,7 +169,8 @@ QString UserSettings::jsonSettings() const
     }
 
     jsonDocObject["setlists"] = jsonArraySetlists;
-    jsonDocObject["currentSetlist"] = setlistIndex();
+    jsonDocObject[Setting::CurrentSetlist] = setlistIndex();
+    jsonDocObject[Setting::TickSound] = tickSoundIndex();
     jsonDoc.setObject(jsonDocObject);
 
     //qWarning() << jsonDoc.toJson(QJsonDocument::Indented);
@@ -420,4 +447,15 @@ bool UserSettings::discardSongMoves()
 {
     m_songsMoveModel.setSongsList(songsModel()->songsList());
     return true;
+}
+
+QStringList UserSettings::tickSoundsAvailable()
+{
+    QStringList tickSounds;
+    foreach(TickSoundResource sound, m_tickSoundFiles)
+    {
+        tickSounds << sound.name;
+    }
+
+    return tickSounds;
 }

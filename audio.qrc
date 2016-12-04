@@ -2,5 +2,11 @@
     <qresource prefix="/">
         <file>sounds/click1_high-16-16.wav</file>
         <file>sounds/click1_low-16-16.wav</file>
+        <file>sounds/click2_high-16-16.wav</file>
+        <file>sounds/click2_low-16-16.wav</file>
+        <file>sounds/click3_high-16-16.wav</file>
+        <file>sounds/click3_low-16-16.wav</file>
+        <file>sounds/click4_high-16-16.wav</file>
+        <file>sounds/click4_low-16-16.wav</file>
     </qresource>
 </RCC>

@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QElapsedTimer>
-#include <QtMultimedia/QSoundEffect>
 #include <QAudioDecoder>
 #include <QVector>
 
@@ -58,16 +57,18 @@ public slots:
     void start();
     void stop();
     void onTick();
+    void setTickSounds(const QString& highTickFile, const QString& lowTickFile);
 
 private slots:
-    void generateBuffers();
     void onSoundDecodingError(QAudioDecoder::Error error);
     void onTickPlayed();
 
 private:
-    void loadSounds();
+    bool generateTickAudio(QVector<char>& audioBuffer, const QString &soundFile);
+    template<typename T>
+    bool generateTick(QVector<char> &audioBuffer, bool pSigned, int sampleRate, const QString &soundFile);
+
     void notifyTick(bool isMeasureTick);
-    bool generateTickAudio(QVector<char>& audioBuffer, bool highPitch);
     void resetTempoSpecificCounters();
     void prepareTicks();
     void playTick(bool isMeasureTick);
@@ -75,23 +76,16 @@ private:
     int timerIntervalReduction() const { return 50; }
     int tempoInterval() const { return 1000 * 60 / m_actualTempo; }
 
-    template<typename T>
-    void generateTick(bool pSigned, float frequency, int sampleRate, QVector<char> &audioBuffer);
-
-private:
+private:    
     int m_tempo;
     int m_actualTempo;
     int m_beatsPerMeasure;
     int m_beatsElapsed;
     bool m_needTempoUpdate;
     QTimer m_timer;
-    QSoundEffect m_lowTick;
-    QSoundEffect m_lowTick2;
-    QSoundEffect m_lowTick3;
 
     AudioStream m_stream;
     QAudioDecoder m_audioDecoder;
-    QVector<char> m_emptySoundBuffer;
     QVector<char> m_tickLowSoundBuffer;
     QVector<char> m_tickHighSoundBuffer;
     QAudioBuffer m_tickLowBuffer;

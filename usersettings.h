@@ -18,6 +18,18 @@ class UserSettings : public QObject
     Q_PROPERTY(SongsListModel* songsMoveModel READ songsMoveModel CONSTANT)
     Q_PROPERTY(QQmlListProperty<Setlist> setlists READ setlistsProperty NOTIFY setlistsChanged)
     Q_PROPERTY(int setlistIndex READ setlistIndex NOTIFY setlistIndexChanged)
+    Q_PROPERTY(QStringList tickSoundsAvailable READ tickSoundsAvailable CONSTANT)
+
+private:
+    struct TickSoundResource {
+        TickSoundResource() {}
+        TickSoundResource(const QString& pName, const QString& pHighTickFile, const QString& pLowTickFile)
+            : name(pName), highTick(pHighTickFile), lowTick(pLowTickFile) {}
+        bool isNull() const { return name.isNull(); }
+        QString name;
+        QString highTick;
+        QString lowTick;
+    };
 
 signals:
     void settingsModified();
@@ -29,10 +41,12 @@ signals:
     void setlistsChanged();
     void setlistIndexChanged();
     void preferredLanguageChanged(int language);
+    void tickSoundsChanged(const QString& highTickFile, const QString& lowTickFile);
 
 public:
     explicit UserSettings(const QString& settings, QObject *parent = 0);
 
+    QStringList tickSoundsAvailable();
     QQmlListProperty<Song> songList();
     Setlist* setlist() { return m_currentSetlist; }
     SongsListModel* songsModel();
@@ -47,6 +61,11 @@ public slots:
     void resetToDefault();
     bool setJsonSettings(const QString& json);
     QString jsonSettings() const;
+
+    void addTickSound(const QString &name, const QString &highTick, const QString &lowTick);
+    void setTickSound(int index);
+    int tickSoundIndex() const { return m_currentTickSoundIndex; }
+    const TickSoundResource tickSound() const { return m_tickSoundFiles.value(m_currentTickSoundIndex); }
 
     bool setSong(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
@@ -85,8 +104,16 @@ private:
     QVector<Setlist*> m_setlists;
     QLocale::Language m_preferredLanguage;
 
+    QVector<TickSoundResource> m_tickSoundFiles;
+    int m_currentTickSoundIndex;
+
     SongsListModel m_songsMoveModel;
     QString m_storagePath;
 };
+
+namespace Setting {
+    const QString CurrentSetlist = "currentSetlist";
+    const QString TickSound = "tickSound";
+}
 
 #endif // USERSETTINGS_H

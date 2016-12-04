@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>sounds/click_analog_high.wav</file>
-        <file>sounds/click_analog_low.wav</file>
         <file>qml/main.qml</file>
         <file>qml/images/icon_back.png</file>
         <file>qml/images/icon_menu.png</file>
@@ -10,9 +8,6 @@
         <file>qml/images/icon_plus.png</file>
         <file>qml/images/icon_previous.png</file>
         <file>qml/images/track_indicator.png</file>
-        <file>sounds/click_analog_low2.wav</file>
-        <file>sounds/click_analog_low5.wav</file>
-        <file>sounds/click_analog_low6.wav</file>
         <file>qml/components/ApplicationHeader.qml</file>
         <file>qml/components/Page.qml</file>
         <file>qml/components/UserSettings.qml</file>

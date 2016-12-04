@@ -175,6 +175,9 @@ Window {
                 onAllSongsRemoved: {
                     metronome.songIndex = 0
                 }
+                onTickSoundsChanged: {
+                    metronome.setTickSounds(highTickFile, lowTickFile)
+                }
             }
 
             ApplicationStyle {

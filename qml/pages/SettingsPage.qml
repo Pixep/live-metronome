@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtMultimedia 5.5
 
 import "../components"
 import "../controls"
@@ -161,9 +162,29 @@ Page {
                 showSeparator: (index !== tickSoundsRepeater.count-1)
                 onClicked: {
                     userSettings.setTickSound(index)
+                    highTick.source = userSettings.highTickSoundUrl()
+                    lowTick.source = userSettings.lowTickSoundUrl()
+
+                    highTick.play()
+                    lowTickTimer.start()
+
                     tickSoundsDialog.close()
                 }
             }
         }
+
+        resources: [
+            SoundEffect {
+                id: highTick
+            },
+            Timer {
+                id: lowTickTimer
+                interval: 500
+                onTriggered: lowTick.play()
+            },
+            SoundEffect {
+                id: lowTick
+            }
+        ]
     }
 }

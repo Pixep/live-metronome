@@ -57,6 +57,7 @@ public:
     QVector<const Setlist*> setlistsConst() const;
 
     QLocale::Language preferredLanguage() const { return m_preferredLanguage; }
+    const TickSoundResource tickSound() const { return m_tickSoundFiles.value(m_currentTickSoundIndex); }
 
 public slots:
     void resetToDefault();
@@ -67,7 +68,8 @@ public slots:
     void setTickSound(int index);
     int tickSoundIndex() const { return m_currentTickSoundIndex; }
     QString tickSoundName() const { return tickSound().name; }
-    const TickSoundResource tickSound() const { return m_tickSoundFiles.value(m_currentTickSoundIndex); }
+    QString highTickSoundUrl() const { return "qrc" + tickSound().highTick; }
+    QString lowTickSoundUrl() const { return "qrc" + tickSound().lowTick; }
 
     bool setSong(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);

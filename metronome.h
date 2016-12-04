@@ -71,7 +71,7 @@ private:
     void notifyTick(bool isMeasureTick);
     void resetTempoSpecificCounters();
     void prepareTicks();
-    void playTick(bool isMeasureTick);
+    void playSound(int duration, char* soundData, qint64 soundSize);
     qint64 tempoSessionElapsed() const { return m_tempoSessionElapsed.elapsed() + m_tempoSessionVirtualElapsed; }
     int timerIntervalReduction() const { return 50; }
     int tempoInterval() const { return 1000 * 60 / m_actualTempo; }
@@ -88,6 +88,8 @@ private:
     QAudioDecoder m_audioDecoder;
     QVector<char> m_tickLowSoundBuffer;
     QVector<char> m_tickHighSoundBuffer;
+    QVector<char> m_tickLowSoundBufferPreview;
+    QVector<char> m_tickHighSoundBufferPreview;
     QAudioBuffer m_tickLowBuffer;
     QAudioBuffer m_tickHighBuffer;
 

@@ -5,6 +5,7 @@
 #include <QAudioFormat>
 #include <QFile>
 #include <qmath.h>
+#include <QSoundEffect>
 
 Metronome::Metronome() :
     m_tempo(80),
@@ -190,7 +191,11 @@ void Metronome::prepareTicks()
         if (bufferedCount >= 1)
             m_tempoSessionVirtualElapsed += tempoInterval();
 
-        playTick(isFirstBeat());
+        if (isFirstBeat())
+            playSound(tempoInterval(), m_tickHighSoundBuffer.data(), m_tickHighSoundBuffer.size());
+        else
+            playSound(tempoInterval(), m_tickLowSoundBuffer.data(), m_tickLowSoundBuffer.size());
+
         //qWarning() << "  #" << bufferedCount << ": " << (m_stream.bufferFillingRatio()*100);
 
         ++bufferedCount;
@@ -265,20 +270,17 @@ void Metronome::notifyTick(bool isMeasureTick)
         emit beatTick();
 }
 
-void Metronome::playTick(bool isMeasureTick)
+void Metronome::playSound(int duration, char* soundData, qint64 soundSize)
 {
     QAudioFormat format = m_stream.format();
-    qint64 samplesCount = tempoInterval() * format.sampleRate() / 1000;
+    qint64 samplesCount = duration * format.sampleRate() / 1000;
     qint64 byteSize = samplesCount * format.channelCount() * format.sampleSize()/8;
 
-    if (byteSize > m_tickHighSoundBuffer.size() || byteSize > m_tickLowSoundBuffer.size())
+    if (byteSize > soundSize)
     {
         qWarning() << "Audio buffer size insufficient";
         return;
     }
 
-    if (isMeasureTick)
-        m_stream.play(m_tickHighSoundBuffer.data(), byteSize);
-    else
-        m_stream.play(m_tickLowSoundBuffer.data(), byteSize);
+    m_stream.play(soundData, byteSize);
 }

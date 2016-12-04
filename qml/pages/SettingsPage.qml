@@ -101,38 +101,53 @@ Page {
 
     Column {
         anchors.fill: parent
+        spacing: 2*appStyle.margin
 
-        BaseText {
-            text: qsTr("Language") + application.trBind
-        }
-
-        Button {
-            id: languageButton
-            x: appStyle.width_col1
-            width: appStyle.width_col5
+        Row {
+            width: parent.width
             height: appStyle.controlHeight
-            text: application.language
-            anchors.right: parent.right
 
-            onClicked: {
-                languagesDialog.show()
+            BaseText {
+                text: qsTr("Language") + application.trBind
+                width: appStyle.width_col3
+                height: parent.height
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+            }
+
+            Button {
+                id: languageButton
+                width: appStyle.width_col3
+                height: appStyle.controlHeight
+                text: application.language
+
+                onClicked: {
+                    languagesDialog.show()
+                }
             }
         }
 
-        BaseText {
-            text: qsTr("Tick sound") + application.trBind
-        }
-
-        Button {
-            id: tickSoundButton
-            x: appStyle.width_col1
-            width: appStyle.width_col5
+        Row {
+            width: parent.width
             height: appStyle.controlHeight
-            text: userSettings.tickSoundName
-            anchors.right: parent.right
 
-            onClicked: {
-                tickSoundsDialog.show()
+            BaseText {
+                text: qsTr("Tick sound") + application.trBind
+                width: appStyle.width_col3
+                height: parent.height
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+            }
+
+            Button {
+                id: tickSoundButton
+                width: appStyle.width_col3
+                height: appStyle.controlHeight
+                text: userSettings.tickSoundName
+
+                onClicked: {
+                    tickSoundsDialog.show()
+                }
             }
         }
     }

@@ -85,13 +85,10 @@ private:
     QTimer m_timer;
 
     AudioStream m_stream;
-    QAudioDecoder m_audioDecoder;
     QVector<char> m_tickLowSoundBuffer;
     QVector<char> m_tickHighSoundBuffer;
     QVector<char> m_tickLowSoundBufferPreview;
     QVector<char> m_tickHighSoundBufferPreview;
-    QAudioBuffer m_tickLowBuffer;
-    QAudioBuffer m_tickHighBuffer;
 
     int m_tempoSessionBeatsCount;
     QElapsedTimer m_tempoSessionElapsed;

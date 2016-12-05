@@ -26,11 +26,6 @@ bool SongsListModel::setHeaderData(int section, Qt::Orientation orientation, con
     Q_UNUSED(value);
     Q_UNUSED(role);
 
-    /*if (value != headerData(section, orientation, role)) {
-        // FIXME: Implement me!
-        emit headerDataChanged(orientation, section, section);
-        return true;
-    }*/
     return false;
 }
 

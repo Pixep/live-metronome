@@ -30,9 +30,9 @@ QtObject {
     property int width_col6: pageContainer.width
     property real sizeFactor: {
         if (Screen.pixelDensity < 5)
-            return 1
+            return 0.7
         if (Screen.pixelDensity < 10)
-            return 1.22
+            return 0.9
         if (Screen.pixelDensity > 10)
             return 1.4
     }

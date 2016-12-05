@@ -235,9 +235,9 @@ Window {
                     id: appHeader
                     title: {
                         if (settingsPage.visible)
-                            return qsTr("Settings");
+                            return qsTr("Settings") + application.trBind;
                         else if (gui.setlistsShown)
-                            return qsTr("Setlists");
+                            return qsTr("Setlists") + application.trBind;
                         else if (userSettings.setlist)
                             return userSettings.setlist.name
 

@@ -16,7 +16,6 @@ Item {
                     tx.executeSql('INSERT INTO UserSettings VALUES(?)', [ ''])
 
                     userSettings.resetToDefault()
-                    saveQuery(tx)
                 })
                 db.changeVersion("", "1.0")
             }

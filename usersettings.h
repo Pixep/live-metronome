@@ -68,6 +68,8 @@ public slots:
     void setTickSound(int index);
     int tickSoundIndex() const { return m_currentTickSoundIndex; }
     QString tickSoundName() const { return tickSound().name; }
+    QString highTickSoundFile() const { return tickSound().highTick; }
+    QString lowTickSoundFile() const { return tickSound().lowTick; }
     QString highTickSoundUrl() const { return "qrc" + tickSound().highTick; }
     QString lowTickSoundUrl() const { return "qrc" + tickSound().lowTick; }
 

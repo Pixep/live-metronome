@@ -15,6 +15,13 @@ Window {
     height: 800
     color: "#202020"
 
+    UserSettings {
+        id: userSettingsDb
+        Component.onCompleted: {
+            load()
+        }
+    }
+
     Loader {
         id: loader
         asynchronous: true
@@ -113,6 +120,7 @@ Window {
 
                 Component.onCompleted: {
                     setTempo(tempo)
+                    setTickSounds(userSettings.highTickSoundFile(), userSettings.lowTickSoundFile())
                 }
 
                 function updateFromSong()
@@ -183,18 +191,6 @@ Window {
 
             ApplicationStyle {
                 id: styleObject
-            }
-
-            UserSettings {
-                id: userSettingsDb
-                Component.onCompleted: {
-                    load()
-                }
-
-                onLoaded: {
-                    metronome.songIndex = 0
-                    metronome.updateFromSong()
-                }
             }
 
             Item {

@@ -49,7 +49,7 @@ Item {
 
             SongListDelegate {
                 id: addSongDelegate
-                titleText: qsTr("Add song")
+                titleText: qsTr("Add song") + application.trBind
                 showNumber: false
                 anchors.bottom: parent.bottom
                 enabled: userSettings.canAddSong

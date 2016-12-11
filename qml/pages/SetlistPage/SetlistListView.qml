@@ -26,7 +26,7 @@ Item {
         model: userSettings.setlists
         delegate: SetlistDelegate {
             nameText: modelData.name
-            subtitleText: modelData.count === 0 ? qsTr("emtpy") : qsTr("%n song(s)", "", modelData.count) + application.trBind
+            subtitleText: modelData.count === 0 ? qsTr("emtpy") + application.trBind : qsTr("%n song(s)", "", modelData.count) + application.trBind
             onClicked: {
                 userSettings.setCurrentSetlist(index)
                 gui.showSongs()

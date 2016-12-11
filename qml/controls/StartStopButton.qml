@@ -16,7 +16,7 @@ Item {
     Button {
         id: playButton
         anchors.fill: parent
-        text: root.playing ? qsTr("Stop") : qsTr("Play") + application.trBind
+        text: root.playing ? qsTr("Stop") + application.trBind : qsTr("Play") + application.trBind
         color: {
             if (root.playing)
                 return (pressed ? Qt.darker(appStyle.highlightColor2) : appStyle.highlightColor2)

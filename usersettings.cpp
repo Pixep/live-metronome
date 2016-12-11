@@ -225,7 +225,7 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
 
 Setlist* UserSettings::addSetlist_internal(QString name)
 {
-    if ( ! Application::allowPlaylists())
+    if ( setlistsCount() >= 1 && !Application::allowPlaylists())
     {
         qWarning() << "Adding a playlist is not allowed with free version";
         return nullptr;

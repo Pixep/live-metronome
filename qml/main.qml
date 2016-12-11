@@ -237,7 +237,7 @@ Window {
                         else if (userSettings.setlist)
                             return userSettings.setlist.name
 
-                        return "Live Metronome"
+                        return application.isCommercialVersion ? "Live Metronome" : "Live Metronome Pro"
                     }
                     backVisible: addEditPage.visible || moveSongsPage.visible
                     menuVisible: !addEditPage.visible && !moveSongsPage.visible

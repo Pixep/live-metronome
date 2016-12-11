@@ -72,7 +72,7 @@ void Application::setLanguage(int languageCode)
 int Application::maximumSongsPerPlaylist()
 {
     if (isFreeVersion())
-        return 7;
+        return 30;
 
     return 50;
 }

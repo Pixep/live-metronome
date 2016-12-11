@@ -1,8 +1,7 @@
 TEMPLATE = app
 
 # Application type
-DEFINES += \
-    COMMERCIAL_VERSION
+DEFINES += COMMERCIAL_VERSION
 
 QT += qml quick multimedia
 CONFIG += c++11

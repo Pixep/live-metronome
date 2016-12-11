@@ -7,12 +7,14 @@ Item {
     Layout.fillWidth: true
     Layout.minimumWidth: iconItem.width + textItem.width + 2*appStyle.margin + 6*appStyle.margin
 
+    property bool allowed: true
     property alias text: textItem.text
     property alias iconSource: iconItem.source
     property real iconScale: 1
     property alias showSeparator: separator.visible
 
     signal clicked
+    signal clickedNotAllowed
 
     Rectangle {
         anchors.fill: parent
@@ -48,6 +50,7 @@ Item {
             anchors.left: iconItem.right
             anchors.leftMargin: appStyle.margin + 0.1 * appStyle.controlHeight
             verticalAlignment: Text.AlignVCenter
+            color: root.allowed ? appStyle.textColor : Qt.darker(appStyle.textColor)
         }
     }
 
@@ -55,7 +58,10 @@ Item {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
-            parent.clicked()
+            if (root.allowed)
+                root.clicked()
+            else
+                root.clickedNotAllowed()
         }
     }
 

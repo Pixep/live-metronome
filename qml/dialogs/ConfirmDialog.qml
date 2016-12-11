@@ -8,12 +8,27 @@ BaseDialog {
     height: parent.height
 
     property QtObject target
+    property bool showCancel: true
 
     function show(title, targetObject)
     {
         titleText.text = title
         target = targetObject
         visible = true
+        showCancel = true
+
+        __show()
+    }
+
+    function showMessage(title, targetObject)
+    {
+        if (targetObject === undefined)
+            targetObject = null
+
+        titleText.text = title
+        target = targetObject
+        visible = true
+        showCancel = false
 
         __show()
     }
@@ -24,6 +39,9 @@ BaseDialog {
             return
 
         __close()
+
+        if (target === null)
+            return
 
         if (accepted)
             dialog.target.onAccepted()
@@ -72,6 +90,7 @@ BaseDialog {
                     width: 1
                     anchors.horizontalCenter: parent.horizontalCenter
                     height: background.height - separator.y - contentColumn.y
+                    visible: dialog.showCancel
                 }
             }
 
@@ -83,13 +102,14 @@ BaseDialog {
                     iconSource: "qrc:/qml/images/icon_clear.png"
                     width: parent.width / 2
                     showSeparator: false
+                    visible: dialog.showCancel
                     onClicked: {
                         dialog.close(false)
                     }
                 }
                 ActionDialogItem {
                     iconSource: "qrc:/qml/images/icon_check.png"
-                    width: parent.width / 2
+                    width: dialog.showCancel ? parent.width / 2 : parent.width
                     showSeparator: false
                     onClicked: {
                         dialog.close(true)

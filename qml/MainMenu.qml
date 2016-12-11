@@ -51,10 +51,15 @@ ApplicationMenu {
         id: newSetlist
         text: qsTr("New setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
+        allowed: application.allowPlaylists
         visible: gui.setlistsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
             menu.newSetlist()
+        }
+        onClickedNotAllowed: {
+            menu.close()
+            confirmDialog.showMessage(qsTr("Feature available in <b>Live Metronome Pro<b>"))
         }
     }
 

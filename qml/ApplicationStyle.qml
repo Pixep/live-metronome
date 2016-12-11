@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Window 2.2
 
 QtObject {
-    property int borderRadius: 5 * sizeFactor
+    property int borderRadius: 3 * sizeFactor
     property int margin: 10 * sizeFactor
 
     property string textColor: "#f0f0f0"

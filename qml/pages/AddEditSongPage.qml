@@ -55,14 +55,15 @@ Page {
             userSettings.addSong(titleEdit.text, artistEdit.text,
                                  parseInt(tempoEdit.text, 10),
                                  parseInt(beatsPerMeasureEdit.text, 10))
+            metronome.songIndex = metronome.songCount-1
         }
         else {
             userSettings.setSong(songIndex, titleEdit.text, artistEdit.text,
                                  parseInt(tempoEdit.text, 10),
                                  parseInt(beatsPerMeasureEdit.text, 10))
+            metronome.songIndex = songIndex
         }
 
-        metronome.songIndex = songIndex
         hide()
     }
 

@@ -188,7 +188,7 @@ Window {
 
                 onSongAdded: {
                     var temp = metronome.songIndex
-                    metronome.songIndex = 0
+                    metronome.songIndex = -1
                     metronome.songIndex = temp
                 }
                 onSongRemoved: {

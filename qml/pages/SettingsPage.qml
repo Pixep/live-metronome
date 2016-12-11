@@ -212,12 +212,9 @@ Page {
         resources: [
             SoundEffect {
                 id: highTick
-                onLoadedChanged: {
-                    if (status === SoundEffect.Ready)
-                    {
-                        play()
+                onPlayingChanged: {
+                    if (status == SoundEffect.Ready && playing === false)
                         lowTickTimer.start()
-                    }
                 }
             },
             Timer {

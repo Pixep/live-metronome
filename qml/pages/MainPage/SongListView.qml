@@ -31,7 +31,7 @@ Item {
         preferredHighlightBegin: appStyle.controlHeight
         preferredHighlightEnd: height - (2 * appStyle.controlHeight)
         highlightRangeMode: ListView.ApplyRange
-        //visible: count > 0
+
         model: userSettings.songsModel
         delegate: SongListDelegate {
             titleText: title
@@ -45,7 +45,7 @@ Item {
         }
         footer: Item {
             width: parent.width
-            height: addSongDelegate.height + 0.5 * appStyle.margin
+            height: 1.25 * addSongDelegate.height
 
             SongListDelegate {
                 id: addSongDelegate

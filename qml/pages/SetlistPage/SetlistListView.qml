@@ -38,7 +38,7 @@ Item {
 
         footer: Item {
             width: parent.width
-            height: addSetlistDelegate.height + 0.5 * appStyle.margin
+            height: 1.25 * addSetlistDelegate.height
 
             SongListDelegate {
                 id: addSetlistDelegate
@@ -48,6 +48,9 @@ Item {
                 anchors.bottom: parent.bottom
 
                 onClicked: {
+                    root.newSetlist()
+                }
+                onPressAndHold: {
                     root.newSetlist()
                 }
 

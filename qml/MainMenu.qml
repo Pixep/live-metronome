@@ -51,7 +51,7 @@ ApplicationMenu {
         id: newSetlist
         text: qsTr("New setlist") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
-        allowed: application.allowPlaylists
+        allowed: application.allowSetlists
         visible: gui.setlistsShown && !gui.secondaryPageVisible
         onClicked: {
             menu.close()
@@ -59,7 +59,7 @@ ApplicationMenu {
         }
         onClickedNotAllowed: {
             menu.close()
-            confirmDialog.showMessage(qsTr("Feature available in <b>Live Metronome Pro<b>"))
+            guiMessages.showProFeature()
         }
     }
 
@@ -126,9 +126,14 @@ ApplicationMenu {
         text: qsTr("Add new song") + application.trBind
         iconSource: "qrc:/qml/images/icon_plus.png"
         visible: gui.songsShown && !gui.secondaryPageVisible
+        allowed: userSettings.canAddSong
         onClicked: {
             menu.close()
             addEditPage.addNewSong()
+        }
+        onClickedNotAllowed: {
+            menu.close()
+            guiMessages.showMaximumSongsReached()
         }
     }
 

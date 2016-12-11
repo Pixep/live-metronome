@@ -20,6 +20,7 @@ class UserSettings : public QObject
     Q_PROPERTY(int setlistIndex READ setlistIndex NOTIFY setlistIndexChanged)
     Q_PROPERTY(QStringList tickSoundsAvailable READ tickSoundsAvailable CONSTANT)
     Q_PROPERTY(QString tickSoundName READ tickSoundName NOTIFY tickSoundsChanged)
+    Q_PROPERTY(bool canAddSong READ canAddSong NOTIFY canAddSongChanged)
 
 private:
     struct TickSoundResource {
@@ -36,6 +37,7 @@ signals:
     void settingsModified();
     void songAdded();
     void songRemoved(int removedIndex);
+    void canAddSongChanged();
     void allSongsRemoved();
     void songModified();
     void setlistChanged();
@@ -75,6 +77,7 @@ public slots:
 
     bool setSong(int index, const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
     bool addSong(const QString& title, const QString& artist, int tempo, int beatsPerMeasure);
+    bool canAddSong(SongsListModel* model = nullptr) const;
     bool removeSong(int index);
     bool removeAllSongs();
 

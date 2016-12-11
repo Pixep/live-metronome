@@ -6,6 +6,7 @@ Item {
     id: delegate
     width: parent.width
     height: appStyle.controlHeight
+    opacity: enabled ? 1 : 0.33
 
     readonly property string songNumber: (typeof index !== 'undefined') ? (index+1).toString() : ""
     readonly property int songTempo: (typeof tempo !== 'undefined') ? tempo : -1

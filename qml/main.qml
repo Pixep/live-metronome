@@ -61,6 +61,22 @@ Window {
             }
 
             Item {
+                id: guiMessages
+
+                function showProFeature() {
+                    if (!application.isCommercialVersion)
+                        confirmDialog.showMessage(qsTr("Feature available in <b>Live Metronome Pro<b>"))
+                }
+
+                function showMaximumSongsReached() {
+                    if (application.isCommercialVersion)
+                        confirmDialog.showMessage(qsTr("Maximum song count reached"))
+                    else
+                        confirmDialog.showMessage(qsTr("Unlock more songs with <b>Live Metronome Pro<b>"))
+                }
+            }
+
+            Item {
                 id: gui
                 readonly property bool setlistsShown: p.currentPage == 0
                 readonly property bool songsShown: p.currentPage == 1

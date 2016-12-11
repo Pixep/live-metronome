@@ -12,6 +12,9 @@ BaseDialog {
 
     function show(title, targetObject)
     {
+        if (targetObject === undefined)
+            targetObject = null
+
         titleText.text = title
         target = targetObject
         visible = true

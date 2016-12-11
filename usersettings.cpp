@@ -25,6 +25,10 @@ UserSettings::UserSettings(const QString& path, QObject *parent) : QObject(paren
 
     connect(this, &UserSettings::setlistChanged, &UserSettings::setlistIndexChanged);
     connect(this, &UserSettings::setlistsChanged, &UserSettings::setlistIndexChanged);
+
+    connect(this, &UserSettings::songAdded, &UserSettings::canAddSongChanged);
+    connect(this, &UserSettings::songRemoved, &UserSettings::canAddSongChanged);
+    connect(this, &UserSettings::setlistChanged, &UserSettings::canAddSongChanged);
 }
 
 void UserSettings::addTickSound(const QString &name, const QString &highTick, const QString &lowTick)
@@ -225,7 +229,7 @@ bool UserSettings::setSong_internal(int index, const QString &title, const QStri
 
 Setlist* UserSettings::addSetlist_internal(QString name)
 {
-    if ( setlistsCount() >= 1 && !Application::allowPlaylists())
+    if ( setlistsCount() >= 1 && !Application::allowSetlists())
     {
         qWarning() << "Adding a playlist is not allowed with free version";
         return nullptr;
@@ -282,8 +286,11 @@ bool UserSettings::addSong_internal(const QString &title, const QString &artist,
     else
         model = songsModel();
 
-    if (model->rowCount() >= Application::maximumSongsPerPlaylist())
+    if (!canAddSong(model))
+    {
+        qWarning() << "Maximum song number reached (" << Application::maximumSongsPerPlaylist() << ")";
         return false;
+    }
 
     int newSongIndex = model->rowCount();
     if ( ! model->insertRow(newSongIndex))
@@ -302,6 +309,18 @@ bool UserSettings::addSong(const QString &title, const QString &artist, int temp
     emit songAdded();
     emit settingsModified();
     return true;
+}
+
+bool UserSettings::canAddSong(SongsListModel* model) const
+{
+    const SongsListModel* constModel = model;
+    if (!constModel)
+        constModel = songsModelConst();
+
+    if (!constModel)
+        return false;
+
+    return constModel->rowCount() < Application::maximumSongsPerPlaylist();
 }
 
 bool UserSettings::removeSong(int index)

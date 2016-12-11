@@ -45,13 +45,14 @@ Item {
         }
         footer: Item {
             width: parent.width
-            height: addNewSongDelegate.height + 0.5 * appStyle.margin
+            height: addSongDelegate.height + 0.5 * appStyle.margin
 
             SongListDelegate {
-                id: addNewSongDelegate
+                id: addSongDelegate
                 titleText: qsTr("Add song")
                 showNumber: false
                 anchors.bottom: parent.bottom
+                enabled: userSettings.canAddSong
 
                 onClicked: {
                     addEditPage.addNewSong()
@@ -68,11 +69,18 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.horizontalCenterOffset: -0.2*width
-                    parent: addNewSongDelegate.songNumberItem
+                    parent: addSongDelegate.songNumberItem
                     Image {
                         anchors.fill: parent
                         source: "qrc:/qml/images/icon_plus.png"
                     }
+                }
+            }
+            MouseArea {
+                anchors.fill: addSongDelegate
+                enabled: !addSongDelegate.enabled
+                onClicked: {
+                    guiMessages.showMaximumSongsReached()
                 }
             }
         }

@@ -36,30 +36,42 @@ Item {
             }
         }
 
-        footer: SongListDelegate {
-            id: addNewSongDelegate
-            titleText: qsTr("Add setlist") + application.trBind
-            visible: application.allowPlaylists
-            showNumber: false
-            onClicked: {
-                root.newSetlist()
-            }
-            onPressAndHold: {
-                //addEditPage.addNewSong()
+        footer: Item {
+            width: parent.width
+            height: addSetlistDelegate.height + 0.5 * appStyle.margin
+
+            SongListDelegate {
+                id: addSetlistDelegate
+                titleText: qsTr("Add setlist") + application.trBind
+                showNumber: false
+                enabled: application.allowSetlists
+                anchors.bottom: parent.bottom
+
+                onClicked: {
+                    root.newSetlist()
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: width
+                    radius: width/2
+                    color:  appStyle.backgroundColor2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.horizontalCenterOffset: -0.2*width
+                    parent: addSetlistDelegate.songNumberItem
+                    Image {
+                        anchors.fill: parent
+                        source: "qrc:/qml/images/icon_plus.png"
+                    }
+                }
             }
 
-            Rectangle {
-                width: parent.width
-                height: width
-                radius: width/2
-                color:  appStyle.backgroundColor2
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -0.2*width
-                parent: addNewSongDelegate.songNumberItem
-                Image {
-                    anchors.fill: parent
-                    source: "qrc:/qml/images/icon_plus.png"
+            MouseArea {
+                anchors.fill: addSetlistDelegate
+                enabled: !addSetlistDelegate.enabled
+                onClicked: {
+                    guiMessages.showProFeature()
                 }
             }
         }

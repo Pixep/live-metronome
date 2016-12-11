@@ -14,7 +14,7 @@ class Application : public QObject
     Q_PROPERTY(bool isCommercialVersion READ isCommercialVersion CONSTANT)
     Q_PROPERTY(int maximumSongsPerPlaylist READ maximumSongsPerPlaylist CONSTANT)
     Q_PROPERTY(int maximumPlaylists READ maximumPlaylists CONSTANT)
-    Q_PROPERTY(int allowPlaylists READ allowPlaylists CONSTANT)
+    Q_PROPERTY(int allowSetlists READ allowSetlists CONSTANT)
 
 public:
     explicit Application(QObject *parent = 0);
@@ -31,7 +31,7 @@ public:
 
     static int maximumSongsPerPlaylist();
     static int maximumPlaylists();
-    static bool allowPlaylists();
+    static bool allowSetlists();
 
 public slots:
     void loadingFinished(QObject *object);

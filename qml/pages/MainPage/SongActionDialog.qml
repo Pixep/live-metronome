@@ -10,9 +10,14 @@ ActionDialog {
     signal editSong()
     signal removeSong()
 
+    onVisibleChanged: {
+        var song = userSettings.songsModel.get(contextValue);
+        updateTempo.visible = song.tempo !== metronome.tempo
+    }
+
     ActionDialogItem {
+        id: updateTempo
         text: qsTr("Set tempo to %1").arg(metronome.tempo) + application.trBind
-        visible: window.currentSongTempo != metronome.tempo
         height: visible ? appStyle.controlHeight : 0
         onClicked: {
             dialog.close()

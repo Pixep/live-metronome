@@ -192,10 +192,13 @@ Window {
                     metronome.songIndex = temp
                 }
                 onSongRemoved: {
-                    if (removedIndex < metronome.songIndex)
-                        metronome.songIndex--
-                    else if (removedIndex == metronome.songIndex)
-                        metronome.songIndex = 0
+                    if (removedIndex <= metronome.songIndex)
+                    {
+                        if (removedIndex === 0)
+                            metronome.songIndex = 0
+                        else
+                            metronome.songIndex--
+                    }
                 }
                 onAllSongsRemoved: {
                     metronome.songIndex = 0

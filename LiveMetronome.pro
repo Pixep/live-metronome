@@ -6,26 +6,35 @@ DEFINES += COMMERCIAL_VERSION
 QT += qml quick multimedia
 CONFIG += c++11
 
-SOURCES += main.cpp \
-    usersettings.cpp \
-    song.cpp \
-    platform.cpp \
-    metronome.cpp \
-    audiostream.cpp \
-    songslistmodel.cpp \
-    application.cpp \
-    setlist.cpp \
-    platformattributes.cpp
+include(deployment.pri)
 
-RESOURCES += qml.qrc \
+SOURCES += \
+    src/main.cpp \
+    src/usersettings.cpp \
+    src/song.cpp \
+    src/platform.cpp \
+    src/metronome.cpp \
+    src/audiostream.cpp \
+    src/songslistmodel.cpp \
+    src/application.cpp \
+    src/setlist.cpp \
+    src/platformattributes.cpp
+
+HEADERS += \
+    src/usersettings.h \
+    src/song.h \
+    src/platform.h \
+    src/metronome.h \
+    src/audiostream.h \
+    src/songslistmodel.h \
+    src/application.h \
+    src/setlist.h \
+    src/platformattributes.h
+
+RESOURCES += \
+    qml.qrc \
     translations.qrc \
     audio.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-include(deployment.pri)
 
 sounds.source = sounds
 DEPLOYMENTFOLDERS += sounds
@@ -39,18 +48,7 @@ OTHER_FILES += \
     qml/pages/MainPage/* \
     qml/pages/MoveSongsPage/* \
     qml/pages/SetlistPage/* \
-    qml/images/*
-
-HEADERS += \
-    usersettings.h \
-    song.h \
-    platform.h \
-    metronome.h \
-    audiostream.h \
-    songslistmodel.h \
-    application.h \
-    setlist.h \
-    platformattributes.h
+    qml/debug/*
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -61,23 +59,10 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     android/src/com/livemetronome/MainActivity.java \
-    android/src/com/livemetronome/PlatformControlRunnable.java \
-    qml/ApplicationStyle.qml \
-    qml/components/ApplicationMenu.qml \
-    qml/controls/MenuItem.qml \
-    qml/MainMenu.qml \
-    qml/dialogs/EditDialog.qml \
-    qml/pages/SetlistPage/SetlistDelegate.qml \
-    qml/pages/SetlistPage/SetlistActionDialog.qml \
-    qml/pages/SettingsPage.qml \
-    android/res/values/appstyle.xml \
-    qml/debug/DebugWindow.qml
+    android/src/com/livemetronome/PlatformControlRunnable.java
 
-android {
-    QT += androidextras
-}
-
-# Translations
+#------------------------------------------------------
+# Add translation files
 TRANSLATIONS = \
     translations/en-US.ts \
     translations/fr-FR.ts \
@@ -85,8 +70,20 @@ TRANSLATIONS = \
     translations/zn-CN.ts \
     translations/de-DE.ts
 
+# Ensure QML strings are translated as well
 lupdate-only {
-    SOURCES += $$OTHER_FILES
+    SOURCES += $$QML_FILES
+}
+
+# Add images after translations to avoid having images in sources
+OTHER_FILES += \
+    qml/images/* \
+    qml/images/black/*
+
+#------------------------------------------------------
+# Android specific
+android {
+    QT += androidextras
 }
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

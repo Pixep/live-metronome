@@ -2,6 +2,7 @@
 #define PLATFORM_H
 
 #include <QObject>
+#include "platformattributes.h"
 
 class Platform : public QObject
 {
@@ -9,10 +10,13 @@ class Platform : public QObject
     Q_PROPERTY(bool isWindows READ isWindows CONSTANT)
     Q_PROPERTY(bool isAndroid READ isAndroid CONSTANT)
     Q_PROPERTY(QString soundsPath READ soundsPath CONSTANT)
+    Q_PROPERTY(PlatformAttributes* debug READ debugAttributes CONSTANT)
 
 public:
     explicit Platform(QObject *parent = 0);
     static Platform* get() { return m_platformInstance; }
+
+    PlatformAttributes* debugAttributes() { return &m_platformAttributes; }
 
     static bool isWindows();
     static bool isAndroid();
@@ -24,6 +28,8 @@ public slots:
 
 private:
     static Platform* m_platformInstance;
+
+    PlatformAttributes m_platformAttributes;
 };
 
 #endif // PLATFORM_H

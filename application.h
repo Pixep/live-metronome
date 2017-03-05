@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTranslator>
+#include <QRect>
+#include <QQuickWindow>
 
 class Application : public QObject
 {
@@ -15,6 +17,8 @@ class Application : public QObject
     Q_PROPERTY(int maximumSongsPerPlaylist READ maximumSongsPerPlaylist CONSTANT)
     Q_PROPERTY(int maximumPlaylists READ maximumPlaylists CONSTANT)
     Q_PROPERTY(int allowSetlists READ allowSetlists CONSTANT)
+
+    Q_PROPERTY(QQuickWindow *window READ window WRITE setWindow NOTIFY windowChanged)
 
 public:
     explicit Application(QObject *parent = 0);
@@ -33,12 +37,17 @@ public:
     static int maximumPlaylists();
     static bool allowSetlists();
 
+    QQuickWindow* window() const { return m_window; }
+
 public slots:
     void loadingFinished(QObject *object);
     void setLanguage(int languageCode);
 
+    void setWindow(QQuickWindow *window);
+
 signals:
     void languageChanged();
+    void windowChanged(QQuickWindow *window);
 
 private:
     static Application* m_instance;
@@ -47,6 +56,7 @@ private:
     QTranslator m_translator;
     int m_languageCode;
     QString m_language;
+    QQuickWindow *m_window;
 };
 
 #endif // APPLICATION_H

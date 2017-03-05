@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     audiostream.cpp \
     songslistmodel.cpp \
     application.cpp \
-    setlist.cpp
+    setlist.cpp \
+    platformattributes.cpp
 
 RESOURCES += qml.qrc \
     translations.qrc \
@@ -48,7 +49,8 @@ HEADERS += \
     audiostream.h \
     songslistmodel.h \
     application.h \
-    setlist.h
+    setlist.h \
+    platformattributes.h
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -68,7 +70,8 @@ DISTFILES += \
     qml/pages/SetlistPage/SetlistDelegate.qml \
     qml/pages/SetlistPage/SetlistActionDialog.qml \
     qml/pages/SettingsPage.qml \
-    android/res/values/appstyle.xml
+    android/res/values/appstyle.xml \
+    qml/debug/DebugWindow.qml
 
 android {
     QT += androidextras

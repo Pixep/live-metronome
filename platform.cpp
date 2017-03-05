@@ -39,12 +39,36 @@ bool Platform::isWindows()
 #endif
 }
 
+bool Platform::isLinux()
+{
+    if (isAndroid())
+        return false;
+
+#ifdef Q_OS_LINUX
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool Platform::isAndroid()
 {
+    if (isInSimulationMode())
+        return true;
+
 #ifdef Q_OS_ANDROID
     return true;
 #else
     return true;
+#endif
+}
+
+bool Platform::isWindowsPhone()
+{
+#ifdef Q_OS_WINRT
+    return true;
+#else
+    return false;
 #endif
 }
 

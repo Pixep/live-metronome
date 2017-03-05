@@ -29,7 +29,7 @@ Window {
         Text {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
-            text: "DPI: " + platform.debug.dpi.toFixed(0)
+            text: "DPI: " + platform.simulation.dpi.toFixed(0)
             horizontalAlignment: Text.AlignHCenter
             color: "white"
         }
@@ -39,7 +39,7 @@ Window {
             height: width
             text: "DPI++"
             onClicked: {
-                platform.debug.dpi = platform.debug.dpi * 1.3
+                platform.simulation.dpi = platform.simulation.dpi * 1.3
             }
         }
         Button {
@@ -47,7 +47,7 @@ Window {
             height: width
             text: "DPI--"
             onClicked: {
-                platform.debug.dpi = platform.debug.dpi / 1.3
+                platform.simulation.dpi = platform.simulation.dpi / 1.3
             }
         }
     }

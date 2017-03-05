@@ -13,7 +13,8 @@ bool const Application::CommercialVersion = false;
 
 Application* Application::m_instance = nullptr;
 
-Application::Application(QObject *parent) : QObject(parent)
+Application::Application(QObject *parent) : QObject(parent),
+    m_window(nullptr)
 {
     m_instance = this;
 }
@@ -67,6 +68,15 @@ void Application::setLanguage(int languageCode)
     m_languageCode = languageCode;
     m_language = languageString;
     emit languageChanged();
+}
+
+void Application::setWindow(QQuickWindow *window)
+{
+    if (m_window == window)
+        return;
+
+    m_window = window;
+    emit windowChanged(window);
 }
 
 int Application::maximumSongsPerPlaylist()

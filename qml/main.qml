@@ -7,6 +7,7 @@ import "pages"
 import "dialogs"
 import "components"
 import "controls"
+import "debug"
 
 Window {
     id: window
@@ -14,6 +15,13 @@ Window {
     width: 480
     height: 800
     color: "#202020"
+
+    Loader {
+        active: platform.isWindows
+        sourceComponent: DebugWindow {
+            appWindow: window
+        }
+    }
 
     UserSettings {
         id: userSettingsDb

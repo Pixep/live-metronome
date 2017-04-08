@@ -20,6 +20,10 @@ Window {
         active: platform.isWindows
         sourceComponent: DebugWindow {
             appWindow: window
+
+            onDpiChanged: {
+                platform.simulation.dpi = dpi
+            }
         }
     }
 

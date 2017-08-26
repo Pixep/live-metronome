@@ -16,14 +16,12 @@ Window {
     height: 800
     color: "#202020"
 
-    Loader {
+    ResponsiveHelper {
         active: platform.isWindows
-        sourceComponent: DebugWindow {
-            appWindow: window
+        appWindow: window
 
-            onDpiChanged: {
-                platform.simulation.dpi = dpi
-            }
+        onDpiChanged: {
+            platform.simulation.dpi = dpi
         }
     }
 

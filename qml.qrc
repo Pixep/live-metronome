@@ -47,6 +47,6 @@
         <file>qml/pages/SetlistPage/SetlistActionDialog.qml</file>
         <file>qml/pages/SettingsPage.qml</file>
         <file>qml/images/icon_settings.png</file>
-        <file>qml/debug/DebugWindow.qml</file>
+        <file>qml/debug/ResponsiveHelper.qml</file>
     </qresource>
 </RCC>

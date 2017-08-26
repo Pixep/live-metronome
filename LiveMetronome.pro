@@ -59,7 +59,17 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     android/src/com/livemetronome/MainActivity.java \
-    android/src/com/livemetronome/PlatformControlRunnable.java
+    android/src/com/livemetronome/PlatformControlRunnable.java \
+	android/src/com/livemetronome/util/IabBroadcastReceiver.java \
+    android/src/com/livemetronome/util/IabException.java \
+    android/src/com/livemetronome/util/IabHelper.java \
+    android/src/com/livemetronome/util/IabResult.java \
+    android/src/com/livemetronome/util/Inventory.java \
+    android/src/com/livemetronome/util/Purchase.java \
+    android/src/com/livemetronome/util/Security.java \
+    android/src/com/livemetronome/util/SkuDetails.java \
+    android/src/com/android/vending/billing/IInAppBillingService.aidl \
+    android/src/com/livemetronome/IabManager.java
 
 #------------------------------------------------------
 # Add translation files
